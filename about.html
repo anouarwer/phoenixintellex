@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Phoenix Intellex // V1.0.4</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4", // Electric Blue
+                        "secondary": "#ff3b30", // Infrared Red
+                        "background-dark": "#050505", // Void Black
+                        "surface-dark": "#0a0f14",
+                        "border-dark": "#1f2933",
+                        "text-dim": "#64748b",
+                        "platinum": "#e2e8f0",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "monospace"],
+                        "mono": ["Space Grotesk", "monospace"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem", // 2px
+                        "sm": "0.125rem",
+                        "md": "0.25rem",
+                        "lg": "0.25rem",
+                    },
+                    spacing: {
+                        "128": "32rem",
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #1f2933 1px, transparent 1px), linear-gradient(to bottom, #1f2933 1px, transparent 1px)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: "Space Grotesk", monospace;
+            background-color: #050505;
+            color: #e2e8f0;
+        }
+        
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(37, 140, 244, 0.03) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% {
+                bottom: 100%;
+            }
+            100% {
+                bottom: -100px;
+            }
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+        }
+
+        .glitch-hover:hover {
+            animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+            color: #258cf4;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        .cursor-blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Utility for outline text */
+        .text-outline {
+             -webkit-text-stroke: 1px rgba(255,255,255,0.3);
+             color: transparent;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2933; 
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #258cf4; 
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col overflow-x-hidden bg-background-dark selection:bg-primary selection:text-white">
+<!-- Scanline Effect Overlay -->
+<div class="fixed inset-0 pointer-events-none z-50 overflow-hidden h-full w-full">
+<div class="scanline"></div>
+</div>
+<!-- Background Grid -->
+<div class="fixed inset-0 pointer-events-none z-0 opacity-20 grid-bg bg-grid-pattern"></div>
+<!-- Top Navigation -->
+<nav class="sticky top-0 z-40 w-full border-b border-border-dark bg-background-dark/95 backdrop-blur-sm">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-14">
+<!-- Logo / System ID -->
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-xl animate-pulse">terminal</span>
+<div class="flex flex-col">
+<span class="text-sm font-bold tracking-widest text-white">PHOENIX_INTELLEX</span>
+<span class="text-[10px] text-text-dim tracking-[0.2em] uppercase">System v1.0.4 // Authorized</span>
+</div>
+</div>
+<!-- Navigation Links -->
+<div class="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest">
+<a class="text-text-dim hover:text-primary transition-colors duration-200 group" href="#">
+<span class="opacity-50 group-hover:opacity-100 text-primary">[</span>SYSTEM<span class="opacity-50 group-hover:opacity-100 text-primary">]</span>
+</a>
+<a class="text-white hover:text-primary transition-colors duration-200 group" href="#">
+<span class="opacity-50 group-hover:opacity-100 text-primary">[</span>GAP_ANALYSIS<span class="opacity-50 group-hover:opacity-100 text-primary">]</span>
+</a>
+<a class="text-text-dim hover:text-primary transition-colors duration-200 group" href="#">
+<span class="opacity-50 group-hover:opacity-100 text-primary">[</span>INTEL<span class="opacity-50 group-hover:opacity-100 text-primary">]</span>
+</a>
+</div>
+<!-- Login / CTA -->
+<button class="flex items-center justify-center h-8 px-4 bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-widest hover:bg-primary hover:text-white transition-all duration-200 uppercase">
+<span class="mr-2 material-symbols-outlined text-[16px]">lock_open</span>
+                    [LOGIN]
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex flex-col relative z-10">
+<!-- Hero Section -->
+<section class="relative w-full min-h-[85vh] flex items-center justify-center border-b border-border-dark overflow-hidden group">
+<!-- Abstract 3D Background Placeholder -->
+<div class="absolute inset-0 z-0 bg-cover bg-center opacity-40 mix-blend-screen transition-transform duration-[10s] ease-linear group-hover:scale-105" data-alt="Abstract 3D wireframe fluid simulation representing market physics data streams" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCwPRR0mjERaerjCZleT_QwbfzRct9v8LeudNczr2b5Q2WAFi6j2md3q4EKfScXM0epW1rTdIuWjVSn9mi05KW8UraNnbDSJAjZvdxVCMKxK4BGgH9F9-tSw9nztqkzeJvuQSaYH1fJlRRQhOFEhqOY--auhQLACm-wu8GZQOczzXcd79reR_YDNG4JDtN96-oayJNWRnfZ8BJcJdzlZP5q22DHMP9Y-ikIixd_zGz3x818ccmcLkg0fdc-8Eo6IzWkj6FpGcwYMXI');">
+</div>
+<!-- Dark Overlay Gradient -->
+<div class="absolute inset-0 z-0 bg-gradient-to-t from-background-dark via-background-dark/80 to-transparent"></div>
+<div class="absolute inset-0 z-0 bg-gradient-to-r from-background-dark via-transparent to-background-dark"></div>
+<div class="relative z-10 max-w-[1400px] w-full px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-end pb-20">
+<!-- Hero Text -->
+<div class="lg:col-span-8 flex flex-col gap-6">
+<div class="inline-flex items-center gap-2 px-2 py-1 bg-surface-dark border border-border-dark w-fit">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-[10px] font-mono text-secondary tracking-widest uppercase">Running_Simulation: GAP_DETECTION</span>
+</div>
+<h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white leading-[0.9]">
+<span class="block text-text-dim text-outline hover:text-white transition-colors duration-500">MARKET_PRICES</span>
+<span class="block pl-2 text-primary">== FICTION.</span>
+<span class="block">PHYSICS</span>
+<span class="block pl-2 text-white">== REALITY.</span>
+</h1>
+<div class="max-w-xl border-l-2 border-primary pl-6 mt-4">
+<p class="text-sm md:text-base text-text-dim font-mono leading-relaxed uppercase">
+                            Deploying sovereign algorithms to dismantle artificial pricing structures. 
+                            <span class="text-white">Systemic Gap Analysis Initiated.</span>
+</p>
+</div>
+<div class="mt-8">
+<button class="relative group overflow-hidden bg-primary text-white h-14 px-8 min-w-[240px] flex items-center justify-between font-bold tracking-widest text-sm uppercase border border-primary hover:bg-white hover:text-black transition-all duration-300">
+<span>[INITIATE_HANDSHAKE]</span>
+<span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+<!-- Button Glitch Effect Element -->
+<div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+</button>
+</div>
+</div>
+<!-- Right Side Stats / Decorative -->
+<div class="hidden lg:flex lg:col-span-4 flex-col justify-end items-end h-full gap-2 opacity-70">
+<div class="w-full h-[1px] bg-border-dark mb-4"></div>
+<div class="text-right font-mono text-xs text-text-dim">
+<p>LATENCY: <span class="text-primary">12ms</span></p>
+<p>UPTIME: <span class="text-white">99.999%</span></p>
+<p>NODES: <span class="text-white">4,092</span></p>
+<p class="mt-2 text-[10px] text-secondary blink-slow">_LIVE_FEED_ACTIVE</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats / Sensor Deck -->
+<section class="border-b border-border-dark bg-surface-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border-dark">
+<!-- Stat 1 -->
+<div class="py-6 md:px-6 group hover:bg-white/5 transition-colors cursor-crosshair first:pl-0">
+<div class="flex items-start justify-between mb-2">
+<span class="text-[10px] text-text-dim uppercase tracking-widest font-mono">ASSETS_ANALYZED</span>
+<span class="material-symbols-outlined text-primary text-sm opacity-50 group-hover:opacity-100">data_usage</span>
+</div>
+<div class="text-2xl font-bold text-white tracking-tight flex items-baseline gap-1">
+                            2.3B<span class="text-sm text-text-dim font-normal">_EUR</span>
+</div>
+<div class="w-full h-[2px] bg-border-dark mt-3 overflow-hidden">
+<div class="h-full bg-primary w-[75%]"></div>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="py-6 md:px-6 group hover:bg-white/5 transition-colors cursor-crosshair">
+<div class="flex items-start justify-between mb-2">
+<span class="text-[10px] text-text-dim uppercase tracking-widest font-mono">ACCURACY_RATING</span>
+<span class="material-symbols-outlined text-primary text-sm opacity-50 group-hover:opacity-100">verified</span>
+</div>
+<div class="text-2xl font-bold text-white tracking-tight flex items-baseline gap-1">
+                            98<span class="text-sm text-text-dim font-normal">_PERCENT</span>
+</div>
+<div class="w-full h-[2px] bg-border-dark mt-3 overflow-hidden">
+<div class="h-full bg-primary w-[98%]"></div>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="py-6 md:px-6 group hover:bg-white/5 transition-colors cursor-crosshair">
+<div class="flex items-start justify-between mb-2">
+<span class="text-[10px] text-text-dim uppercase tracking-widest font-mono">PROCESSING_NODES</span>
+<span class="material-symbols-outlined text-primary text-sm opacity-50 group-hover:opacity-100">memory</span>
+</div>
+<div class="text-2xl font-bold text-white tracking-tight flex items-baseline gap-1">
+                            H100<span class="text-sm text-text-dim font-normal">_CLUSTER</span>
+</div>
+<div class="w-full h-[2px] bg-border-dark mt-3 overflow-hidden">
+<div class="h-full bg-primary w-[45%] animate-pulse"></div>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="py-6 md:px-6 group hover:bg-white/5 transition-colors cursor-crosshair lg:border-r-0">
+<div class="flex items-start justify-between mb-2">
+<span class="text-[10px] text-text-dim uppercase tracking-widest font-mono">SYSTEM_STATUS</span>
+<span class="material-symbols-outlined text-secondary text-sm opacity-50 group-hover:opacity-100 animate-pulse">warning</span>
+</div>
+<div class="text-2xl font-bold text-secondary tracking-tight flex items-baseline gap-1">
+                            GAP_FOUND
+                        </div>
+<div class="w-full h-[2px] bg-border-dark mt-3 overflow-hidden">
+<div class="h-full bg-secondary w-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Feature / Gap Analysis Section -->
+<section class="flex-grow py-20 relative bg-background-dark">
+<div class="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header -->
+<div class="mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-border-dark pb-6">
+<div>
+<h2 class="text-3xl md:text-5xl font-bold text-white tracking-tighter mb-2">
+                            SYSTEMIC_<span class="text-primary">GAP</span>_ANALYSIS
+                        </h2>
+<p class="text-text-dim font-mono text-sm max-w-xl">
+<span class="text-secondary">[ALERT]:</span> 47M_EUR DIVERGENCE DETECTED. SOURCE: OFF-CHAIN LIQUIDITY POOLS.
+                        </p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 border border-border-dark text-text-dim hover:text-white hover:border-primary transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+</button>
+<button class="p-2 border border-border-dark text-text-dim hover:text-white hover:border-primary transition-colors">
+<span class="material-symbols-outlined">list</span>
+</button>
+</div>
+</div>
+<!-- Main Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+<!-- Chart/Visualizer Area -->
+<div class="relative min-h-[400px] border border-border-dark bg-surface-dark p-6 flex flex-col">
+<div class="absolute top-0 right-0 p-2 text-[10px] text-text-dim font-mono border-b border-l border-border-dark bg-background-dark">
+                            FIG_01: DIVERGENCE_MAP
+                        </div>
+<!-- Visualizer Mockup -->
+<div class="flex-1 flex flex-col justify-end gap-1 relative overflow-hidden">
+<div class="absolute inset-0 opacity-20" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 19px, #1f2933 20px), repeating-linear-gradient(90deg, transparent, transparent 19px, #1f2933 20px); background-size: 20px 20px;"></div>
+<!-- Bars -->
+<div class="flex items-end justify-between h-64 gap-1 px-4 z-10">
+<div class="w-full bg-border-dark h-[20%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-border-dark h-[35%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-border-dark h-[25%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-secondary h-[85%] relative group">
+<div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-secondary text-black text-[10px] font-bold px-1 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                                         ANOMALY: +420%
+                                     </div>
+</div>
+<div class="w-full bg-border-dark h-[40%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-border-dark h-[30%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-border-dark h-[45%] hover:bg-primary/50 transition-colors"></div>
+<div class="w-full bg-border-dark h-[25%] hover:bg-primary/50 transition-colors"></div>
+</div>
+<!-- X Axis Label -->
+<div class="flex justify-between text-[10px] font-mono text-text-dim mt-2 px-4">
+<span>T-00:00:01</span>
+<span>T-00:00:08</span>
+</div>
+</div>
+</div>
+<!-- Terminal / Log Area -->
+<div class="flex flex-col gap-4">
+<div class="border border-border-dark bg-black p-4 h-full font-mono text-xs overflow-hidden relative">
+<div class="absolute top-2 right-2 flex gap-1">
+<span class="w-2 h-2 rounded-full bg-red-500/20"></span>
+<span class="w-2 h-2 rounded-full bg-yellow-500/20"></span>
+<span class="w-2 h-2 rounded-full bg-green-500/20"></span>
+</div>
+<div class="flex flex-col gap-2 text-text-dim">
+<p>&gt; INITIALIZING GAP_DETECTION_PROTOCOL...</p>
+<p class="text-primary">&gt; CONNECTING TO NODE [ALPHA_CENTAURI]...</p>
+<p>&gt; CONNECTION ESTABLISHED (12ms)</p>
+<p>&gt; SCANNING OFF-CHAIN POOLS...</p>
+<p class="text-white">..................................................</p>
+<p class="text-secondary font-bold">&gt; [CRITICAL] ANOMALY DETECTED AT BLOCK #1928374</p>
+<p class="pl-4 text-white">&gt; EXPECTED VALUE: 1.000453 ETH</p>
+<p class="pl-4 text-secondary">&gt; ACTUAL VALUE: 0.982210 ETH</p>
+<p class="pl-4 text-white">&gt; DELTA: -47,230,000 EUR (APPROX)</p>
+<p>&gt; CALCULATING PROBABILITY OF ARBITRAGE...</p>
+<p class="text-primary">&gt; PROBABILITY: 99.8%</p>
+<div class="flex items-center gap-1 text-primary mt-2">
+<span>&gt; AWAITING USER INPUT</span>
+<span class="w-2 h-4 bg-primary cursor-blink"></span>
+</div>
+</div>
+</div>
+<!-- Secondary Action -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-dark border border-border-dark p-4 group cursor-pointer hover:border-primary transition-colors">
+<div class="text-primary mb-2">
+<span class="material-symbols-outlined">download</span>
+</div>
+<h3 class="text-white text-sm font-bold">DOWNLOAD_LOGS</h3>
+<p class="text-[10px] text-text-dim mt-1">.CSV .JSON</p>
+</div>
+<div class="bg-surface-dark border border-border-dark p-4 group cursor-pointer hover:border-secondary transition-colors">
+<div class="text-secondary mb-2">
+<span class="material-symbols-outlined">bug_report</span>
+</div>
+<h3 class="text-white text-sm font-bold">REPORT_VECTOR</h3>
+<p class="text-[10px] text-text-dim mt-1">ENCRYPTED CHANNEL</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Marquee -->
+<footer class="sticky bottom-0 z-50 w-full bg-surface-dark border-t border-primary/20 overflow-hidden h-10 flex items-center">
+<div class="whitespace-nowrap animate-[marquee_20s_linear_infinite] flex items-center gap-12 text-[10px] font-mono font-medium tracking-[0.2em] text-primary/80 uppercase w-full">
+<span>POWERED BY NVIDIA H100</span>
+<span>|</span>
+<span>GOOGLE TPU V5P</span>
+<span>|</span>
+<span>SYSTEM_STATUS: NOMINAL</span>
+<span>|</span>
+<span class="text-white">ALL SYSTEMS GREEN</span>
+<span>|</span>
+<span>ENCRYPTION: AES-256-GCM</span>
+<span>|</span>
+<span>POWERED BY NVIDIA H100</span>
+<span>|</span>
+<span>GOOGLE TPU V5P</span>
+<span>|</span>
+<span>SYSTEM_STATUS: NOMINAL</span>
+<span>|</span>
+<span class="text-white">ALL SYSTEMS GREEN</span>
+</div>
+</footer>
+<style>
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+    </style>
+</body></html>
