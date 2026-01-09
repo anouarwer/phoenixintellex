@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Phoenix Intellex // System V2</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#258cf4",
+                        "infrared": "#ff3333",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#050505", // Void Black
+                        "surface-dark": "#0a0f14",
+                        "border-dim": "rgba(37, 140, 244, 0.15)",
+                        "border-bright": "rgba(37, 140, 244, 0.5)",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "monospace"],
+                        "mono": ["Space Grotesk", "monospace"], // Using Space Grotesk for mono feel as per instruction
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    backgroundImage: {
+                        'grid-pattern': "linear-gradient(to right, #111 1px, transparent 1px), linear-gradient(to bottom, #111 1px, transparent 1px)",
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for dev mode feel */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #258cf4;
+            border-radius: 2px;
+        }
+        
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(37, 140, 244, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(37, 140, 244, 0.03) 1px, transparent 1px);
+        }
+
+        .typing-cursor::after {
+            content: "█";
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+            color: #258cf4;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        .scanline {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.02) 51%);
+            background-size: 100% 4px;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .tech-border {
+            border: 1px solid rgba(37, 140, 244, 0.2);
+            position: relative;
+        }
+        
+        .tech-border::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: 8px;
+            height: 8px;
+            border-top: 2px solid #258cf4;
+            border-left: 2px solid #258cf4;
+        }
+        
+        .tech-border::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            right: -1px;
+            width: 8px;
+            height: 8px;
+            border-bottom: 2px solid #258cf4;
+            border-right: 2px solid #258cf4;
+        }
+
+        .glitch-hover:hover {
+            box-shadow: 0 0 15px rgba(37, 140, 244, 0.2);
+            border-color: rgba(37, 140, 244, 0.6);
+            background-color: rgba(37, 140, 244, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-white antialiased selection:bg-primary selection:text-white overflow-x-hidden min-h-screen flex flex-col">
+<div class="scanline"></div>
+<div class="fixed inset-0 grid-bg pointer-events-none z-0"></div>
+<!-- Navigation -->
+<header class="relative z-10 w-full border-b border-border-dim bg-background-dark/80 backdrop-blur-sm sticky top-0">
+<div class="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary animate-pulse">terminal</span>
+<div class="flex flex-col">
+<h1 class="text-sm font-bold tracking-widest text-white">PHOENIX_INTELLEX</h1>
+<span class="text-[10px] text-primary tracking-[0.2em] opacity-80">// SYSTEM_V2</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-8 text-xs font-medium tracking-widest">
+<div class="flex items-center gap-2 text-primary/60">
+<span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+<span>SECURE_LINK_ESTABLISHED</span>
+</div>
+<div class="flex items-center gap-2 text-gray-500">
+<span class="material-symbols-outlined text-[14px]">schedule</span>
+<span>UTC <span id="clock">14:02:44</span></span>
+</div>
+</div>
+<nav class="flex items-center gap-6">
+<a class="text-xs text-gray-400 hover:text-primary transition-colors tracking-widest hidden sm:block" href="#">[ SYSTEM_STATUS ]</a>
+<a class="text-xs text-gray-400 hover:text-primary transition-colors tracking-widest hidden sm:block" href="#">[ MODULES ]</a>
+<button class="bg-primary hover:bg-blue-600 text-white text-xs font-bold px-4 py-2 rounded tracking-wider flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-[16px]">key</span>
+                    ACCESS_TERMINAL
+                </button>
+</nav>
+</div>
+</header>
+<!-- Main Content -->
+<main class="relative z-10 flex-grow flex flex-col justify-center py-12 px-6">
+<div class="max-w-[1440px] mx-auto w-full">
+<!-- Page Header -->
+<div class="mb-12 border-l-2 border-primary pl-6 py-2">
+<h2 class="text-4xl md:text-6xl font-bold tracking-tighter text-white mb-2 typing-cursor uppercase">THE_SOVEREIGN_INTELLECT</h2>
+<p class="text-gray-400 font-mono text-sm md:text-base max-w-2xl mt-4">
+                    // INITIALIZING_MODULE: ABOUT_V2<br/>
+                    // LOAD_SUCCESS: 100%
+                </p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 w-full">
+<!-- MISSION_PARAMETERS (Large Card) -->
+<div class="md:col-span-8 group relative bg-surface-dark tech-border p-8 min-h-[400px] flex flex-col justify-between transition-all duration-300 glitch-hover">
+<div class="absolute top-4 right-4 text-xs font-mono text-gray-600 group-hover:text-primary transition-colors">[ID: MISSION_01]</div>
+<div class="relative z-10">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">radar</span>
+<h3 class="text-xl font-bold tracking-wider text-white">// MISSION_PARAMETERS</h3>
+</div>
+<div class="space-y-6 max-w-3xl">
+<p class="text-2xl md:text-4xl font-light leading-tight text-gray-200">
+                                Eradicating financial fiction. Reasserting <span class="text-primary font-medium">physical reality</span> as the baseline for sovereign capital.
+                            </p>
+<p class="text-sm text-gray-400 font-mono border-l border-gray-700 pl-4 py-2">
+                                &gt; OPTIMIZATION_TARGET: ABSOLUTE_TRUTH<br/>
+                                &gt; CURRENT_STATUS: EXECUTING...
+                            </p>
+</div>
+</div>
+<div class="w-full h-32 mt-8 rounded overflow-hidden relative border border-gray-800 opacity-60 group-hover:opacity-100 transition-opacity">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Abstract dark grid lines representing a digital financial landscape" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD888_AxgFkXStUJFnXajRzJWtokfzMQLJzNolLlePa8dDSnZo7Patt1eOuLxVwVSSctCphK3KaxZywH1eZvvb5J-rGRMSxjXOjWi1ZHolU40eTkelo3NXfzrVrGv1Jo4Bd_FLlwcNF87MQ923aAxXv3GlqI-Ct2rqiYbfGJ6apn7e9-gMfpYYsV3oUrDyMyXXWb0OqsHH8_EW43tnAWhR5LgGllaXvb0thrAUQwtaLA3Cpxw3DUfAefAvU0anSlxpS7FikjL82790");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-dark via-transparent to-transparent"></div>
+<div class="absolute bottom-2 right-2 text-[10px] text-primary tracking-widest">VISUALIZATION_ACTIVE</div>
+</div>
+</div>
+<!-- CORE_EXPERTISE (Sidebar List) -->
+<div class="md:col-span-4 flex flex-col gap-6">
+<div class="bg-surface-dark tech-border p-6 flex-1 transition-all duration-300 glitch-hover group">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-sm font-bold tracking-wider text-white flex items-center gap-2">
+<span class="w-2 h-2 bg-infrared rounded-full"></span>
+                                // CORE_EXPERTISE
+                            </h3>
+<span class="material-symbols-outlined text-gray-600 group-hover:text-white transition-colors">memory</span>
+</div>
+<div class="space-y-0">
+<!-- Item 1 -->
+<div class="border-b border-gray-800 py-4 group/item hover:bg-white/5 transition-colors px-2 -mx-2">
+<div class="flex justify-between items-start mb-1">
+<span class="text-primary text-xs font-mono">[01]</span>
+<span class="material-symbols-outlined text-gray-600 text-[16px] group-hover/item:text-primary transition-colors">account_balance</span>
+</div>
+<h4 class="text-white font-bold text-lg mb-1">BANKING_DOMAIN</h4>
+<p class="text-gray-400 text-xs font-mono">Institutional execution logic &amp; sovereign debt structuring.</p>
+</div>
+<!-- Item 2 -->
+<div class="border-b border-gray-800 py-4 group/item hover:bg-white/5 transition-colors px-2 -mx-2">
+<div class="flex justify-between items-start mb-1">
+<span class="text-primary text-xs font-mono">[02]</span>
+<span class="material-symbols-outlined text-gray-600 text-[16px] group-hover/item:text-primary transition-colors">thermostat</span>
+</div>
+<h4 class="text-white font-bold text-lg mb-1">APPLIED_PHYSICS</h4>
+<p class="text-gray-400 text-xs font-mono">Thermodynamic market modeling &amp; energy flow analysis.</p>
+</div>
+<!-- Item 3 -->
+<div class="py-4 group/item hover:bg-white/5 transition-colors px-2 -mx-2">
+<div class="flex justify-between items-start mb-1">
+<span class="text-primary text-xs font-mono">[03]</span>
+<span class="material-symbols-outlined text-gray-600 text-[16px] group-hover/item:text-primary transition-colors">dns</span>
+</div>
+<h4 class="text-white font-bold text-lg mb-1">HPC_CLUSTERS</h4>
+<p class="text-gray-400 text-xs font-mono">CUDA accelerated infrastructure for real-time compute.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- TECH_STACK (Wide Visual Card) -->
+<div class="md:col-span-12 lg:col-span-7 bg-surface-dark tech-border p-8 min-h-[300px] relative overflow-hidden group transition-all duration-300 glitch-hover">
+<div class="absolute inset-0 z-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&amp;w=2565&amp;auto=format&amp;fit=crop')] bg-cover bg-center mix-blend-screen" data-alt="Abstract network nodes and lines glowing blue on black background"></div>
+<div class="absolute inset-0 z-0 bg-gradient-to-r from-surface-dark via-surface-dark/90 to-transparent"></div>
+<div class="relative z-10 h-full flex flex-col justify-center">
+<div class="mb-4">
+<span class="bg-primary/20 text-primary px-2 py-1 text-[10px] tracking-widest rounded border border-primary/30">SYSTEM_ARCHITECTURE</span>
+</div>
+<h3 class="text-3xl font-bold text-white mb-4 max-w-md uppercase">// TECH_STACK__BLUEPRINT</h3>
+<p class="text-gray-400 max-w-lg font-mono text-sm leading-relaxed mb-8">
+                            Deployment of Physics-Informed Neural Networks (PINNs) to resolve non-linear dynamic systems. Utilizing Chaos Theory metaphors to predict market volatility events.
+                        </p>
+<div class="flex flex-wrap gap-3">
+<div class="flex items-center gap-2 px-3 py-2 border border-gray-700 bg-black/40 rounded text-xs text-gray-300 font-mono">
+<span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                                NEURAL_NETS
+                             </div>
+<div class="flex items-center gap-2 px-3 py-2 border border-gray-700 bg-black/40 rounded text-xs text-gray-300 font-mono">
+<span class="w-1.5 h-1.5 bg-primary rounded-full"></span>
+                                CHAOS_MATH
+                             </div>
+<div class="flex items-center gap-2 px-3 py-2 border border-gray-700 bg-black/40 rounded text-xs text-gray-300 font-mono">
+<span class="w-1.5 h-1.5 bg-infrared rounded-full"></span>
+                                PREDICTIVE_IO
+                             </div>
+</div>
+</div>
+</div>
+<!-- STATS / METRICS (Grid of small cards) -->
+<div class="md:col-span-12 lg:col-span-5 grid grid-cols-2 gap-4">
+<div class="bg-surface-dark tech-border p-4 flex flex-col justify-between group hover:bg-white/[0.02] transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-gray-500 text-[10px] tracking-widest">LATENCY</span>
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+</div>
+<div class="mt-4">
+<div class="text-2xl font-bold text-white font-mono">1.2ms</div>
+<div class="text-[10px] text-gray-500 mt-1">Global execution speed</div>
+</div>
+</div>
+<div class="bg-surface-dark tech-border p-4 flex flex-col justify-between group hover:bg-white/[0.02] transition-colors">
+<div class="flex justify-between items-start">
+<span class="text-gray-500 text-[10px] tracking-widest">UPTIME</span>
+<span class="material-symbols-outlined text-green-500 text-sm">check_circle</span>
+</div>
+<div class="mt-4">
+<div class="text-2xl font-bold text-white font-mono">99.99%</div>
+<div class="text-[10px] text-gray-500 mt-1">Continuous operation</div>
+</div>
+</div>
+<div class="col-span-2 bg-primary/10 border border-primary/30 p-4 flex items-center justify-between group cursor-pointer hover:bg-primary/20 transition-all">
+<div class="flex flex-col">
+<span class="text-primary font-bold tracking-wider text-sm">DOWNLOAD_WHITE_PAPER</span>
+<span class="text-[10px] text-primary/60 font-mono mt-1">SIZE: 4.2MB // ENCRYPTED_PDF</span>
+</div>
+<span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">download</span>
+</div>
+</div>
+</div>
+<!-- Footer Command Line -->
+<div class="mt-12 border-t border-border-dim pt-6">
+<div class="flex flex-col md:flex-row justify-between items-end md:items-center gap-4">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-xs font-mono text-gray-500">
+<span class="text-primary">root@phoenix:~$</span>
+<span class="typing-cursor">waiting_for_input</span>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<a class="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-widest" href="#">Privacy_Protocol</a>
+<a class="text-xs text-gray-500 hover:text-white transition-colors uppercase tracking-widest" href="#">Legal_Disclaimer</a>
+<span class="text-xs text-gray-700 font-mono">© 2024 PHOENIX_INTELLEX</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<script>
+        // Simple clock update for the "UTC" time display
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toISOString().split('T')[1].split('.')[0];
+            document.getElementById('clock').textContent = timeString;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body></html>
