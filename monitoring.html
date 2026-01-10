@@ -1,0 +1,237 @@
+<header class="fixed top-0 left-0 right-0 z-50 bg-void-black border-b border-white/10 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3 text-white">
+            <span class="material-symbols-outlined text-primary text-3xl">token</span>
+            <h2 class="text-white text-lg font-bold tracking-[0.1em] uppercase">Phoenix Intellex</h2>
+        </div>
+        
+        <nav class="flex items-center gap-8">
+            <a href="index.html" class="nav-link">PHASE ONE</a>
+            <a href="monitoring.html" class="nav-link">MONITORING</a>
+            <a href="mission.html" class="nav-link">MISSION</a>
+        </nav>
+    </div>
+</header>
+
+<style>
+.nav-link {
+    font-size: 0.75rem;
+    font-family: monospace;
+    font-weight: bold;
+    letter-spacing: 0.15em;
+    color: rgba(255,255,255,0.8);
+    transition: color 0.2s;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid transparent;
+}
+.nav-link:hover {
+    color: #135bec;
+    border-bottom-color: #135bec;
+}
+</style>
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Phoenix Intellex: Systematic Monitoring</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#135bec",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#101622",
+                        "electric-platinum": "#e0f2fe",
+                        "infrared-red": "#ff3b30",
+                    },
+                    fontFamily: {
+                        "display": ["Space Grotesk", "sans-serif"],
+                        "body": ["Noto Sans", "sans-serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #111318; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #282e39; 
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #135bec; 
+        }.scanline-overlay {
+            background: linear-gradient(
+                to bottom,
+                rgba(255,255,255,0),
+                rgba(255,255,255,0) 50%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(0,0,0,0.2)
+            );
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .blinking-cursor::after {
+            content: "█";
+            animation: blink 1s step-end infinite;
+            margin-left: 4px;
+            color: #135bec;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden h-screen flex flex-col">
+<header class="flex-none w-full border-b border-[#282e39] bg-[#111318] z-50">
+<div class="px-6 h-16 flex items-center justify-between">
+<div class="flex items-center gap-4 text-white">
+<div class="size-6 text-primary animate-pulse">
+<svg class="w-full h-full" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M13.8261 17.4264C16.7203 18.1174 20.2244 18.5217 24 18.5217C27.7756 18.5217 31.2797 18.1174 34.1739 17.4264C36.9144 16.7722 39.9967 15.2331 41.3563 14.1648L24.8486 40.6391C24.4571 41.267 23.5429 41.267 23.1514 40.6391L6.64374 14.1648C8.00331 15.2331 11.0856 16.7722 13.8261 17.4264Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M39.998 12.236C39.9944 12.2537 39.9875 12.2845 39.9748 12.3294C39.9436 12.4399 39.8949 12.5741 39.8346 12.7175C39.8168 12.7597 39.7989 12.8007 39.7813 12.8398C38.5103 13.7113 35.9788 14.9393 33.7095 15.4811C30.9875 16.131 27.6413 16.5217 24 16.5217C20.3587 16.5217 17.0125 16.131 14.2905 15.4811C12.0012 14.9346 9.44505 13.6897 8.18538 12.8168C8.17384 12.7925 8.16216 12.767 8.15052 12.7408C8.09919 12.6249 8.05721 12.5114 8.02977 12.411C8.00356 12.3152 8.00039 12.2667 8.00004 12.2612C8.00004 12.261 8 12.2607 8.00004 12.2612C8.00004 12.2359 8.0104 11.9233 8.68485 11.3686C9.34546 10.8254 10.4222 10.2469 11.9291 9.72276C14.9242 8.68098 19.1919 8 24 8C28.8081 8 33.0758 8.68098 36.0709 9.72276C37.5778 10.2469 38.6545 10.8254 39.3151 11.3686C39.9006 11.8501 39.9857 12.1489 39.998 12.236ZM4.95178 15.2312L21.4543 41.6973C22.6288 43.5809 25.3712 43.5809 26.5457 41.6973L43.0534 15.223C43.0709 15.1948 43.0878 15.1662 43.104 15.1371L41.3563 14.1648C43.104 15.1371 43.1038 15.1374 43.104 15.1371L43.1051 15.135L43.1065 15.1325L43.1101 15.1261L43.1199 15.1082C43.1276 15.094 43.1377 15.0754 43.1497 15.0527C43.1738 15.0075 43.2062 14.9455 43.244 14.8701C43.319 14.7208 43.4196 14.511 43.5217 14.2683C43.6901 13.8679 44 13.0689 44 12.2609C44 10.5573 43.003 9.22254 41.8558 8.2791C40.6947 7.32427 39.1354 6.55361 37.385 5.94477C33.8654 4.72057 29.133 4 24 4C18.867 4 14.1346 4.72057 10.615 5.94478C8.86463 6.55361 7.30529 7.32428 6.14419 8.27911C4.99695 9.22255 3.99999 10.5573 3.99999 12.2609C3.99999 13.1275 4.29264 13.9078 4.49321 14.3607C4.60375 14.6102 4.71348 14.8196 4.79687 14.9689C4.83898 15.0444 4.87547 15.1065 4.9035 15.1529C4.91754 15.1762 4.92954 15.1957 4.93916 15.2111L4.94662 15.223L4.95178 15.2312ZM35.9868 18.996L24 38.22L12.0131 18.996C12.4661 19.1391 12.9179 19.2658 13.3617 19.3718C16.4281 20.1039 20.0901 20.5217 24 20.5217C27.9099 20.5217 31.5719 20.1039 34.6383 19.3718C35.082 19.2658 35.5339 19.1391 35.9868 18.996Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-white text-lg font-bold leading-tight tracking-wider">PHOENIX INTELLEX</h2>
+</div>
+<button class="flex items-center gap-2 px-4 py-2 bg-primary/20 hover:bg-primary/30 border border-primary/40 rounded-lg transition-all group">
+<span class="material-symbols-outlined text-primary group-hover:text-white transition-colors text-lg">terminal</span>
+<span class="text-primary group-hover:text-white font-bold text-sm tracking-wide transition-colors">&gt;_ TERMINAL</span>
+</button>
+</div>
+</header>
+<main class="flex-1 flex overflow-hidden relative">
+<aside class="w-full md:w-[420px] lg:w-[480px] bg-[#0d0f14] border-r border-[#282e39] flex flex-col z-20 shadow-2xl overflow-y-auto">
+<div class="p-6 pb-2 border-b border-[#282e39]/50">
+<h2 class="text-white tracking-widest text-xs font-bold mb-2 text-primary/80">PHASE: CALIBRATION</h2>
+<h1 class="text-white text-2xl font-bold leading-tight uppercase tracking-tight">
+                    Systematic Monitoring<br/>
+<span class="text-[#9da6b9] font-normal text-lg">Global Debt Flux Engine</span>
+</h1>
+</div>
+<div class="px-6 py-4 bg-primary/5 border-b border-[#282e39]/50 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="size-2 rounded-full bg-green-500 animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
+<span class="text-xs font-bold tracking-widest text-green-500">SYSTEM LIVE</span>
+</div>
+<span class="text-xs font-mono text-[#5b6375] blinking-cursor">DATA FEED: ACTIVE</span>
+</div>
+<div class="flex flex-col gap-4 p-6">
+<h3 class="text-white text-sm font-bold tracking-wider flex items-center gap-2">
+<span class="material-symbols-outlined text-sm">monitor_heart</span>
+                    SYSTEM DIAGNOSTICS
+                </h3>
+<div class="flex gap-4 rounded-lg border border-infrared-red/40 bg-infrared-red/5 p-4 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-infrared-red/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="text-infrared-red mt-1">
+<span class="material-symbols-outlined text-[28px]">radar</span>
+</div>
+<div class="flex flex-col gap-1 relative z-10">
+<h2 class="text-white text-base font-bold leading-tight uppercase tracking-tight">Detecting Systematic Gaps</h2>
+<p class="text-infrared-red/80 text-xs font-mono leading-normal">SCANNING MARKET TOPOLOGY</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-lg border border-[#3b4354] bg-[#1c1f27] p-4 group hover:border-primary/50 transition-colors">
+<div class="text-electric-platinum mt-1">
+<span class="material-symbols-outlined text-[28px]">public</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight uppercase tracking-tight">Global Debt Flux</h2>
+<p class="text-[#9da6b9] text-xs font-mono leading-normal">VOLUMETRIC ANALYSIS</p>
+</div>
+</div>
+<div class="flex gap-4 rounded-lg border border-[#3b4354] bg-[#1c1f27] p-4 group hover:border-primary/50 transition-colors">
+<div class="text-primary mt-1">
+<span class="material-symbols-outlined text-[28px]">lock</span>
+</div>
+<div class="flex flex-col gap-1">
+<h2 class="text-white text-base font-bold leading-tight uppercase tracking-tight">Proprietary Algorithm</h2>
+<p class="text-[#9da6b9] text-xs font-mono leading-normal">CORE LOGIC: OBFUSCATED</p>
+</div>
+</div>
+</div>
+<div class="mt-auto border-t border-[#282e39] bg-[#0a0c10]">
+<div class="grid grid-cols-[30%_1fr] text-xs font-mono">
+<div class="p-3 text-[#5b6375] border-r border-b border-[#282e39]">STATUS</div>
+<div class="p-3 text-electric-platinum border-b border-[#282e39]">MONITORING ACTIVE</div>
+<div class="p-3 text-[#5b6375] border-r border-b border-[#282e39]">TARGET</div>
+<div class="p-3 text-electric-platinum border-b border-[#282e39]">INSTITUTIONAL LIQUIDITY</div>
+<div class="p-3 text-[#5b6375] border-r border-[#282e39]">ALGORITHM</div>
+<div class="p-3 text-primary">RECURSIVE NEURAL NET</div>
+</div>
+</div>
+</aside>
+<section class="flex-1 relative bg-black flex items-center justify-center overflow-hidden group/viewport">
+<div class="absolute top-0 left-0 w-full h-8 bg-infrared-red/10 border-b border-infrared-red/20 flex items-center justify-center z-20 pointer-events-none">
+<span class="text-infrared-red font-mono text-[10px] font-bold tracking-[0.3em] animate-pulse">SYSTEM IN-DEVELOPMENT // INTERNAL PREVIEW</span>
+</div>
+<div class="absolute inset-0 bg-[linear-gradient(rgba(19,91,236,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(19,91,236,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_at_center,black_40%,transparent_100%)]"></div>
+<div class="relative w-[80%] h-[70%] max-w-[900px] flex items-center justify-center">
+<div class="w-full h-full bg-contain bg-center bg-no-repeat relative z-10 transition-transform duration-[10s] ease-in-out group-hover/viewport:scale-105" data-alt="Transparent 3D wireframe cube representing market data, filled with glowing white electric platinum particles. Red infrared particles are leaking out of the right side signifying a toxic gap." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBvCdtYAGWHVUVCRK-TX5gzE_1uFiP_fO1AsC6W3sGkOaWnzT0ocYrW5U9RoDfWAa2eMHVzsJtCS6pProV_13fAR30k8ZIg-G9VRLZbQKN1_bftNttDWUjI9cvvn0v8sejqLl36f5lhoIDaovpiUDC58eg8yAeOLCxLjr7o6Ry_WdydUk-rK-fKYGbH27vuCCyO45OCsOUvpu5rj_fCuBAFxBexeF7SJYjS9Uwz8cWNgOVB5_Q49QMkvRm9-XD6-fYL94ociv4q8bl9'); opacity: 0.8; filter: contrast(1.2) hue-rotate(200deg) saturate(0.5);">
+</div>
+<div class="absolute right-[15%] top-[30%] w-32 h-32 bg-infrared-red/20 blur-[40px] rounded-full animate-pulse"></div>
+<div class="absolute right-[10%] top-[25%] flex items-center gap-3 animate-bounce [animation-duration:3s]">
+<div class="flex flex-col items-end">
+<span class="text-infrared-red font-bold text-xs tracking-widest bg-black/80 px-2 py-1 border border-infrared-red/50 rounded">FLUX ANOMALY</span>
+<span class="text-infrared-red/70 font-mono text-[10px] mt-1">GAP DETECTED</span>
+</div>
+<div class="w-12 h-[1px] bg-infrared-red"></div>
+<div class="size-2 bg-infrared-red rounded-full shadow-[0_0_10px_rgba(255,59,48,1)]"></div>
+</div>
+<div class="absolute left-[20%] bottom-[30%] flex items-center gap-3">
+<div class="size-2 bg-primary rounded-full shadow-[0_0_10px_rgba(19,91,236,1)]"></div>
+<div class="w-12 h-[1px] bg-primary"></div>
+<div class="flex flex-col items-start">
+<span class="text-primary font-bold text-xs tracking-widest bg-black/80 px-2 py-1 border border-primary/50 rounded">MARKET BASELINE</span>
+<span class="text-primary/70 font-mono text-[10px] mt-1">INTEGRITY: STABLE</span>
+</div>
+</div>
+</div>
+<div class="absolute top-12 left-8 text-xs font-mono text-[#5b6375] flex flex-col gap-1">
+<span class="border border-[#282e39] px-2 py-1 rounded bg-[#0a0c10]/80">CAM: ORTHO_GLOBAL</span>
+<span class="border border-[#282e39] px-2 py-1 rounded bg-[#0a0c10]/80">ZOOM: 1.2X</span>
+</div>
+<div class="absolute top-12 right-8 text-xs font-mono text-[#5b6375] text-right">
+<span class="border border-[#282e39] px-2 py-1 rounded bg-[#0a0c10]/80 block mb-1">FPS: 60</span>
+<span class="border border-infrared-red/40 text-infrared-red px-2 py-1 rounded bg-[#0a0c10]/80">BUILD: DEV_ALPHA</span>
+</div>
+<div class="absolute bottom-8 left-8 w-48">
+<div class="h-1 w-full bg-[#282e39] rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary to-electric-platinum w-[70%] animate-[width_3s_ease-in-out_infinite]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-mono text-[#5b6375] mt-2">
+<span>PROCESSING</span>
+<span>70%</span>
+</div>
+</div>
+<div class="absolute bottom-8 right-8 text-right">
+<div class="flex gap-1 mb-1 justify-end">
+<div class="w-1 h-3 bg-primary/20"></div>
+<div class="w-1 h-3 bg-primary/40"></div>
+<div class="w-1 h-3 bg-primary/60"></div>
+<div class="w-1 h-3 bg-primary"></div>
+<div class="w-1 h-3 bg-infrared-red animate-pulse"></div>
+</div>
+<span class="text-[10px] font-mono text-[#5b6375] uppercase tracking-widest">Signal Strength</span>
+</div>
+<div class="absolute inset-0 scanline-overlay pointer-events-none"></div>
+<div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_center,transparent_50%,rgba(0,0,0,0.8)_100%)]"></div>
+</section>
+</main>
+
+</body></html>
