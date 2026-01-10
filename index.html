@@ -3,362 +3,193 @@
 <html class="dark" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Phoenix Intellex | The Executive Briefing</title>
-<!-- Google Fonts -->
+<title>Phoenix Intellex - Strategic Monolith</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
-<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<!-- Tailwind CSS -->
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<!-- Theme Configuration -->
 <script id="tailwind-config">
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              "primary": "#2b4bee",
-              "background-light": "#f6f6f8",
-              "background-dark": "#050505", /* Darker black for the 'void' feel */
-              "surface-dark": "#111422",
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#2b6cee",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#050507", /* Deepened for the void effect */
+                        "card-dark": "#111318",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    backgroundImage: {
+                        'void-gradient': 'radial-gradient(circle at center, #1a202c 0%, #050507 60%)',
+                    },
+                    boxShadow: {
+                        'glow': '0 0 20px rgba(43, 108, 238, 0.3)',
+                        'glow-text': '0 0 10px rgba(43, 108, 238, 0.5)',
+                    }
+                },
             },
-            fontFamily: {
-              "display": ["Space Grotesk", "sans-serif"],
-              "body": ["Noto Sans", "sans-serif"]
-            },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
-            backgroundImage: {
-              'grid-pattern': "linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)",
-            }
-          },
-        },
-      }
+        }
     </script>
 <style>
-        /* Custom Utilities for the minimalist feel */
-        .glass-panel {
-            background: rgba(17, 20, 34, 0.4);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Custom utilities for the monolith feel without JS animations */
+        .monolith-shadow {
+            box-shadow: 0 0 60px -10px rgba(43, 108, 238, 0.15);
         }
-        
-        .grid-bg {
-            background-size: 40px 40px;
-            mask-image: linear-gradient(to bottom, transparent, black, transparent);
-            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+        .text-glow {
+            text-shadow: 0 0 20px rgba(43, 108, 238, 0.4);
         }
-
-        .fade-in-section {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 1s ease-out, transform 1s ease-out;
-            will-change: opacity, visibility;
-        }
-        
-        .fade-in-section.is-visible {
-            opacity: 1;
-            transform: none;
-        }
-
-        /* Scanline effect */
-        .scanline {
-            width: 100%;
-            height: 100px;
-            z-index: 10;
-            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(43, 75, 238, 0.1) 50%, rgba(0,0,0,0) 100%);
-            opacity: 0.1;
-            position: absolute;
-            bottom: 100%;
-            animation: scanline 10s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scanline {
-            0% { top: -100px; }
-            100% { top: 100%; }
-        }
-
-        /* HUD Circle Animation */
-        .hud-ring {
-            animation: spin 20s linear infinite;
-        }
-        .hud-ring-reverse {
-            animation: spin-reverse 25s linear infinite;
-        }
-        
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
-
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-white">
-<!-- Top Navigation -->
-<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 lg:px-12 backdrop-blur-md border-b border-white/5 bg-background-dark/50">
-<div class="flex items-center gap-3">
-<div class="size-5 text-primary">
-<span class="material-symbols-outlined !text-[20px]">api</span>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden selection:bg-primary selection:text-white">
+<!-- Top Navigation: Minimal & Transparent -->
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-6 md:px-12 backdrop-blur-sm bg-background-dark/50 border-b border-white/5">
+<div class="flex items-center gap-3 text-white">
+<div class="size-6 text-primary">
+<svg class="w-full h-full drop-shadow-[0_0_8px_rgba(43,108,238,0.8)]" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M39.5563 34.1455V13.8546C39.5563 15.708 36.8773 17.3437 32.7927 18.3189C30.2914 18.916 27.263 19.2655 24 19.2655C20.737 19.2655 17.7086 18.916 15.2073 18.3189C11.1227 17.3437 8.44365 15.708 8.44365 13.8546V34.1455C8.44365 35.9988 11.1227 37.6346 15.2073 38.6098C17.7086 39.2069 20.737 39.5564 24 39.5564C27.263 39.5564 30.2914 39.2069 32.7927 38.6098C36.8773 37.6346 39.5563 35.9988 39.5563 34.1455Z" fill="currentColor"></path>
+<path clip-rule="evenodd" d="M10.4485 13.8519C10.4749 13.9271 10.6203 14.246 11.379 14.7361C12.298 15.3298 13.7492 15.9145 15.6717 16.3735C18.0007 16.9296 20.8712 17.2655 24 17.2655C27.1288 17.2655 29.9993 16.9296 32.3283 16.3735C34.2508 15.9145 35.702 15.3298 36.621 14.7361C37.3796 14.246 37.5251 13.9271 37.5515 13.8519C37.5287 13.7876 37.4333 13.5973 37.0635 13.2931C36.5266 12.8516 35.6288 12.3647 34.343 11.9175C31.79 11.0295 28.1333 10.4437 24 10.4437C19.8667 10.4437 16.2099 11.0295 13.657 11.9175C12.3712 12.3647 11.4734 12.8516 10.9365 13.2931C10.5667 13.5973 10.4713 13.7876 10.4485 13.8519ZM37.5563 18.7877C36.3176 19.3925 34.8502 19.8839 33.2571 20.2642C30.5836 20.9025 27.3973 21.2655 24 21.2655C20.6027 21.2655 17.4164 20.9025 14.7429 20.2642C13.1498 19.8839 11.6824 19.3925 10.4436 18.7877V34.1275C10.4515 34.1545 10.5427 34.4867 11.379 35.027C12.298 35.6207 13.7492 36.2054 15.6717 36.6644C18.0007 37.2205 20.8712 37.5564 24 37.5564C27.1288 37.5564 29.9993 37.2205 32.3283 36.6644C34.2508 36.2054 35.702 35.6207 36.621 35.027C37.4573 34.4867 37.5485 34.1546 37.5563 34.1275V18.7877ZM41.5563 13.8546V34.1455C41.5563 36.1078 40.158 37.5042 38.7915 38.3869C37.3498 39.3182 35.4192 40.0389 33.2571 40.5551C30.5836 41.1934 27.3973 41.5564 24 41.5564C20.6027 41.5564 17.4164 41.1934 14.7429 40.5551C12.5808 40.0389 10.6502 39.3182 9.20848 38.3869C7.84205 37.5042 6.44365 36.1078 6.44365 34.1455L6.44365 13.8546C6.44365 12.2684 7.37223 11.0454 8.39581 10.2036C9.43325 9.3505 10.8137 8.67141 12.343 8.13948C15.4203 7.06909 19.5418 6.44366 24 6.44366C28.4582 6.44366 32.5797 7.06909 35.657 8.13948C37.1863 8.67141 38.5667 9.3505 39.6042 10.2036C40.6278 11.0454 41.5563 12.2684 41.5563 13.8546Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
 </div>
-<span class="text-sm font-bold tracking-widest uppercase text-white/90">Phoenix Intellex</span>
+<h2 class="text-white text-sm font-medium tracking-[0.2em] uppercase opacity-80">Phoenix Intellex</h2>
 </div>
-<div class="flex items-center gap-6">
-<span class="hidden md:block text-xs font-mono text-slate-500">SYS.STATUS: ONLINE</span>
-<button class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white border border-white/10 rounded hover:bg-white/5 transition-colors">
-<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
-                Client Access
-            </button>
-</div>
-</header>
-<!-- Hero / Void Section -->
-<section class="relative min-h-screen w-full flex flex-col items-center justify-center bg-background-dark z-10">
-<!-- Background Grid -->
-<div class="absolute inset-0 grid-bg bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
-<div class="scanline"></div>
-<div class="container mx-auto px-6 relative z-10 text-center">
-<div class="flex flex-col gap-8 items-center fade-in-section is-visible">
-<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-mono mb-4">
-<span class="relative flex h-2 w-2">
-<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-</span>
-                    EXECUTIVE BRIEFING V.3
-                </div>
-<h1 class="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
-                    FINANCE IS<br/>COMPLEX.
-                </h1>
-<div class="h-px w-24 bg-primary/50 my-4"></div>
-<h2 class="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-none text-primary">
-                    PHYSICS IS<br/>CLEAR.
-                </h2>
-<p class="mt-8 text-sm md:text-base text-slate-400 max-w-md font-mono">
-                    // SCROLL TO INITIALIZE SOVEREIGN INTERFACE
-                </p>
-<div class="mt-12 animate-bounce text-slate-600">
-<span class="material-symbols-outlined">keyboard_arrow_down</span>
+<a class="hidden md:flex items-center justify-center rounded-full h-8 px-6 bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-bold uppercase tracking-widest transition-colors" href="mailto:founder@phoenixintellex.com">
+            Contact
+        </a>
+</nav>
+<!-- Main Content Container -->
+<div class="relative flex flex-col w-full min-h-screen">
+<!-- Background Ambient Effect -->
+<div class="fixed inset-0 z-0 bg-void-gradient pointer-events-none"></div>
+<!-- Hero Section: The Monolith -->
+<section class="relative z-10 flex flex-col items-center justify-center min-h-screen w-full px-4 pt-20">
+<!-- The Monolith Visual -->
+<div class="relative group cursor-default">
+<!-- Abstract Monolith Image -->
+<div class="relative w-[280px] h-[480px] md:w-[320px] md:h-[560px] overflow-hidden rounded-sm monolith-shadow transition-transform duration-700 ease-out hover:scale-[1.02]">
+<img class="w-full h-full object-cover opacity-90 brightness-75 contrast-125" data-alt="Abstract dark minimalist 3D monolith floating in a void, sharp edges, dark glossy texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2ITXNZZ5rS9ILEK3qjUc3TgupR64OKQwz8hlPf97kGFQRYpiuW0Xp5I-MgmbYuHvDzQyg0OYdupNeII58OwPWbDcuiUTOv0IzWqcnaJ2glfMlbdOhLDoqLWg1oGLoXoyzHvY22QqmahYe341uLoDCTZm__vf_E1j6T5cNQqg3nS0W29ZZM_XbzVd9w4QgTeDV7pxEgUaI9YrEq6BwkSUaGjrXo6yK9sxuCVbJT-ten8XFtHkCpImv8X620u-4Be1cLzaujsNjIxiz"/>
+<!-- Overlay Gradient -->
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80"></div>
+<!-- Rim Light Effect -->
+<div class="absolute inset-0 border border-white/10 rounded-sm"></div>
 </div>
 </div>
+<!-- Initial Title -->
+<div class="mt-12 text-center opacity-0 animate-[fadeIn_2s_ease-out_1s_forwards]">
+<h1 class="text-white text-sm md:text-base font-medium tracking-[0.5em] uppercase text-glow">Strategic Monolith</h1>
 </div>
 </section>
-<!-- System Architecture Diagram -->
-<section class="relative py-32 w-full bg-background-dark overflow-hidden border-t border-white/5">
-<div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] pointer-events-none"></div>
-<div class="container mx-auto px-6">
-<div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-<!-- Diagram Visual -->
-<div class="w-full lg:w-1/2 flex justify-center fade-in-section">
-<div class="relative size-[360px] md:size-[500px]">
-<!-- Outer Ring -->
-<div class="absolute inset-0 rounded-full border border-white/10 hud-ring"></div>
-<div class="absolute inset-4 rounded-full border border-dashed border-white/5 hud-ring-reverse"></div>
-<!-- Core -->
-<div class="absolute inset-0 flex items-center justify-center">
-<div class="relative size-40 bg-surface-dark rounded-full border border-primary/30 flex items-center justify-center shadow-[0_0_30px_rgba(43,75,238,0.15)] z-10">
-<span class="material-symbols-outlined text-6xl text-primary">hub</span>
-</div>
-<!-- Orbital Nodes -->
-<div class="absolute size-[280px] animate-[spin_30s_linear_infinite]">
-<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
-<span class="material-symbols-outlined text-white/50 text-sm">database</span>
-</div>
-<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
-<span class="material-symbols-outlined text-white/50 text-sm">memory</span>
-</div>
-<div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
-<span class="material-symbols-outlined text-white/50 text-sm">query_stats</span>
-</div>
-<div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
-<span class="material-symbols-outlined text-white/50 text-sm">lock</span>
-</div>
-</div>
-</div>
-<!-- Labels -->
-<div class="absolute top-10 left-0 bg-background-dark/80 backdrop-blur px-3 py-1 border-l-2 border-primary text-xs font-mono text-white">
-                            DATA INGESTION
-                        </div>
-<div class="absolute bottom-20 right-0 bg-background-dark/80 backdrop-blur px-3 py-1 border-r-2 border-primary text-xs font-mono text-white text-right">
-                            PREDICTIVE OUTPUT
-                        </div>
-</div>
-</div>
-<!-- Text Content -->
-<div class="w-full lg:w-1/2 flex flex-col gap-8 fade-in-section">
-<div>
-<h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-2">System Architecture</h2>
-<h3 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                            Circular Sovereign<br/>Intelligence System
-                        </h3>
-<p class="text-slate-400 text-lg leading-relaxed max-w-lg">
-                            We don't predict the market; we calculate it. Acting as a HUD for institutional banking partners, our platform replaces intuition with fundamental laws of physics.
-                        </p>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-<div class="p-4 border border-white/10 bg-white/5 rounded-lg hover:border-primary/50 transition-colors group cursor-default">
-<div class="text-white mb-2 group-hover:text-primary transition-colors">
-<span class="material-symbols-outlined">analytics</span>
-</div>
-<h4 class="text-white font-bold mb-1">Risk Modeling</h4>
-<p class="text-xs text-slate-400">Physical equations applied to volatility.</p>
-</div>
-<div class="p-4 border border-white/10 bg-white/5 rounded-lg hover:border-primary/50 transition-colors group cursor-default">
-<div class="text-white mb-2 group-hover:text-primary transition-colors">
-<span class="material-symbols-outlined">speed</span>
-</div>
-<h4 class="text-white font-bold mb-1">Real-time Velocity</h4>
-<p class="text-xs text-slate-400">Microsecond latency processing.</p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Co-Pilot Feature Section -->
-<section class="py-24 bg-surface-dark border-t border-white/5 relative">
-<div class="container mx-auto px-6 fade-in-section">
-<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
-<div class="max-w-2xl">
-<h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
-                        Co-Pilot for Global Institutions
-                    </h2>
-<p class="text-xl text-slate-400 font-light">
-                        Navigating market complexities requires more than algorithms. It requires a physics engine capable of understanding the chaos.
-                    </p>
-</div>
-<div class="flex flex-col gap-2">
-<div class="flex items-center gap-2 text-xs font-mono text-slate-500 uppercase tracking-widest">
-<span class="size-2 bg-primary rounded-full"></span>
-                        System Active
-                    </div>
-<div class="h-px w-32 bg-white/10"></div>
-</div>
-</div>
-<div class="grid grid-cols-1 lg:grid-cols-3 gap-1">
-<!-- Feature 1 -->
-<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
-<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Abstract dark geometric network visualization" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDESUxN8QmyM5H9fpZTuHvoCeBqGIUm-yIrXcaCqWZ94uh4ipVRSeIEG0kbNi7iEZf7x_cKH_0y6sTV4CwdPRfMuFmqcEaN0Dl-yuJWFUxTOSACsfjQyCwlcv_rTMAivx4l3Na5rIeMvyJzLXPDC-3v1VyS-Th7edrl_EO_X8Q2YryuJlw3wee8c2HVHNBjBNafWec8PsXf5tcadEbArjc19mDi6hRDjAvaEbkFU2iZdZ2zJ1lsXb8rxQMq2-oxBooYyle3r3qyqxs");'></div>
-<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-8">
-<span class="material-symbols-outlined text-3xl text-primary mb-4">globe_asia</span>
-<h3 class="text-xl font-bold text-white mb-2">Global Vision</h3>
-<p class="text-sm text-slate-400">Mapping liquidity across 42 markets instantly.</p>
-</div>
-</div>
-<!-- Feature 2 -->
-<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
-<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Abstract blue digital wave patterns representing data flow" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbZqfDYajBT0Bg7WieZOAWT9TRumAy58KuXPPIYBI5bH3gky3tGNf9szar35Zg0PhZb1Olu2RuOoXZ-ytRmilmzXuQt9JvBYAddNCHesL-HAaszdOZtCnXncbLp2G5pvvNSvoM_ossaKFFSLQ3FrehIN_Ia8v0VqEL4UVJWHbnJCn58mR03b2uNC1WeIEfK3dkZs9AQg4skgmgWE_5wE9HfnF4HQcdpwox4MUlaXOPqvCt8-cQisRman4oat4qgVOWHlp4KFGBs6I");'></div>
-<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-8">
-<span class="material-symbols-outlined text-3xl text-primary mb-4">bolt</span>
-<h3 class="text-xl font-bold text-white mb-2">Sovereign Speed</h3>
-<p class="text-sm text-slate-400">Execution at the speed of light.</p>
-</div>
-</div>
-<!-- Feature 3 -->
-<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
-<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Satellite view of earth connections at night" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuaO6_8Dw0iQJKfx-GxQTdCPXoiaGpBUeIPWN8VvTVyxIdw-dMEvA3qObqVIkcXuwTTpL_re0hPlGkEDbx6xBMORp5gNu_j6F1MJe1fdDXTuyitgs7XRHl3s5CkXYLTSt2ljbFf_wKN_4dlqjm0O_IZlX28OByUH0rS2pFyTqVmWsR2Vm7zaHgPU5m4_19q75rKA81uGoxgB8bPIoB0R_aV3M35uLLKFSw6us1Q-fiCw1FMMRcpY1jBUmhvhbdRmEhddgS6gSnDgQ");'></div>
-<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
-<div class="absolute bottom-0 left-0 p-8">
-<span class="material-symbols-outlined text-3xl text-primary mb-4">security</span>
-<h3 class="text-xl font-bold text-white mb-2">Institutional Security</h3>
-<p class="text-sm text-slate-400">Fortified architecture for sovereign assets.</p>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Tech Stack Ticker -->
-<section class="py-10 bg-background-dark border-t border-b border-white/5 overflow-hidden">
-<div class="container mx-auto px-6">
-<div class="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-3xl">memory</span>
-<div class="flex flex-col">
-<span class="text-xs font-bold text-white tracking-widest uppercase">NVIDIA H100 Cluster</span>
-<span class="text-[10px] font-mono text-slate-500">COMPUTE MODULE ACTIVE</span>
-</div>
-</div>
-<div class="h-8 w-px bg-white/10 hidden md:block"></div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-3xl">developer_board</span>
-<div class="flex flex-col">
-<span class="text-xs font-bold text-white tracking-widest uppercase">Google Tensor Processing</span>
-<span class="text-[10px] font-mono text-slate-500">NEURAL ENGINE ONLINE</span>
-</div>
-</div>
-<div class="h-8 w-px bg-white/10 hidden md:block"></div>
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-3xl">lock_clock</span>
-<div class="flex flex-col">
-<span class="text-xs font-bold text-white tracking-widest uppercase">Zero-Knowledge Proofs</span>
-<span class="text-[10px] font-mono text-slate-500">ENCRYPTION LEVEL 5</span>
-</div>
-</div>
-</div>
-</div>
-</section>
-<!-- Footer / Strategic Partnerships -->
-<footer class="bg-primary text-white py-24 relative overflow-hidden">
-<!-- Abstract Decoration -->
-<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
-<div class="container mx-auto px-6 relative z-10 fade-in-section">
+<!-- Narrative Section 1 -->
+<section class="relative z-10 flex flex-col items-center justify-center min-h-[80vh] w-full px-6 py-24">
 <div class="max-w-4xl mx-auto text-center">
-<div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-8">
-                    Strategic Partnerships
-                </div>
-<h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white">
-                    Madrid / Global Vision.
-                </h2>
-<p class="text-white/80 text-xl mb-12 max-w-2xl mx-auto font-light">
-                    Join the sovereign network. Access is restricted to institutional partners. Initialize your protocol below.
+<h2 class="text-white text-4xl md:text-6xl lg:text-7xl font-thin tracking-tight leading-tight">
+<span class="block mb-4 opacity-90">Born in Spain.</span>
+<span class="block bg-gradient-to-b from-white to-white/40 bg-clip-text text-transparent font-medium">Scaled for the Universe.</span>
+</h2>
+</div>
+</section>
+<!-- Narrative Section 2 -->
+<section class="relative z-10 flex flex-col items-center justify-center min-h-[60vh] w-full px-6 py-24 bg-gradient-to-b from-transparent to-background-dark">
+<div class="max-w-2xl mx-auto text-center relative">
+<!-- Decorative element -->
+<div class="absolute -top-20 left-1/2 -translate-x-1/2 w-px h-16 bg-gradient-to-b from-transparent to-primary/50"></div>
+<p class="text-white/80 text-lg md:text-2xl font-light leading-relaxed tracking-wide">
+                    Stabilizing global debt structures using <span class="text-white font-normal border-b border-primary/50 pb-0.5">Navier-Stokes dynamics</span>.
                 </p>
-<div class="max-w-md mx-auto flex flex-col gap-4">
-<div class="flex flex-col sm:flex-row gap-3">
-<input class="w-full h-14 bg-white/10 border border-white/20 rounded-lg px-4 text-white placeholder-white/50 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all font-mono text-sm" placeholder="Institutional Email ID" type="email"/>
-<button class="h-14 px-8 bg-white text-primary rounded-lg font-bold uppercase tracking-wider hover:bg-slate-100 transition-colors whitespace-nowrap">
-                            Connect
-                        </button>
-</div>
-<p class="text-xs text-white/40 text-left font-mono">
-                        // SECURE TRANSMISSION CHANNEL<br/>
-                        // RESPONSE TIME: &lt; 24H
-                    </p>
+<div class="mt-12 flex justify-center">
+<span class="material-symbols-outlined text-primary/40 text-4xl font-light animate-pulse">
+                        water_drop
+                    </span>
 </div>
 </div>
-<div class="mt-24 flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/20 text-sm text-white/60">
-<div class="flex items-center gap-2 mb-4 md:mb-0">
-<span class="material-symbols-outlined text-lg">public</span>
-<span class="font-mono">PHOENIX INTELLEX © 2026</span>
+</section>
+<!-- Infrastructure Access Section -->
+<section class="relative z-10 w-full px-6 py-24 md:py-32 bg-background-dark">
+<div class="max-w-7xl mx-auto">
+<!-- Section Header -->
+<div class="flex flex-col md:flex-row items-baseline justify-between border-b border-white/10 pb-6 mb-16">
+<h2 class="text-white text-xl md:text-2xl font-bold tracking-tight">INFRASTRUCTURE ACCESS</h2>
+<span class="text-white/40 text-xs font-mono tracking-widest mt-2 md:mt-0">SYSTEM STATUS: NOMINAL</span>
 </div>
-<div class="flex gap-8">
-<a class="hover:text-white transition-colors" href="#">Schematics</a>
-<a class="hover:text-white transition-colors" href="#">Legal</a>
-<a class="hover:text-white transition-colors" href="#">Encryption Key</a>
+<!-- Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Card 1 -->
+<div class="group flex flex-col bg-card-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/30 transition-colors duration-300">
+<div class="h-48 overflow-hidden relative">
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100" data-alt="Abstract rendering of server racks in a dark room with blue LED indicators" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAazHlZExkWvIn7HB6-thKUS27SCtCp5e4qPL3XQyPKIVHTAJeTeFvJP4nzR6GosocJsK7SFR4Ng3rDjtC6tG6myd_o1SBFvAuxM4PKhuvZPQ48PW3ei23XJGspb7XbBJ_oHhLir1CtvBhIelUZPRq1f99WCf4rUGWyUyeAWlvhZeGygWzpVJRKuoOCwVXrLAvqdHV4ApueNRlutyKKhP8_LdcYKm3FwmBGtzbd8AaD14LEcYLZm7w4y5AQLoFsIUoO-KMuI584zYSg"/>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h3 class="text-white text-lg font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">memory</span>
+                                Compute Density
+                            </h3>
+<p class="text-white/50 text-sm leading-relaxed mb-6">High-frequency algorithmic processing cores optimized for sovereign debt calculations.</p>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+<span class="text-xs font-mono text-primary">v.3.0.1</span>
+<span class="material-symbols-outlined text-white/20 text-sm group-hover:text-white group-hover:translate-x-1 transition-all">arrow_forward</span>
 </div>
 </div>
+</div>
+<!-- Card 2 -->
+<div class="group flex flex-col bg-card-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/30 transition-colors duration-300">
+<div class="h-48 overflow-hidden relative">
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100" data-alt="Abstract data lines glowing in dark space representing latency optimization" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtUyasmG3qwKUy-lrhVmzWzEETsWDrJLGMDZXykNdqGC9IaroCLMd7YyNPEa5q9GvvW9XXZvwfcxfPk1HW_xHiMC-tw1zTVlS-3GASYD4ZpzwvYRAqtioPgk0sz8p8SuOdS02XIRWJK_dpYBL4rxG1uHnEeJ-N8dR7VmivKuBXpF_5zYDz29hnz4s8xEZHB_NJVOmSzCyr_86yzi0ZBHns3coG2LMZPal-dN6WyLtgEcvvX38killbzlP9FlW26owDZnQV5XPLc9nc"/>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h3 class="text-white text-lg font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">bolt</span>
+                                Latency Optimization
+                            </h3>
+<p class="text-white/50 text-sm leading-relaxed mb-6">Sub-millisecond transmission layers utilizing direct fiber infrastructure across EMEA regions.</p>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+<span class="text-xs font-mono text-primary">0.04ms</span>
+<span class="material-symbols-outlined text-white/20 text-sm group-hover:text-white group-hover:translate-x-1 transition-all">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="group flex flex-col bg-card-dark border border-white/5 rounded-xl overflow-hidden hover:border-primary/30 transition-colors duration-300">
+<div class="h-48 overflow-hidden relative">
+<div class="absolute inset-0 bg-primary/10 mix-blend-overlay z-10"></div>
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0 opacity-60 group-hover:opacity-100" data-alt="Dark abstract geometric shapes representing secure architecture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1LLvvr8txMOCmF6OuQcHc3HuNh325X1Akz_AjLTb_AcMh1C9HLZAbZGkxGatgRzFkTQyBVVlfwgtyU5Sq5KrMcgTwJ_rIotdCBOIEpdku6EDv2KvFKQWb-FkaUm5tOmlI-OLgM-mI9zdNryFqqCmofqZxEtZyvcNA-fXepvX_UWLyakuNQtvFvN3XDz8h0bBphQmzvvRLHweJCbTrVnXzq17qO8rDtRcRc7qEyCZlPbIT0zPpApEkaqeEqt97pf4AmGmx6Y-TxGRc"/>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<h3 class="text-white text-lg font-bold mb-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-sm">shield</span>
+                                Sovereign Architecture
+                            </h3>
+<p class="text-white/50 text-sm leading-relaxed mb-6">Isolated storage clusters compliant with Tier-1 banking security protocols.</p>
+<div class="mt-auto pt-4 border-t border-white/5 flex justify-between items-center">
+<span class="text-xs font-mono text-primary">AES-256</span>
+<span class="material-symbols-outlined text-white/20 text-sm group-hover:text-white group-hover:translate-x-1 transition-all">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Minimal Footer -->
+<footer class="relative z-10 w-full py-20 px-6 bg-background-dark border-t border-white/5">
+<div class="flex flex-col items-center justify-center gap-8">
+<a class="group flex items-center gap-3 text-white transition-all hover:text-primary" href="mailto:founder@phoenixintellex.com">
+<span class="material-symbols-outlined text-2xl group-hover:scale-110 transition-transform">mail</span>
+<span class="text-xl md:text-2xl font-light tracking-wide border-b border-transparent group-hover:border-primary">founder@phoenixintellex.com</span>
+</a>
+<p class="text-white/20 text-xs font-mono">© 2024 PHOENIX INTELLEX. ALL RIGHTS RESERVED.</p>
 </div>
 </footer>
-<!-- Minimal Script for Scroll Reveal -->
-<script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, observerOptions);
-
-            document.querySelectorAll('.fade-in-section').forEach(section => {
-                observer.observe(section);
-            });
-        });
-    </script>
+</div>
+<!-- Custom CSS for simple fade in animation without JS -->
+<style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </body></html>
