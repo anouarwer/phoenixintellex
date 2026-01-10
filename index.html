@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Phoenix Intellex | The Executive Briefing</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Noto+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Theme Configuration -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#2b4bee",
+              "background-light": "#f6f6f8",
+              "background-dark": "#050505", /* Darker black for the 'void' feel */
+              "surface-dark": "#111422",
+            },
+            fontFamily: {
+              "display": ["Space Grotesk", "sans-serif"],
+              "body": ["Noto Sans", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            backgroundImage: {
+              'grid-pattern': "linear-gradient(to right, #1f2937 1px, transparent 1px), linear-gradient(to bottom, #1f2937 1px, transparent 1px)",
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        /* Custom Utilities for the minimalist feel */
+        .glass-panel {
+            background: rgba(17, 20, 34, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .grid-bg {
+            background-size: 40px 40px;
+            mask-image: linear-gradient(to bottom, transparent, black, transparent);
+            -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%);
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+            will-change: opacity, visibility;
+        }
+        
+        .fade-in-section.is-visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* Scanline effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 10;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(43, 75, 238, 0.1) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { top: -100px; }
+            100% { top: 100%; }
+        }
+
+        /* HUD Circle Animation */
+        .hud-ring {
+            animation: spin 20s linear infinite;
+        }
+        .hud-ring-reverse {
+            animation: spin-reverse 25s linear infinite;
+        }
+        
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-x-hidden antialiased selection:bg-primary selection:text-white">
+<!-- Top Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 lg:px-12 backdrop-blur-md border-b border-white/5 bg-background-dark/50">
+<div class="flex items-center gap-3">
+<div class="size-5 text-primary">
+<span class="material-symbols-outlined !text-[20px]">api</span>
+</div>
+<span class="text-sm font-bold tracking-widest uppercase text-white/90">Phoenix Intellex</span>
+</div>
+<div class="flex items-center gap-6">
+<span class="hidden md:block text-xs font-mono text-slate-500">SYS.STATUS: ONLINE</span>
+<button class="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white border border-white/10 rounded hover:bg-white/5 transition-colors">
+<span class="size-2 bg-green-500 rounded-full animate-pulse"></span>
+                Client Access
+            </button>
+</div>
+</header>
+<!-- Hero / Void Section -->
+<section class="relative min-h-screen w-full flex flex-col items-center justify-center bg-background-dark z-10">
+<!-- Background Grid -->
+<div class="absolute inset-0 grid-bg bg-grid-pattern opacity-[0.03] pointer-events-none"></div>
+<div class="scanline"></div>
+<div class="container mx-auto px-6 relative z-10 text-center">
+<div class="flex flex-col gap-8 items-center fade-in-section is-visible">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-primary/30 bg-primary/5 text-primary text-xs font-mono mb-4">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    EXECUTIVE BRIEFING V.3
+                </div>
+<h1 class="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter leading-none text-transparent bg-clip-text bg-gradient-to-b from-white to-white/40">
+                    FINANCE IS<br/>COMPLEX.
+                </h1>
+<div class="h-px w-24 bg-primary/50 my-4"></div>
+<h2 class="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tighter leading-none text-primary">
+                    PHYSICS IS<br/>CLEAR.
+                </h2>
+<p class="mt-8 text-sm md:text-base text-slate-400 max-w-md font-mono">
+                    // SCROLL TO INITIALIZE SOVEREIGN INTERFACE
+                </p>
+<div class="mt-12 animate-bounce text-slate-600">
+<span class="material-symbols-outlined">keyboard_arrow_down</span>
+</div>
+</div>
+</div>
+</section>
+<!-- System Architecture Diagram -->
+<section class="relative py-32 w-full bg-background-dark overflow-hidden border-t border-white/5">
+<div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] pointer-events-none"></div>
+<div class="container mx-auto px-6">
+<div class="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+<!-- Diagram Visual -->
+<div class="w-full lg:w-1/2 flex justify-center fade-in-section">
+<div class="relative size-[360px] md:size-[500px]">
+<!-- Outer Ring -->
+<div class="absolute inset-0 rounded-full border border-white/10 hud-ring"></div>
+<div class="absolute inset-4 rounded-full border border-dashed border-white/5 hud-ring-reverse"></div>
+<!-- Core -->
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="relative size-40 bg-surface-dark rounded-full border border-primary/30 flex items-center justify-center shadow-[0_0_30px_rgba(43,75,238,0.15)] z-10">
+<span class="material-symbols-outlined text-6xl text-primary">hub</span>
+</div>
+<!-- Orbital Nodes -->
+<div class="absolute size-[280px] animate-[spin_30s_linear_infinite]">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
+<span class="material-symbols-outlined text-white/50 text-sm">database</span>
+</div>
+<div class="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
+<span class="material-symbols-outlined text-white/50 text-sm">memory</span>
+</div>
+<div class="absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
+<span class="material-symbols-outlined text-white/50 text-sm">query_stats</span>
+</div>
+<div class="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 bg-background-dark p-2 border border-white/10 rounded-lg">
+<span class="material-symbols-outlined text-white/50 text-sm">lock</span>
+</div>
+</div>
+</div>
+<!-- Labels -->
+<div class="absolute top-10 left-0 bg-background-dark/80 backdrop-blur px-3 py-1 border-l-2 border-primary text-xs font-mono text-white">
+                            DATA INGESTION
+                        </div>
+<div class="absolute bottom-20 right-0 bg-background-dark/80 backdrop-blur px-3 py-1 border-r-2 border-primary text-xs font-mono text-white text-right">
+                            PREDICTIVE OUTPUT
+                        </div>
+</div>
+</div>
+<!-- Text Content -->
+<div class="w-full lg:w-1/2 flex flex-col gap-8 fade-in-section">
+<div>
+<h2 class="text-sm font-bold text-primary tracking-widest uppercase mb-2">System Architecture</h2>
+<h3 class="text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
+                            Circular Sovereign<br/>Intelligence System
+                        </h3>
+<p class="text-slate-400 text-lg leading-relaxed max-w-lg">
+                            We don't predict the market; we calculate it. Acting as a HUD for institutional banking partners, our platform replaces intuition with fundamental laws of physics.
+                        </p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+<div class="p-4 border border-white/10 bg-white/5 rounded-lg hover:border-primary/50 transition-colors group cursor-default">
+<div class="text-white mb-2 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">analytics</span>
+</div>
+<h4 class="text-white font-bold mb-1">Risk Modeling</h4>
+<p class="text-xs text-slate-400">Physical equations applied to volatility.</p>
+</div>
+<div class="p-4 border border-white/10 bg-white/5 rounded-lg hover:border-primary/50 transition-colors group cursor-default">
+<div class="text-white mb-2 group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">speed</span>
+</div>
+<h4 class="text-white font-bold mb-1">Real-time Velocity</h4>
+<p class="text-xs text-slate-400">Microsecond latency processing.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Co-Pilot Feature Section -->
+<section class="py-24 bg-surface-dark border-t border-white/5 relative">
+<div class="container mx-auto px-6 fade-in-section">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8">
+<div class="max-w-2xl">
+<h2 class="text-4xl md:text-6xl font-bold text-white tracking-tight mb-6">
+                        Co-Pilot for Global Institutions
+                    </h2>
+<p class="text-xl text-slate-400 font-light">
+                        Navigating market complexities requires more than algorithms. It requires a physics engine capable of understanding the chaos.
+                    </p>
+</div>
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 text-xs font-mono text-slate-500 uppercase tracking-widest">
+<span class="size-2 bg-primary rounded-full"></span>
+                        System Active
+                    </div>
+<div class="h-px w-32 bg-white/10"></div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-1">
+<!-- Feature 1 -->
+<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Abstract dark geometric network visualization" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDESUxN8QmyM5H9fpZTuHvoCeBqGIUm-yIrXcaCqWZ94uh4ipVRSeIEG0kbNi7iEZf7x_cKH_0y6sTV4CwdPRfMuFmqcEaN0Dl-yuJWFUxTOSACsfjQyCwlcv_rTMAivx4l3Na5rIeMvyJzLXPDC-3v1VyS-Th7edrl_EO_X8Q2YryuJlw3wee8c2HVHNBjBNafWec8PsXf5tcadEbArjc19mDi6hRDjAvaEbkFU2iZdZ2zJ1lsXb8rxQMq2-oxBooYyle3r3qyqxs");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="material-symbols-outlined text-3xl text-primary mb-4">globe_asia</span>
+<h3 class="text-xl font-bold text-white mb-2">Global Vision</h3>
+<p class="text-sm text-slate-400">Mapping liquidity across 42 markets instantly.</p>
+</div>
+</div>
+<!-- Feature 2 -->
+<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Abstract blue digital wave patterns representing data flow" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAbZqfDYajBT0Bg7WieZOAWT9TRumAy58KuXPPIYBI5bH3gky3tGNf9szar35Zg0PhZb1Olu2RuOoXZ-ytRmilmzXuQt9JvBYAddNCHesL-HAaszdOZtCnXncbLp2G5pvvNSvoM_ossaKFFSLQ3FrehIN_Ia8v0VqEL4UVJWHbnJCn58mR03b2uNC1WeIEfK3dkZs9AQg4skgmgWE_5wE9HfnF4HQcdpwox4MUlaXOPqvCt8-cQisRman4oat4qgVOWHlp4KFGBs6I");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="material-symbols-outlined text-3xl text-primary mb-4">bolt</span>
+<h3 class="text-xl font-bold text-white mb-2">Sovereign Speed</h3>
+<p class="text-sm text-slate-400">Execution at the speed of light.</p>
+</div>
+</div>
+<!-- Feature 3 -->
+<div class="group relative aspect-[4/3] overflow-hidden bg-background-dark">
+<div class="absolute inset-0 bg-cover bg-center opacity-60 transition-transform duration-700 group-hover:scale-105" data-alt="Satellite view of earth connections at night" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDuaO6_8Dw0iQJKfx-GxQTdCPXoiaGpBUeIPWN8VvTVyxIdw-dMEvA3qObqVIkcXuwTTpL_re0hPlGkEDbx6xBMORp5gNu_j6F1MJe1fdDXTuyitgs7XRHl3s5CkXYLTSt2ljbFf_wKN_4dlqjm0O_IZlX28OByUH0rS2pFyTqVmWsR2Vm7zaHgPU5m4_19q75rKA81uGoxgB8bPIoB0R_aV3M35uLLKFSw6us1Q-fiCw1FMMRcpY1jBUmhvhbdRmEhddgS6gSnDgQ");'></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark via-background-dark/50 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8">
+<span class="material-symbols-outlined text-3xl text-primary mb-4">security</span>
+<h3 class="text-xl font-bold text-white mb-2">Institutional Security</h3>
+<p class="text-sm text-slate-400">Fortified architecture for sovereign assets.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Tech Stack Ticker -->
+<section class="py-10 bg-background-dark border-t border-b border-white/5 overflow-hidden">
+<div class="container mx-auto px-6">
+<div class="flex flex-wrap justify-center md:justify-between items-center gap-8 md:gap-16 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl">memory</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white tracking-widest uppercase">NVIDIA H100 Cluster</span>
+<span class="text-[10px] font-mono text-slate-500">COMPUTE MODULE ACTIVE</span>
+</div>
+</div>
+<div class="h-8 w-px bg-white/10 hidden md:block"></div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl">developer_board</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white tracking-widest uppercase">Google Tensor Processing</span>
+<span class="text-[10px] font-mono text-slate-500">NEURAL ENGINE ONLINE</span>
+</div>
+</div>
+<div class="h-8 w-px bg-white/10 hidden md:block"></div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-3xl">lock_clock</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-white tracking-widest uppercase">Zero-Knowledge Proofs</span>
+<span class="text-[10px] font-mono text-slate-500">ENCRYPTION LEVEL 5</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer / Strategic Partnerships -->
+<footer class="bg-primary text-white py-24 relative overflow-hidden">
+<!-- Abstract Decoration -->
+<div class="absolute top-0 right-0 w-[600px] h-[600px] bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+<div class="container mx-auto px-6 relative z-10 fade-in-section">
+<div class="max-w-4xl mx-auto text-center">
+<div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-white/20 bg-white/10 text-white text-xs font-bold uppercase tracking-wider mb-8">
+                    Strategic Partnerships
+                </div>
+<h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-8 text-white">
+                    Madrid / Global Vision.
+                </h2>
+<p class="text-white/80 text-xl mb-12 max-w-2xl mx-auto font-light">
+                    Join the sovereign network. Access is restricted to institutional partners. Initialize your protocol below.
+                </p>
+<div class="max-w-md mx-auto flex flex-col gap-4">
+<div class="flex flex-col sm:flex-row gap-3">
+<input class="w-full h-14 bg-white/10 border border-white/20 rounded-lg px-4 text-white placeholder-white/50 focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-all font-mono text-sm" placeholder="Institutional Email ID" type="email"/>
+<button class="h-14 px-8 bg-white text-primary rounded-lg font-bold uppercase tracking-wider hover:bg-slate-100 transition-colors whitespace-nowrap">
+                            Connect
+                        </button>
+</div>
+<p class="text-xs text-white/40 text-left font-mono">
+                        // SECURE TRANSMISSION CHANNEL<br/>
+                        // RESPONSE TIME: &lt; 24H
+                    </p>
+</div>
+</div>
+<div class="mt-24 flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/20 text-sm text-white/60">
+<div class="flex items-center gap-2 mb-4 md:mb-0">
+<span class="material-symbols-outlined text-lg">public</span>
+<span class="font-mono">PHOENIX INTELLEX © 2024</span>
+</div>
+<div class="flex gap-8">
+<a class="hover:text-white transition-colors" href="#">Schematics</a>
+<a class="hover:text-white transition-colors" href="#">Legal</a>
+<a class="hover:text-white transition-colors" href="#">Encryption Key</a>
+</div>
+</div>
+</div>
+</footer>
+<!-- Minimal Script for Scroll Reveal -->
+<script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in-section').forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body></html>
