@@ -12,14 +12,24 @@ import ArchitectureSection from './sections/ArchitectureSection';
 import SecuritySection from './sections/SecuritySection';
 import ContactSection from './sections/ContactSection';
 import GrainOverlay from './components/GrainOverlay';
+import { useIsMobile } from './hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
 function App() {
   const mainRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
-    // Wait for all sections to mount and create their ScrollTriggers
+    // On mobile, we might want to disable complex snapping or pinning if it's causing "crushing"
+    if (isMobile) {
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.vars.pin) st.kill(); // Kill pins on mobile to allow natural scroll
+      });
+      return;
+    }
+
+    // Desktop Snapping Logic
     const timer = setTimeout(() => {
       const pinned = ScrollTrigger.getAll()
         .filter(st => st.vars.pin)
@@ -29,20 +39,17 @@ function App() {
       
       if (!maxScroll || pinned.length === 0) return;
 
-      // Create global snap
       ScrollTrigger.create({
         snap: {
           snapTo: (value: number) => {
-            // Check if within any pinned range (with buffer)
             const inPinned = pinned.some(st => {
               const start = st.start / maxScroll;
               const end = st.end / maxScroll;
               return value >= start - 0.02 && value <= end + 0.02;
             });
             
-            if (!inPinned) return value; // flowing section: free scroll
+            if (!inPinned) return value;
             
-            // Find nearest pinned center
             const target = pinned.reduce((closest, st) => {
               const center = (st.start + (st.end - st.start) * 0.5) / maxScroll;
               return Math.abs(center - value) < Math.abs(closest - value) ? center : closest;
@@ -60,7 +67,7 @@ function App() {
     return () => {
       clearTimeout(timer);
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div ref={mainRef} className="relative bg-[#05060B] min-h-screen">

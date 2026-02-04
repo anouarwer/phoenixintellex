@@ -2,6 +2,8 @@ import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Database, Layers, Cpu } from 'lucide-react';
+import { useLanguage } from '../lib/i18n';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,43 +11,57 @@ interface ArchitectureSectionProps {
   className?: string;
 }
 
-const steps = [
-  {
-    number: '01',
-    icon: Database,
-    title: 'Ingest',
-    description: 'Connect via API, file, or warehouse.',
-  },
-  {
-    number: '02',
-    icon: Layers,
-    title: 'Enrich',
-    description: 'Add ratings, market data, and internal overlays.',
-  },
-  {
-    number: '03',
-    icon: Cpu,
-    title: 'Simulate',
-    description: 'Run scenarios and export actionable outputs.',
-  },
-];
-
 export default function ArchitectureSection({ className = '' }: ArchitectureSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
   const layersRef = useRef<HTMLDivElement>(null);
+  
+  const { language } = useLanguage();
+  const isMobile = useIsMobile();
+
+  const steps = [
+    {
+      number: '01',
+      icon: Database,
+      title: language === 'es' ? 'Ingerir' : 'Ingest',
+      description: language === 'es' ? 'Conectar vía API, archivo o almacén.' : 'Connect via API, file, or warehouse.',
+    },
+    {
+      number: '02',
+      icon: Layers,
+      title: language === 'es' ? 'Enriquecer' : 'Enrich',
+      description: language === 'es' ? 'Añadir calificaciones, datos de mercado y superposiciones internas.' : 'Add ratings, market data, and internal overlays.',
+    },
+    {
+      number: '03',
+      icon: Cpu,
+      title: language === 'es' ? 'Simular' : 'Simulate',
+      description: language === 'es' ? 'Ejecutar escenarios y exportar resultados accionables.' : 'Run scenarios and export actionable outputs.',
+    },
+  ];
+
+  const layerLabels = language === 'es' ? [
+    'Informes y APIs',
+    'Motor de Simulación',
+    'Capa de Enriquecimiento',
+    'Ingestión de Datos',
+  ] : [
+    'Reporting & APIs',
+    'Simulation Engine',
+    'Enrichment Layer',
+    'Data Ingestion',
+  ];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
     const text = textRef.current;
-    const steps = stepsRef.current.filter(Boolean);
+    const stepElements = stepsRef.current.filter(Boolean);
     const layers = layersRef.current;
 
     if (!section || !text || !layers) return;
 
     const ctx = gsap.context(() => {
-      // Text block animation
       gsap.fromTo(text,
         { y: 24, opacity: 0 },
         {
@@ -55,32 +71,32 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
           ease: 'power2.out',
           scrollTrigger: {
             trigger: text,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Layer diagram animation
-      gsap.fromTo(layers,
-        { y: 24, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: layers,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+      if (!isMobile) {
+        gsap.fromTo(layers,
+          { y: 24, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: layers,
+              start: 'top 85%',
+              end: 'top 60%',
+              scrub: 0.6,
+            }
           }
-        }
-      );
+        );
+      }
 
-      // Steps animation
-      steps.forEach((step) => {
+      stepElements.forEach((step) => {
         gsap.fromTo(step,
           { y: 30, opacity: 0, scale: 0.98 },
           {
@@ -91,9 +107,9 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
             ease: 'power2.out',
             scrollTrigger: {
               trigger: step,
-              start: 'top 85%',
-              end: 'top 65%',
-              scrub: true,
+              start: 'top 90%',
+              end: 'top 70%',
+              scrub: 0.6,
             }
           }
         );
@@ -101,7 +117,7 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section 
@@ -111,44 +127,38 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
     >
       <div className="relative z-10">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-          {/* Left Text Block */}
           <div ref={textRef} className="lg:w-[46vw]">
             <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-              Data model architecture
+              {language === 'es' ? 'Arquitectura del modelo de datos' : 'Data model architecture'}
             </h2>
             <p className="font-mono-label text-[#2D6BFF] mb-6">
-              INGEST · ENRICH · SIMULATE · REPORT
+              {language === 'es' ? 'INGERIR · ENRIQUECER · SIMULAR · INFORMAR' : 'INGEST · ENRICH · SIMULATE · REPORT'}
             </p>
             <p className="text-[16px] text-[#A6B3D0] leading-relaxed max-w-[500px]">
-              Phoenix normalizes disparate sources into a unified graph: counterparties, instruments, collateral, and macro factors.
+              {language === 'es' 
+                ? 'Phoenix normaliza fuentes dispares en un gráfico unificado: contrapartes, instrumentos, garantías y factores macro.'
+                : 'Phoenix normalizes disparate sources into a unified graph: counterparties, instruments, collateral, and macro factors.'}
             </p>
           </div>
 
-          {/* Right Layer Diagram */}
           <div ref={layersRef} className="lg:w-[40vw] hidden lg:block">
             <div className="relative space-y-3">
-              {[
-                { label: 'Reporting & APIs', color: 'bg-[#2D6BFF]' },
-                { label: 'Simulation Engine', color: 'bg-[#1E5AEB]' },
-                { label: 'Enrichment Layer', color: 'bg-[#1645C0]' },
-                { label: 'Data Ingestion', color: 'bg-[#0F3399]' },
-              ].map((layer, index) => (
+              {layerLabels.map((label, index) => (
                 <div
-                  key={layer.label}
-                  className={`${layer.color} rounded-lg px-5 py-4 text-white font-medium text-sm`}
+                  key={label}
+                  className={`bg-[#2D6BFF] rounded-lg px-5 py-4 text-white font-medium text-sm`}
                   style={{
                     opacity: 1 - index * 0.15,
                     transform: `translateX(${index * 8}px)`,
                   }}
                 >
-                  {layer.label}
+                  {label}
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Steps */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
           {steps.map((step, index) => {
             const Icon = step.icon;
@@ -174,9 +184,6 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
                     </p>
                   </div>
                 </div>
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-6 left-full w-6 h-[1px] bg-gradient-to-r from-[#2D6BFF]/50 to-transparent" />
-                )}
               </div>
             );
           })}

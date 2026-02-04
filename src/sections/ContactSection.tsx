@@ -1,18 +1,14 @@
 import { useRef, useLayoutEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, Mail, MessageSquare } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { ArrowRight, Mail } from 'lucide-react';
+import { Button } from '../components/ui/button';
+import { Input } from '../components/ui/input';
+import { Textarea } from '../components/ui/textarea';
+import { Checkbox } from '../components/ui/checkbox';
+
+import { useLanguage } from '../lib/i18n';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -26,6 +22,9 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
   const formRef = useRef<HTMLFormElement>(null);
   const panelsRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
+  
+  const { t, language } = useLanguage();
+  const isMobile = useIsMobile();
 
   const [formData, setFormData] = useState({
     name: '',
@@ -50,7 +49,6 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
     if (!section || !headline || !form || !panels || !footer) return;
 
     const ctx = gsap.context(() => {
-      // Headline animation
       gsap.fromTo(headline,
         { y: 24, opacity: 0 },
         {
@@ -60,14 +58,13 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           ease: 'power2.out',
           scrollTrigger: {
             trigger: headline,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Form animation
       gsap.fromTo(form,
         { y: 40, opacity: 0 },
         {
@@ -79,12 +76,11 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
             trigger: form,
             start: 'top 85%',
             end: 'top 60%',
-            scrub: true,
+            scrub: 0.6,
           }
         }
       );
 
-      // Panels animation
       gsap.fromTo(panels,
         { y: 40, opacity: 0 },
         {
@@ -94,14 +90,13 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           ease: 'power2.out',
           scrollTrigger: {
             trigger: panels,
-            start: 'top 85%',
-            end: 'top 60%',
-            scrub: true,
+            start: 'top 90%',
+            end: 'top 70%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Footer animation
       gsap.fromTo(footer,
         { y: 20, opacity: 0 },
         {
@@ -112,15 +107,15 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           scrollTrigger: {
             trigger: footer,
             start: 'top 95%',
-            end: 'top 80%',
-            scrub: true,
+            end: 'top 85%',
+            scrub: 0.6,
           }
         }
       );
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -136,17 +131,15 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
       className={`relative bg-[#05060B] py-[10vh] px-6 lg:px-[6vw] ${className}`}
     >
       <div className="relative z-10 max-w-[900px] mx-auto">
-        {/* Headline */}
         <div ref={headlineRef} className="text-center mb-12">
           <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-            Ready to simulate your next decision?
+            {t.contact_title}
           </h2>
           <p className="text-[16px] text-[#A6B3D0]">
-            Talk to our team about a pilot.
+            {t.contact_desc}
           </p>
         </div>
 
-        {/* Contact Form */}
         {!submitted ? (
           <form 
             ref={formRef}
@@ -155,10 +148,10 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Full Name *</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Nombre completo *' : 'Full Name *'}</label>
                 <Input
                   type="text"
-                  placeholder="Dr. Maria García"
+                  placeholder={language === 'es' ? 'Dr. Maria García' : 'Dr. Maria García'}
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="bg-[#1F2937] border-[#374151] text-white placeholder:text-[#6B7280]"
@@ -166,7 +159,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Institution *</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Institución *' : 'Institution *'}</label>
                 <Input
                   type="text"
                   placeholder="Banco Santander / ECB / XYZ Capital"
@@ -177,7 +170,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Role / Title *</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Cargo / Título *' : 'Role / Title *'}</label>
                 <Input
                   type="text"
                   placeholder="Chief Risk Officer / Head of NPL Workout"
@@ -188,7 +181,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Work Email *</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Correo de trabajo *' : 'Work Email *'}</label>
                 <Input
                   type="email"
                   placeholder="maria.garcia@institution.eu"
@@ -198,49 +191,12 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Portfolio Focus</label>
-                <Select 
-                  value={formData.portfolioFocus} 
-                  onValueChange={(value) => setFormData({ ...formData, portfolioFocus: value })}
-                >
-                  <SelectTrigger className="bg-[#1F2937] border-[#374151] text-white">
-                    <SelectValue placeholder="Select focus area" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1F2937] border-[#374151]">
-                    <SelectItem value="npl">NPL / Stage-2 Analytics</SelectItem>
-                    <SelectItem value="systemic">Systemic Risk Monitoring</SelectItem>
-                    <SelectItem value="supervisory">Supervisory / Audit</SelectItem>
-                    <SelectItem value="investment">Distressed Asset Investment</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">Approximate Portfolio Size</label>
-                <Select 
-                  value={formData.portfolioSize} 
-                  onValueChange={(value) => setFormData({ ...formData, portfolioSize: value })}
-                >
-                  <SelectTrigger className="bg-[#1F2937] border-[#374151] text-white">
-                    <SelectValue placeholder="Select size range" />
-                  </SelectTrigger>
-                  <SelectContent className="bg-[#1F2937] border-[#374151]">
-                    <SelectItem value="<100M">&lt; €100M</SelectItem>
-                    <SelectItem value="100M-500M">€100M - €500M</SelectItem>
-                    <SelectItem value="500M-2B">€500M - €2B</SelectItem>
-                    <SelectItem value="2B-10B">€2B - €10B</SelectItem>
-                    <SelectItem value=">10B">&gt; €10B</SelectItem>
-                    <SelectItem value="na">N/A (Supervisor/Auditor)</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm text-[#A6B3D0] mb-2">Message</label>
+              <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Mensaje' : 'Message'}</label>
               <Textarea
-                placeholder="Briefly describe your current challenges or interest in PHOENIX..."
+                placeholder={language === 'es' ? 'Describa brevemente sus desafíos actuales...' : 'Briefly describe your current challenges...'}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="bg-[#1F2937] border-[#374151] text-white placeholder:text-[#6B7280] min-h-[120px]"
@@ -257,7 +213,9 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 className="mt-1 border-[#374151] data-[state=checked]:bg-[#2D6BFF] data-[state=checked]:border-[#2D6BFF]"
               />
               <label htmlFor="privacy" className="text-sm text-[#A6B3D0] cursor-pointer">
-                I acknowledge that this inquiry will be handled under NDA and that PHOENIX INTELLEX will contact me at the provided email address.
+                {language === 'es' 
+                  ? 'Reconozco que esta consulta se manejará bajo un acuerdo de confidencialidad (NDA) y que PHOENIX INTELLEX me contactará en la dirección de correo proporcionada.'
+                  : 'I acknowledge that this inquiry will be handled under NDA and that PHOENIX INTELLEX will contact me at the provided email address.'}
               </label>
             </div>
 
@@ -266,13 +224,9 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               className="btn-pill-primary w-full md:w-auto flex items-center justify-center gap-2"
               disabled={!formData.privacyAccepted}
             >
-              Submit Request
+              {t.contact_cta}
               <ArrowRight size={18} />
             </Button>
-
-            <p className="text-xs text-[#6B7280] mt-4">
-              Expected response time: 48-72 hours. All technical discussions require NDA signature.
-            </p>
           </form>
         ) : (
           <div className="info-panel rounded-xl p-10 mb-12 text-center">
@@ -280,15 +234,16 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               <Mail size={28} className="text-[#2D6BFF]" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">
-              Thank you for your interest
+              {language === 'es' ? 'Gracias por su interés' : 'Thank you for your interest'}
             </h3>
             <p className="text-[#A6B3D0] max-w-[400px] mx-auto">
-              We have received your request and will contact you within 48-72 hours to schedule a demonstration.
+              {language === 'es' 
+                ? 'Hemos recibido su solicitud y nos pondremos en contacto con usted en un plazo de 48-72 horas para programar una demostración.'
+                : 'We have received your request and will contact you within 48-72 hours to schedule a demonstration.'}
             </p>
           </div>
         )}
 
-        {/* Contact Panels */}
         <div ref={panelsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
           <div className="feature-card">
             <div className="flex items-center gap-3 mb-4">
@@ -297,61 +252,25 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               </div>
               <h3 className="text-lg font-semibold text-white">Sales</h3>
             </div>
-            <p className="text-[14px] text-[#A6B3D0] mb-4">
-              Request a demo or pricing.
-            </p>
-            <a 
-              href="mailto:contact@phoenixintellex.com"
-              className="btn-pill-primary text-sm inline-flex items-center gap-2"
-            >
-              Contact sales
-              <ArrowRight size={16} />
-            </a>
+            <p className="text-[14px] text-[#A6B3D0]">sales@phoenixintellex.com</p>
           </div>
-
           <div className="feature-card">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-[#2D6BFF]/10 flex items-center justify-center">
-                <MessageSquare size={20} className="text-[#2D6BFF]" />
+                <Mail size={20} className="text-[#2D6BFF]" />
               </div>
-              <h3 className="text-lg font-semibold text-white">Support</h3>
+              <h3 className="text-lg font-semibold text-white">Press</h3>
             </div>
-            <p className="text-[14px] text-[#A6B3D0] mb-4">
-              Questions? We're here to help.
-            </p>
-            <a 
-              href="mailto:support@phoenixintellex.com"
-              className="btn-pill-outline text-sm inline-flex items-center gap-2"
-            >
-              Email support
-              <ArrowRight size={16} />
-            </a>
+            <p className="text-[14px] text-[#A6B3D0]">media@phoenixintellex.com</p>
           </div>
         </div>
 
-        {/* Footer */}
-        <footer ref={footerRef} className="border-t border-[#1F2937] pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <div className="text-center md:text-left">
-              <span className="font-['Sora'] font-bold text-lg text-white block mb-2">
-                PHOENIX INTELLEX
-              </span>
-              <p className="text-sm text-[#6B7280]">
-                Redefining financial reality through physics-based intelligence.
-              </p>
-            </div>
-
-            <div className="flex flex-wrap justify-center gap-6 text-sm">
-              <a href="#" className="text-[#A6B3D0] hover:text-white transition-colors">Privacy Policy</a>
-              <a href="#" className="text-[#A6B3D0] hover:text-white transition-colors">Terms of Service</a>
-              <a href="#" className="text-[#A6B3D0] hover:text-white transition-colors">Security</a>
-            </div>
-          </div>
-
-          <div className="text-center mt-8 pt-6 border-t border-[#1F2937]/50">
-            <p className="text-xs text-[#6B7280]">
-              © 2026 PHOENIX INTELLEX SL · Registered in Spain (EU)
-            </p>
+        <footer ref={footerRef} className="border-t border-white/5 pt-10 pb-6 flex flex-col md:flex-row justify-between items-center gap-6">
+          <span className="font-['Sora'] font-bold text-white opacity-40">PHOENIX INTELLEX</span>
+          <div className="flex gap-8">
+            <a href="#" className="text-xs text-[#6B7280] hover:text-white transition-colors">Privacy Policy</a>
+            <a href="#" className="text-xs text-[#6B7280] hover:text-white transition-colors">Terms of Service</a>
+            <span className="text-xs text-[#6B7280]">© 2026</span>
           </div>
         </footer>
       </div>

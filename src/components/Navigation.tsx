@@ -1,30 +1,26 @@
 import { useEffect, useState, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-const navLinks = [
-  { label: 'Product', target: 'what-it-is' },
-  { label: 'System', target: 'architecture' },
-  { label: 'Security', target: 'security' },
-  { label: 'Contact', target: 'contact' },
-];
+import { useLanguage } from '../lib/i18n';
+import { useIsMobile } from '../hooks/use-mobile';
 
 export default function Navigation() {
   const [isVisible, setIsVisible] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const { t, language, setLanguage } = useLanguage();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
       const heroHeight = window.innerHeight;
-      setIsVisible(scrollY > heroHeight * 0.5);
+      // On mobile, show nav earlier or keep it sticky
+      setIsVisible(isMobile ? scrollY > 20 : scrollY > heroHeight * 0.5);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial check
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isMobile]);
 
   useEffect(() => {
     if (navRef.current) {
@@ -43,6 +39,13 @@ export default function Navigation() {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const navLinks = [
+    { label: t.nav_product, target: 'what-it-is' },
+    { label: t.nav_system, target: 'architecture' },
+    { label: t.nav_security, target: 'security' },
+    { label: t.nav_contact, target: 'contact' },
+  ];
 
   return (
     <nav
@@ -71,12 +74,20 @@ export default function Navigation() {
           ))}
         </div>
         
-        <button 
-          onClick={() => scrollToSection('contact')}
-          className="btn-pill-primary text-sm py-2 px-4"
-        >
-          Request Demo
-        </button>
+        <div className="flex items-center gap-4">
+          <button 
+            onClick={() => setLanguage(language === 'en' ? 'es' : 'en')}
+            className="text-xs font-mono-label text-[#A6B3D0] hover:text-white border border-white/10 px-2 py-1 rounded"
+          >
+            {language.toUpperCase()}
+          </button>
+          <button 
+            onClick={() => scrollToSection('contact')}
+            className="btn-pill-primary text-sm py-2 px-4"
+          >
+            {t.cta_demo}
+          </button>
+        </div>
       </div>
     </nav>
   );

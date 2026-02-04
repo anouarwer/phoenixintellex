@@ -2,6 +2,8 @@ import { useRef, useLayoutEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Shield, Lock, Server, Cloud } from 'lucide-react';
+import { useLanguage } from '../lib/i18n';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -9,38 +11,45 @@ interface SecuritySectionProps {
   className?: string;
 }
 
-const deploymentOptions = [
-  {
-    icon: Cloud,
-    title: 'Cloud SaaS',
-    description: 'Fastest time-to-value.',
-    highlight: false,
-  },
-  {
-    icon: Server,
-    title: 'Private Cloud',
-    description: 'Dedicated infrastructure.',
-    highlight: false,
-  },
-  {
-    icon: Lock,
-    title: 'On-Premise',
-    description: 'Full control in your environment.',
-    highlight: true,
-  },
-];
-
-const securityFeatures = [
-  'Encryption at rest and in transit.',
-  'Role-based access with SSO/SAML.',
-  'Compliance-ready documentation and audit logs.',
-];
-
 export default function SecuritySection({ className = '' }: SecuritySectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
   const scanLineRef = useRef<HTMLDivElement>(null);
+  
+  const { t, language } = useLanguage();
+  const isMobile = useIsMobile();
+
+  const deploymentOptions = [
+    {
+      icon: Cloud,
+      title: language === 'es' ? 'SaaS en la Nube' : 'Cloud SaaS',
+      description: language === 'es' ? 'Tiempo de valor más rápido.' : 'Fastest time-to-value.',
+      highlight: false,
+    },
+    {
+      icon: Server,
+      title: language === 'es' ? 'Nube Privada' : 'Private Cloud',
+      description: language === 'es' ? 'Infraestructura dedicada.' : 'Dedicated infrastructure.',
+      highlight: false,
+    },
+    {
+      icon: Lock,
+      title: language === 'es' ? 'On-Premise' : 'On-Premise',
+      description: language === 'es' ? 'Control total en su entorno.' : 'Full control in your environment.',
+      highlight: true,
+    },
+  ];
+
+  const securityFeatures = language === 'es' ? [
+    'Encriptación en reposo y en tránsito.',
+    'Acceso basado en roles con SSO/SAML.',
+    'Documentación lista para cumplimiento y registros de auditoría.',
+  ] : [
+    'Encryption at rest and in transit.',
+    'Role-based access with SSO/SAML.',
+    'Compliance-ready documentation and audit logs.',
+  ];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -51,7 +60,6 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
     if (!section || !left || !right) return;
 
     const ctx = gsap.context(() => {
-      // Left text animation
       gsap.fromTo(left,
         { y: 30, opacity: 0 },
         {
@@ -61,14 +69,13 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
           ease: 'power2.out',
           scrollTrigger: {
             trigger: left,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Right cards animation
       gsap.fromTo(right,
         { y: 40, opacity: 0 },
         {
@@ -78,15 +85,14 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
           ease: 'power2.out',
           scrollTrigger: {
             trigger: right,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Scan line animation
-      if (scanLine) {
+      if (scanLine && !isMobile) {
         gsap.fromTo(scanLine,
           { y: '-10vh', opacity: 0 },
           {
@@ -105,7 +111,7 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section 
@@ -113,7 +119,6 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
       id="security"
       className={`relative bg-[#05060B] py-[10vh] px-6 lg:px-[6vw] ${className}`}
     >
-      {/* Scan Line Decoration */}
       <div 
         ref={scanLineRef}
         className="absolute right-0 top-1/2 w-[1px] h-[20vh] bg-gradient-to-b from-transparent via-[#2D6BFF] to-transparent opacity-0 hidden lg:block"
@@ -121,13 +126,12 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
 
       <div className="relative z-10">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-          {/* Left Column */}
           <div ref={leftRef} className="lg:w-[48vw]">
             <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-              Security & deployment
+              {language === 'es' ? 'Seguridad y despliegue' : 'Security & deployment'}
             </h2>
             <p className="text-[16px] text-[#A6B3D0] mb-8">
-              Enterprise-grade controls. Flexible deployment.
+              {t.security_desc}
             </p>
 
             <div className="space-y-4">
@@ -140,7 +144,6 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
             </div>
           </div>
 
-          {/* Right Column - Deployment Cards */}
           <div ref={rightRef} className="lg:w-[52vw]">
             <div className="space-y-4">
               {deploymentOptions.map((option) => {
