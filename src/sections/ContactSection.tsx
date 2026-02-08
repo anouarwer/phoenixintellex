@@ -6,7 +6,6 @@ import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { Checkbox } from '../components/ui/checkbox';
-
 import { useLanguage } from '../lib/i18n';
 import { useIsMobile } from '../hooks/use-mobile';
 
@@ -23,7 +22,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
   const panelsRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLElement>(null);
   
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const isMobile = useIsMobile();
 
   const [formData, setFormData] = useState({
@@ -31,8 +30,6 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
     institution: '',
     role: '',
     email: '',
-    portfolioFocus: '',
-    portfolioSize: '',
     message: '',
     privacyAccepted: false,
   });
@@ -148,10 +145,10 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Nombre completo *' : 'Full Name *'}</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{t.contact_form_name}</label>
                 <Input
                   type="text"
-                  placeholder={language === 'es' ? 'Dr. Maria García' : 'Dr. Maria García'}
+                  placeholder="Dr. Maria García"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="bg-[#1F2937] border-[#374151] text-white placeholder:text-[#6B7280]"
@@ -159,7 +156,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Institución *' : 'Institution *'}</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{t.contact_form_institution}</label>
                 <Input
                   type="text"
                   placeholder="Banco Santander / ECB / XYZ Capital"
@@ -170,7 +167,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Cargo / Título *' : 'Role / Title *'}</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{t.contact_form_role}</label>
                 <Input
                   type="text"
                   placeholder="Chief Risk Officer / Head of NPL Workout"
@@ -181,7 +178,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 />
               </div>
               <div>
-                <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Correo de trabajo *' : 'Work Email *'}</label>
+                <label className="block text-sm text-[#A6B3D0] mb-2">{t.contact_form_email}</label>
                 <Input
                   type="email"
                   placeholder="maria.garcia@institution.eu"
@@ -194,9 +191,9 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm text-[#A6B3D0] mb-2">{language === 'es' ? 'Mensaje' : 'Message'}</label>
+              <label className="block text-sm text-[#A6B3D0] mb-2">{t.contact_form_message}</label>
               <Textarea
-                placeholder={language === 'es' ? 'Describa brevemente sus desafíos actuales...' : 'Briefly describe your current challenges...'}
+                placeholder="..."
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="bg-[#1F2937] border-[#374151] text-white placeholder:text-[#6B7280] min-h-[120px]"
@@ -213,9 +210,7 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
                 className="mt-1 border-[#374151] data-[state=checked]:bg-[#2D6BFF] data-[state=checked]:border-[#2D6BFF]"
               />
               <label htmlFor="privacy" className="text-sm text-[#A6B3D0] cursor-pointer">
-                {language === 'es' 
-                  ? 'Reconozco que esta consulta se manejará bajo un acuerdo de confidencialidad (NDA) y que PHOENIX INTELLEX me contactará en la dirección de correo proporcionada.'
-                  : 'I acknowledge that this inquiry will be handled under NDA and that PHOENIX INTELLEX will contact me at the provided email address.'}
+                {t.contact_form_privacy}
               </label>
             </div>
 
@@ -234,12 +229,10 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
               <Mail size={28} className="text-[#2D6BFF]" />
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">
-              {language === 'es' ? 'Gracias por su interés' : 'Thank you for your interest'}
+              {t.contact_success_title}
             </h3>
             <p className="text-[#A6B3D0] max-w-[400px] mx-auto">
-              {language === 'es' 
-                ? 'Hemos recibido su solicitud y nos pondremos en contacto con usted en un plazo de 48-72 horas para programar una demostración.'
-                : 'We have received your request and will contact you within 48-72 hours to schedule a demonstration.'}
+              {t.contact_success_desc}
             </p>
           </div>
         )}

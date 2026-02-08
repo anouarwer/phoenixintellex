@@ -17,27 +17,27 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
   const layersRef = useRef<HTMLDivElement>(null);
   
-  const { language } = useLanguage();
+  const { t, language } = useLanguage();
   const isMobile = useIsMobile();
 
   const steps = [
     {
       number: '01',
       icon: Database,
-      title: language === 'es' ? 'Ingerir' : 'Ingest',
-      description: language === 'es' ? 'Conectar vía API, archivo o almacén.' : 'Connect via API, file, or warehouse.',
+      title: t.system_step_1_title,
+      description: t.system_step_1_desc,
     },
     {
       number: '02',
       icon: Layers,
-      title: language === 'es' ? 'Enriquecer' : 'Enrich',
-      description: language === 'es' ? 'Añadir calificaciones, datos de mercado y superposiciones internas.' : 'Add ratings, market data, and internal overlays.',
+      title: t.system_step_2_title,
+      description: t.system_step_2_desc,
     },
     {
       number: '03',
       icon: Cpu,
-      title: language === 'es' ? 'Simular' : 'Simulate',
-      description: language === 'es' ? 'Ejecutar escenarios y exportar resultados accionables.' : 'Run scenarios and export actionable outputs.',
+      title: t.system_step_3_title,
+      description: t.system_step_3_desc,
     },
   ];
 
@@ -129,15 +129,13 @@ export default function ArchitectureSection({ className = '' }: ArchitectureSect
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div ref={textRef} className="lg:w-[46vw]">
             <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-              {language === 'es' ? 'Arquitectura del modelo de datos' : 'Data model architecture'}
+              {t.system_title}
             </h2>
             <p className="font-mono-label text-[#2D6BFF] mb-6">
               {language === 'es' ? 'INGERIR · ENRIQUECER · SIMULAR · INFORMAR' : 'INGEST · ENRICH · SIMULATE · REPORT'}
             </p>
             <p className="text-[16px] text-[#A6B3D0] leading-relaxed max-w-[500px]">
-              {language === 'es' 
-                ? 'Phoenix normaliza fuentes dispares en un gráfico unificado: contrapartes, instrumentos, garantías y factores macro.'
-                : 'Phoenix normalizes disparate sources into a unified graph: counterparties, instruments, collateral, and macro factors.'}
+              {t.system_desc}
             </p>
           </div>
 

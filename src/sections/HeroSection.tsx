@@ -53,7 +53,6 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
         .to(cta, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' }, '-=0.3')
         .to(scanLines, { opacity: 1, duration: 0.4, ease: 'power2.out' }, '-=0.2');
 
-      // Only enable complex scroll animations on desktop
       if (!isMobile) {
         const scrollTl = gsap.timeline({
           scrollTrigger: {
@@ -62,11 +61,6 @@ export default function HeroSection({ className = '' }: HeroSectionProps) {
             end: '+=120%',
             pin: true,
             scrub: 0.6,
-            onLeaveBack: () => {
-              gsap.set([headline, subhead, body, cta], { opacity: 1, x: 0, y: 0 });
-              gsap.set(scanLines, { opacity: 1, x: 0 });
-              gsap.set(image, { opacity: 1, scale: 1 });
-            }
           }
         });
 

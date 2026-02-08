@@ -9,6 +9,8 @@ import {
   FileCheck, 
   Plug 
 } from 'lucide-react';
+import { useLanguage } from '../lib/i18n';
+import { useIsMobile } from '../hooks/use-mobile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,43 +18,22 @@ interface CapabilitiesSectionProps {
   className?: string;
 }
 
-const capabilities = [
-  {
-    icon: Settings2,
-    title: 'Scenario Builder',
-    description: 'Design multi-factor shocks with intuitive parameters.',
-  },
-  {
-    icon: Network,
-    title: 'Contagion Engine',
-    description: 'Model how defaults and downgrades propagate through networks.',
-  },
-  {
-    icon: Droplets,
-    title: 'Liquidity Lens',
-    description: 'Identify funding gaps and rollover risk under stress.',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Capital Impact',
-    description: 'Translate losses into regulatory capital and ratio projections.',
-  },
-  {
-    icon: FileCheck,
-    title: 'Audit Trail',
-    description: 'Every assumption is versioned, exportable, and reproducible.',
-  },
-  {
-    icon: Plug,
-    title: 'API & Integration',
-    description: 'Connect to data warehouses and risk systems.',
-  },
-];
-
 export default function CapabilitiesSection({ className = '' }: CapabilitiesSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+  
+  const { t } = useLanguage();
+  const isMobile = useIsMobile();
+
+  const capabilities = [
+    { icon: Settings2, title: t.cap_1_title, description: t.cap_1_desc },
+    { icon: Network, title: t.cap_2_title, description: t.cap_2_desc },
+    { icon: Droplets, title: t.cap_3_title, description: t.cap_3_desc },
+    { icon: TrendingUp, title: t.cap_4_title, description: t.cap_4_desc },
+    { icon: FileCheck, title: t.cap_5_title, description: t.cap_5_desc },
+    { icon: Plug, title: t.cap_6_title, description: t.cap_6_desc },
+  ];
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -62,7 +43,6 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
     if (!section || !heading || cards.length === 0) return;
 
     const ctx = gsap.context(() => {
-      // Heading animation
       gsap.fromTo(heading,
         { y: 24, opacity: 0 },
         {
@@ -72,14 +52,13 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
           ease: 'power2.out',
           scrollTrigger: {
             trigger: heading,
-            start: 'top 80%',
-            end: 'top 55%',
-            scrub: true,
+            start: 'top 85%',
+            end: 'top 60%',
+            scrub: 0.6,
           }
         }
       );
 
-      // Cards animation with stagger
       cards.forEach((card) => {
         gsap.fromTo(card,
           { y: 40, opacity: 0 },
@@ -90,9 +69,9 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
             ease: 'power2.out',
             scrollTrigger: {
               trigger: card,
-              start: 'top 85%',
-              end: 'top 60%',
-              scrub: true,
+              start: 'top 90%',
+              end: 'top 70%',
+              scrub: 0.6,
             }
           }
         );
@@ -100,7 +79,7 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section 
@@ -108,7 +87,6 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
       id="capabilities"
       className={`relative bg-[#05060B] py-[10vh] px-6 lg:px-[6vw] ${className}`}
     >
-      {/* Background Grid Decoration */}
       <div 
         className="absolute inset-0 opacity-[0.03]"
         style={{
@@ -121,17 +99,15 @@ export default function CapabilitiesSection({ className = '' }: CapabilitiesSect
       />
 
       <div className="relative z-10">
-        {/* Heading */}
         <div ref={headingRef} className="mb-12">
           <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-            Capabilities
+            {t.capabilities_title}
           </h2>
           <p className="text-[16px] text-[#A6B3D0] max-w-[600px]">
-            A complete toolkit for stress testing, scenario design, and portfolio intelligence.
+            {t.capabilities_subtitle}
           </p>
         </div>
 
-        {/* Feature Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {capabilities.map((capability, index) => {
             const Icon = capability.icon;

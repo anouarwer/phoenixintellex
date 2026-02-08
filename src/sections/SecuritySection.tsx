@@ -17,38 +17,34 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
   const rightRef = useRef<HTMLDivElement>(null);
   const scanLineRef = useRef<HTMLDivElement>(null);
   
-  const { t, language } = useLanguage();
+  const { t } = useLanguage();
   const isMobile = useIsMobile();
 
   const deploymentOptions = [
     {
       icon: Cloud,
-      title: language === 'es' ? 'SaaS en la Nube' : 'Cloud SaaS',
-      description: language === 'es' ? 'Tiempo de valor más rápido.' : 'Fastest time-to-value.',
+      title: t.sec_deploy_saas,
+      description: t.sec_deploy_saas_desc,
       highlight: false,
     },
     {
       icon: Server,
-      title: language === 'es' ? 'Nube Privada' : 'Private Cloud',
-      description: language === 'es' ? 'Infraestructura dedicada.' : 'Dedicated infrastructure.',
+      title: t.sec_deploy_private,
+      description: t.sec_deploy_private_desc,
       highlight: false,
     },
     {
       icon: Lock,
-      title: language === 'es' ? 'On-Premise' : 'On-Premise',
-      description: language === 'es' ? 'Control total en su entorno.' : 'Full control in your environment.',
+      title: t.sec_deploy_onprem,
+      description: t.sec_deploy_onprem_desc,
       highlight: true,
     },
   ];
 
-  const securityFeatures = language === 'es' ? [
-    'Encriptación en reposo y en tránsito.',
-    'Acceso basado en roles con SSO/SAML.',
-    'Documentación lista para cumplimiento y registros de auditoría.',
-  ] : [
-    'Encryption at rest and in transit.',
-    'Role-based access with SSO/SAML.',
-    'Compliance-ready documentation and audit logs.',
+  const securityFeatures = [
+    t.sec_feat_1,
+    t.sec_feat_2,
+    t.sec_feat_3,
   ];
 
   useLayoutEffect(() => {
@@ -128,7 +124,7 @@ export default function SecuritySection({ className = '' }: SecuritySectionProps
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
           <div ref={leftRef} className="lg:w-[48vw]">
             <h2 className="text-[clamp(32px,4vw,48px)] font-bold text-white mb-4">
-              {language === 'es' ? 'Seguridad y despliegue' : 'Security & deployment'}
+              {t.security_title}
             </h2>
             <p className="text-[16px] text-[#A6B3D0] mb-8">
               {t.security_desc}
