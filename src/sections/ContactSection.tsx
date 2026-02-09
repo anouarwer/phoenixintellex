@@ -237,24 +237,15 @@ export default function ContactSection({ className = '' }: ContactSectionProps) 
           </div>
         )}
 
-        <div ref={panelsRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+        <div ref={panelsRef} className="grid grid-cols-1 gap-6 mb-16">
           <div className="feature-card">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 rounded-lg bg-[#2D6BFF]/10 flex items-center justify-center">
                 <Mail size={20} className="text-[#2D6BFF]" />
               </div>
-              <h3 className="text-lg font-semibold text-white">Sales</h3>
+              <h3 className="text-lg font-semibold text-white">Contact</h3>
             </div>
-            <p className="text-[14px] text-[#A6B3D0]">sales@phoenixintellex.com</p>
-          </div>
-          <div className="feature-card">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg bg-[#2D6BFF]/10 flex items-center justify-center">
-                <Mail size={20} className="text-[#2D6BFF]" />
-              </div>
-              <h3 className="text-lg font-semibold text-white">Press</h3>
-            </div>
-            <p className="text-[14px] text-[#A6B3D0]">media@phoenixintellex.com</p>
+            <p className="text-[14px] text-[#A6B3D0]">founder@phoenixintellex.com</p>
           </div>
         </div>
 
