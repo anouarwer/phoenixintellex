@@ -7,7 +7,7 @@
     <meta name="description" content="Bayesian-quant pricing engine for European distressed debt portfolios. EBA-native. Audit-ready. Institutional precision in 60 seconds.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
@@ -17,271 +17,214 @@
             --border: #1C1C1C;
             --border-focus: #3A3A3A;
             --text-primary: #F0F0F0;
-            --text-secondary: #666666;
-            --text-dim: #2E2E2E;
+            --text-secondary: #888888;
             --accent: #FFFFFF;
+            --font-main: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-heading: 'Space Grotesk', sans-serif;
         }
-        html { scroll-behavior: smooth; }
         body {
-            background: var(--bg-base);
+            background-color: var(--bg-base);
             color: var(--text-primary);
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            line-height: 1.75;
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
-            opacity: 0;
-            animation: fadeIn 0.4s ease-in forwards;
         }
-        @keyframes fadeIn { to { opacity: 1; } }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-        a { color: inherit; text-decoration: none; }
-        .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
-        .t-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555555; letter-spacing: 4px; text-transform: uppercase; }
-        .t-body { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); line-height: 1.75; max-width: 420px; }
-
-        /* NAVIGATION */
-        .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            height: 56px;
-            background: var(--bg-base);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 24px;
-        }
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-        }
-        .logo-img {
-            height: 24px;
-            width: auto;
-            filter: brightness(0) invert(1);
-        }
-        .logo-text-group {
-            display: flex;
-            align-items: center;
-        }
-        .logo-phoenix { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; }
-        .logo-sep { width: 1px; height: 18px; background: #333333; margin: 0 14px; }
-        .logo-intellex { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; color: #555555; letter-spacing: 4px; }
+        .wrap { width: 90%; max-width: 1200px; margin: 0 auto; }
         
-        .btn-nav { background: var(--text-primary); color: var(--bg-base); border: none; padding: 8px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
-        .btn-nav-outline { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 8px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; }
+        /* Navigation */
+        .nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: 80px;
+            background: rgba(8, 8, 8, 0.8); backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border); z-index: 1000;
+            display: flex; align-items: center;
+        }
+        .nav-content { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--accent); font-family: var(--font-heading); font-weight: 500; font-size: 1.2rem; letter-spacing: -0.02em; }
+        .logo svg { width: 32px; height: 32px; fill: var(--accent); }
+        .nav-links { display: flex; gap: 40px; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.05em; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+        .btn-request { background: var(--accent); color: #000; padding: 10px 20px; border: none; font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600; cursor: pointer; border-radius: 2px; transition: opacity 0.2s; }
+        .btn-request:hover { opacity: 0.9; }
 
-        /* HERO */
-        .hero { min-height: 100vh; background: var(--bg-base); padding-top: 56px; padding-bottom: 10vh; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
-        .hero-inner { max-width: 680px; }
-        .hero-status { display: inline-block; margin-bottom: 32px; }
-        .hero-status::after { content: "▋"; animation: blink 1s infinite; margin-left: 2px; }
-        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 56px; font-weight: 700; line-height: 1.05; letter-spacing: -2.5px; color: var(--text-primary); margin-bottom: 20px; }
-        .model-stack { display: flex; flex-wrap: wrap; margin-top: 24px; }
-        .model-tag { background: var(--bg-surface); border: 1px solid var(--border); padding: 4px 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin: 4px 4px 4px 0; }
-        .cta-row { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
-        .btn-primary { background: var(--text-primary); color: var(--bg-base); border: none; padding: 14px 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
-        .btn-secondary { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 14px 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
-        .trust-line { margin-top: 20px; font-size: 11px; color: #484848; }
+        /* Hero */
+        .hero { padding: 220px 0 120px; border-bottom: 1px solid var(--border); }
+        .hero-label { font-family: var(--font-mono); color: var(--text-secondary); font-size: 0.7rem; letter-spacing: 0.2em; margin-bottom: 24px; text-transform: uppercase; }
+        h1 { font-family: var(--font-heading); font-size: clamp(2.5rem, 8vw, 4.5rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 40px; max-width: 900px; }
+        .hero-desc { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin-bottom: 48px; }
 
-        /* METRICS */
-        .metrics { background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 0; }
-        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-        .metric-item { text-align: center; padding: 0 24px; border-right: 1px solid var(--border); }
-        .metric-item:last-child { border-right: none; }
-        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--text-primary); }
-        .metric-label { font-size: 10px; color: #505050; text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; }
+        /* Pricing Tool Section (Mock UI) */
+        .tool-preview { background: var(--bg-surface); border: 1px solid var(--border); padding: 40px; border-radius: 4px; margin-top: 80px; position: relative; }
+        .tool-header { display: flex; justify-content: space-between; margin-bottom: 32px; padding-bottom: 20px; border-bottom: 1px solid var(--border); }
+        .tool-title { font-family: var(--font-mono); font-size: 0.8rem; color: var(--text-secondary); }
+        
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; margin-top: 100px; padding-bottom: 100px; }
+        .card { padding: 40px; border-left: 1px solid var(--border); }
+        .card-num { font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 20px; }
+        .card h3 { font-family: var(--font-heading); font-weight: 500; margin-bottom: 16px; }
+        .card p { color: var(--text-secondary); font-size: 0.95rem; }
 
-        /* FEATURES */
-        .features { background: var(--bg-base); padding: 100px 0; border-bottom: 1px solid var(--border); }
-        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
-        .feature-col { padding: 0 32px; border-right: 1px solid var(--border); }
-        .feature-col:first-child { padding-left: 0; }
-        .feature-col:last-child { border-right: none; padding-right: 0; }
-        .feature-col h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
-        .feature-stats { display: flex; gap: 32px; }
-        .feature-stat-pair { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4A4A4A; }
-        .feature-stat-pair span { color: #444444; }
+        /* Form View */
+        #request-view, #terms-view { display: none; padding: 180px 0 100px; min-height: 80vh; }
+        .form-container { max-width: 600px; margin: 0 auto; }
+        .form-group { margin-bottom: 32px; }
+        label { display: block; font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-secondary); margin-bottom: 12px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; background: var(--bg-surface); border: 1px solid var(--border); padding: 16px; color: var(--text-primary); font-family: var(--font-main); outline: none; border-radius: 2px; }
+        input:focus { border-color: var(--border-focus); }
+        .btn-submit { width: 100%; background: var(--accent); color: #000; border: none; padding: 20px; font-family: var(--font-mono); font-weight: 600; cursor: pointer; margin-top: 20px; }
 
-        /* COUNTERPARTIES */
-        .counterparties { background: var(--bg-surface); padding: 100px 0; border-bottom: 1px solid var(--border); }
-        .cp-grid { display: grid; grid-template-columns: 40% 60%; gap: 48px; }
-        .cp-left h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--text-primary); line-height: 1.15; margin-top: 16px; }
-        .cp-item { border-top: 1px solid var(--border); padding: 24px 0; display: grid; grid-template-columns: 40px 1fr 24px; gap: 12px; }
-        .cp-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #505050; }
-        .cp-title { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
-        .cp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+        /* Terms */
+        .terms-content { max-width: 800px; margin: 0 auto; }
+        .terms-content h2 { font-family: var(--font-heading); margin: 40px 0 20px; font-weight: 400; }
+        .section-num { color: var(--text-secondary); font-family: var(--font-mono); margin-right: 10px; }
 
-        /* ACCESS FORM */
-        .access-form { background: var(--bg-base); padding: 100px 0; border-bottom: 1px solid var(--border); }
-        .form-inner { max-width: 600px; margin: 0 auto; text-align: center; }
-        .form-subtitle { font-size: 13px; color: #555555; margin-bottom: 32px; }
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; }
-        .form-field { background: var(--bg-surface); border: 1px solid var(--border); height: 44px; padding: 0 14px; color: var(--text-primary); font-size: 13px; width: 100%; outline: none; }
-        .form-field::placeholder { color: #484848; }
-        .form-field:focus { border-color: var(--border-focus); }
-        .btn-submit { width: 100%; margin-top: 24px; background: var(--text-primary); color: var(--bg-base); border: none; height: 50px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; font-weight: 600; }
-        .form-legal { margin-top: 16px; font-size: 11px; color: #484848; }
+        /* Footer */
+        .footer { padding: 60px 0; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.75rem; font-family: var(--font-mono); }
+        .footer-grid { display: flex; justify-content: space-between; }
 
-        /* TERMS VIEW */
-        .terms-view-container { max-width: 720px; margin: 0 auto; padding: 80px 24px 120px; }
-        .terms-view-container h1 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
-        .terms-view-container h2 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--text-primary); margin-top: 48px; margin-bottom: 16px; padding-top: 32px; border-top: 1px solid var(--border); }
-        .terms-view-container p { color: var(--text-secondary); margin-bottom: 16px; }
-        .section-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2E2E2E; margin-right: 8px; }
-
-        /* FOOTER */
-        .footer { background: var(--bg-base); border-top: 1px solid var(--border); padding: 24px 0; }
-        .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; }
-        .footer-left, .footer-center, .footer-right { font-size: 11px; color: #2A2A2A; }
-        .footer-center { text-align: center; letter-spacing: 1px; }
-        .footer-right { text-align: right; }
-
-        @media(max-width:900px) {
-            .hero h1 { font-size: 36px; }
-            .metrics-grid { grid-template-columns: 1fr 1fr; }
-            .features-grid { grid-template-columns: 1fr; }
-            .cp-grid { grid-template-columns: 1fr; }
-            .form-grid { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 8px; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            h1 { font-size: 2.8rem; }
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="navbar-logo" onclick="showView('home')">
-            <!-- Logo mدمج -->
-            <img src="/images/phoenix_intellex_logo.jpg" alt="Phoenix Logo" class="logo-img">
-            <div class="logo-text-group">
-                <span class="logo-phoenix">PHOENIX</span>
-                <span class="logo-sep"></span>
-                <span class="logo-intellex">INTELLEX</span>
+
+    <nav class="nav">
+        <div class="wrap">
+            <div class="nav-content">
+                <a href="/" class="logo" onclick="event.preventDefault(); showView('home')">
+                    <svg viewBox="0 0 100 100">
+                        <path d="M50 10L15 85H85L50 10ZM50 30L70 75H30L50 30Z"/>
+                    </svg>
+                    <span>PHOENIX ANALYTICS</span>
+                </a>
+                <div class="nav-links">
+                    <a href="#engine" onclick="scrollToElement('engine')">PRICING ENGINE</a>
+                    <a href="#compliance" onclick="scrollToElement('compliance')">COMPLIANCE</a>
+                    <a href="javascript:showView('terms')">TERMS</a>
+                </div>
+                <button class="btn-request" id="btn-request" onclick="showView('request')">REQUEST ACCESS &rarr;</button>
+                <button class="btn-request" id="btn-back" style="display:none" onclick="showView('home')">BACK TO SYSTEM</button>
             </div>
-        </div>
-        <div id="nav-actions">
-            <button class="btn-nav" id="btn-request" onclick="scrollToElement('access')">REQUEST ACCESS</button>
-            <button class="btn-nav-outline" id="btn-back" style="display:none" onclick="showView('home')">← BACK</button>
         </div>
     </nav>
 
-    <!-- HOME VIEW -->
-    <div id="home-view">
+    <main id="home-view">
         <section class="hero">
             <div class="wrap">
-                <div class="hero-inner">
-                    <span class="t-label hero-status">// INSTITUTIONAL — RESTRICTED ACCESS</span>
-                    <h1>NPL Portfolio Pricing.<br>Institutional Precision.<br>60 Seconds.</h1>
-                    <p class="t-body">Bayesian-quant pricing engine for European distressed debt portfolios. EBA-native. Audit-ready.</p>
-                    <div class="model-stack">
-                        <span class="model-tag">UNCERTAINTY-AWARE</span>
-                        <span class="model-tag">STRESS-TESTED</span>
-                        <span class="model-tag">AUDIT-NATIVE</span>
-                        <span class="model-tag">EBA-COMPLIANT</span>
+                <div class="hero-label">01 // QUANTITATIVE DISTRESSED DEBT ANALYSIS</div>
+                <h1>Institutional NPL Pricing <br>at Machine Velocity.</h1>
+                <p class="hero-desc">Deploy Bayesian-quant models to value European non-performing loan portfolios. Built for institutional asset managers, banks, and private equity firms.</p>
+                
+                <div class="tool-preview" id="engine">
+                    <div class="tool-header">
+                        <div class="tool-title">LIVE_VALUATION_ENGINE_V4.2</div>
+                        <div class="tool-title" style="color: #00FF00;">SYSTEM: ACTIVE</div>
                     </div>
-                    <div class="cta-row">
-                        <button class="btn-primary" onclick="scrollToElement('access')">REQUEST PRIVATE PILOT</button>
-                        <button class="btn-secondary" onclick="scrollToElement('features')">VIEW DOCUMENTATION</button>
-                    </div>
-                    <p class="trust-line">Corporate email required · NDA applies · EU-27</p>
-                </div>
-            </div>
-        </section>
-
-        <section class="metrics">
-            <div class="wrap">
-                <div class="metrics-grid">
-                    <div class="metric-item"><div class="metric-value">&lt;60s</div><div class="metric-label">Pricing Latency</div></div>
-                    <div class="metric-item"><div class="metric-value">18,500+</div><div class="metric-label">Validated Assets</div></div>
-                    <div class="metric-item"><div class="metric-value">BASE·ADV·SEV</div><div class="metric-label">Stress Scenarios</div></div>
-                    <div class="metric-item"><div class="metric-value">EU-27</div><div class="metric-label">Regulatory Scope</div></div>
-                </div>
-            </div>
-        </section>
-
-        <section class="features" id="features">
-            <div class="wrap">
-                <div class="features-grid">
-                    <div class="feature-col">
-                        <span class="t-label">LAYER 01 / PRICING</span>
-                        <h3>Granular Cash Flow Modeling</h3>
-                        <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Proprietary multi-model pricing engine with documented confidence intervals.</p>
-                        <p class="t-body">Precision-weighted posterior estimates with calibrated uncertainty bounds across all asset classes.</p>
-                    </div>
-                    <div class="feature-col">
-                        <span class="t-label">LAYER 02 / STRESS</span>
-                        <h3>Macro-Economic Stress Testing</h3>
-                        <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Real-time stress simulation across BASE, ADVERSE, and SEVERE scenarios.</p>
-                        <p class="t-body">Three regulatory scenarios with four shock types. Recovery rate shifts and haircuts applied simultaneously.</p>
-                    </div>
-                    <div class="feature-col">
-                        <span class="t-label">LAYER 03 / AUDIT</span>
-                        <h3>Regulatory Compliance Layer</h3>
-                        <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Every pricing decision logged with an immutable, regulator-ready audit trail.</p>
-                        <p class="t-body">Full lifecycle governance with model registry. 20 reason codes across 4 languages.</p>
+                    <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--text-secondary);">
+                        > SELECT PORTFOLIO_ID: EBA_NPL_SPANISH_RESIDENTIAL_2024<br>
+                        > RUNNING MONTE CARLO SIMULATION [100,000 ITERATIONS]...<br>
+                        > CALCULATING NET PRESENT VALUE...<br>
+                        <br>
+                        <span style="color: var(--accent); font-size: 1.2rem;">GROSS BOOK VALUE: €425,000,000</span><br>
+                        <span style="color: #00FF00; font-size: 1.5rem;">IMPLIED PRICE: 14.82%</span>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="access-form" id="access">
-            <div class="wrap">
-                <div class="form-inner">
-                    <span class="t-label">INSTITUTIONAL ACCESS REQUEST</span>
-                    <p class="form-subtitle">Qualified institutions only. Strict vetting process.</p>
-                    <form id="pilotForm">
-                        <div class="form-grid">
-                            <input type="email" name="email" class="form-field" placeholder="Corporate Email" required>
-                            <input type="text" name="institution" class="form-field" placeholder="Institution Name" required>
-                            <select name="role" class="form-field" required>
-                                <option value="" disabled selected>Your Role</option>
-                                <option>Managing Director</option><option>Portfolio Manager</option><option>Risk Officer</option>
-                            </select>
-                            <select name="aum" class="form-field" required>
-                                <option value="" disabled selected>AUM Range</option>
-                                <option>100M - 1B</option><option>1B - 10B</option><option>10B+</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn-submit" id="submitBtn">SUBMIT ACCESS REQUEST →</button>
-                    </form>
-                    <p class="form-legal">By submitting you agree to our <a href="javascript:showView('terms')" style="color:#555555;text-decoration:underline">Terms of Service</a> and NDA.</p>
+        <section class="grid" id="compliance">
+            <div class="wrap" style="display: contents;">
+                <div class="card">
+                    <div class="card-num">02</div>
+                    <h3>EBA Compliant</h3>
+                    <p>Standardized data mapping for European Banking Authority NPL templates. Seamless audit trails for regulatory reporting.</p>
+                </div>
+                <div class="card">
+                    <div class="card-num">03</div>
+                    <h3>Bayesian Inference</h3>
+                    <p>Sophisticated recovery forecasting using hierarchical Bayesian models trained on decade-long European workout data.</p>
+                </div>
+                <div class="card">
+                    <div class="card-num">04</div>
+                    <h3>Cloud-Native Security</h3>
+                    <p>SaaS deployment with end-to-end encryption. SOC2 compliant infrastructure for sensitive financial datasets.</p>
                 </div>
             </div>
         </section>
-    </div>
+    </main>
 
-    <!-- TERMS VIEW -->
-    <div id="terms-view" style="display:none">
-        <div class="terms-view-container">
-            <span class="t-label">LEGAL</span>
-            <h1>Terms of Service</h1>
-            <p style="font-family:'JetBrains Mono';font-size:11px;color:#444444;margin-bottom:40px">Version 1.0 · Feb 2026</p>
-            
-            <h2><span class="section-num">01</span> Decision Support Tool Only</h2>
-            <p>Phoenix is a quantitative analytical software platform designed to assist financial professionals. It is classified exclusively as a Decision Support Tool. Phoenix is NOT a licensed investment advisor, portfolio manager, or regulated financial service.</p>
-            
-            <h2><span class="section-num">02</span> No Investment Advice</h2>
-            <p>Nothing within the Platform constitutes investment, financial, legal, or tax advice. All outputs (recovery rates, bids, metrics) are INFORMATIONAL ESTIMATES ONLY and not recommendations to transact.</p>
-            
-            <h2><span class="section-num">03</span> Limitation of Liability</h2>
-            <p>In no event shall Phoenix Analytics Ltd be liable for indirect, incidental, or consequential damages, including investment losses or loss of profits arising from the use of the Platform.</p>
-            
-            <div style="margin-top:60px">
-                <button class="btn-nav" onclick="showView('home')">BACK TO HOME</button>
+    <section id="request-view">
+        <div class="wrap">
+            <div class="form-container">
+                <div class="hero-label">GATEWAY // ACCESS REQUEST</div>
+                <h2 style="font-family: var(--font-heading); font-size: 2.5rem; margin-bottom: 40px;">Request Institutional Access</h2>
+                <form id="pilotForm">
+                    <div class="form-group">
+                        <label>Institutional Email</label>
+                        <input type="email" placeholder="name@firm.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Firm Type</label>
+                        <select>
+                            <option>Investment Bank</option>
+                            <option>Private Equity Firm</option>
+                            <option>Hedge Fund</option>
+                            <option>Asset Manager</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Message / Purpose</label>
+                        <textarea rows="4" placeholder="Briefly describe your firm's interest in the pricing engine."></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit" id="submitBtn">SUBMIT ACCESS REQUEST &rarr;</button>
+                </form>
             </div>
         </div>
-    </div>
+    </section>
+
+    <section id="terms-view">
+        <div class="wrap">
+            <div class="terms-content">
+                <div class="hero-label">LEGAL // TERMS OF SERVICE</div>
+                <h2 style="font-size: 3rem;">Institutional Terms</h2>
+                
+                <p style="color: var(--text-secondary); margin-bottom: 40px;">Effective Date: January 1, 2024</p>
+
+                <div class="section">
+                    <h2><span class="section-num">01</span> Purpose of Platform</h2>
+                    <p>Phoenix Analytics provides quantitative valuation tools for financial institutions. The outputs are for informational purposes and do not constitute investment advice.</p>
+                </div>
+
+                <div class="section">
+                    <h2><span class="section-num">02</span> Data Privacy</h2>
+                    <p>Client data is processed in accordance with GDPR and institutional confidentiality agreements. No third-party data sharing is permitted without explicit consent.</p>
+                </div>
+
+                <div class="section">
+                    <h2><span class="section-num">03</span> Limitation of Liability</h2>
+                    <p>Phoenix Analytics Ltd shall not be liable for indirect, incidental, or consequential damages, including investment losses, arising from the use of the platform.</p>
+                </div>
+
+                <div style="margin-top: 60px;">
+                    <button class="btn-request" onclick="showView('home')">BACK TO HOME</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer class="footer">
         <div class="wrap">
             <div class="footer-grid">
-                <div class="footer-left">Phoenix Analytics Ltd. © 2026</div>
-                <div class="footer-center">
-                    <a href="javascript:showView('terms')" style="color:#2A2A2A">TERMS</a> · LEGAL · PRIVACY
+                <div>Phoenix Analytics Ltd. © 2026</div>
+                <div>
+                    <a href="javascript:showView('terms')" style="color: #888; text-decoration: none;">TERMS</a> · LEGAL · PRIVACY
                 </div>
-                <div class="footer-right">SYSTEM STATUS: OPERATIONAL</div>
+                <div>SYSTEM STATUS: OPERATIONAL</div>
             </div>
         </div>
     </footer>
@@ -289,22 +232,29 @@
     <script>
         function showView(view) {
             window.scrollTo(0,0);
-            if (view === 'terms') {
-                document.getElementById('home-view').style.display = 'none';
+            const views = ['home-view', 'request-view', 'terms-view'];
+            views.forEach(v => document.getElementById(v).style.display = 'none');
+            
+            if(view === 'home') {
+                document.getElementById('home-view').style.display = 'block';
+                document.getElementById('btn-request').style.display = 'block';
+                document.getElementById('btn-back').style.display = 'none';
+            } else if(view === 'request') {
+                document.getElementById('request-view').style.display = 'block';
+                document.getElementById('btn-request').style.display = 'none';
+                document.getElementById('btn-back').style.display = 'block';
+            } else if(view === 'terms') {
                 document.getElementById('terms-view').style.display = 'block';
                 document.getElementById('btn-request').style.display = 'none';
                 document.getElementById('btn-back').style.display = 'block';
-            } else {
-                document.getElementById('home-view').style.display = 'block';
-                document.getElementById('terms-view').style.display = 'none';
-                document.getElementById('btn-request').style.display = 'block';
-                document.getElementById('btn-back').style.display = 'none';
             }
         }
+
         function scrollToElement(id) {
             const el = document.getElementById(id);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
+
         document.getElementById('pilotForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
@@ -313,10 +263,9 @@
             btn.style.background = '#1C1C1C';
             btn.style.color = '#666666';
             
-            // Mock submission
             setTimeout(() => {
                 alert('Access request received. Our institutional team will contact you shortly.');
-                btn.textContent = 'SUBMIT ACCESS REQUEST →';
+                btn.textContent = 'SUBMIT ACCESS REQUEST \u2192';
                 btn.disabled = false;
                 btn.style.background = '#F0F0F0';
                 btn.style.color = '#080808';
