@@ -1,26 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Phoenix Analytics — Institutional NPL Pricing Engine</title>
-    <meta name="description"
-        content="Bayesian-quant pricing engine for European distressed debt portfolios. EBA-native. Audit-ready. Institutional precision in 60 seconds.">
+    <meta name="description" content="Bayesian-quant pricing engine for European distressed debt portfolios. EBA-native. Audit-ready. Institutional precision in 60 seconds.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        *,
-        *::before,
-        *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box
-        }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         :root {
             --bg-base: #080808;
             --bg-surface: #0E0E0E;
@@ -32,11 +21,7 @@
             --text-dim: #2E2E2E;
             --accent: #FFFFFF;
         }
-
-        html {
-            scroll-behavior: smooth
-        }
-
+        html { scroll-behavior: smooth; }
         body {
             background: var(--bg-base);
             color: var(--text-primary);
@@ -44,50 +29,17 @@
             font-size: 14px;
             line-height: 1.75;
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             opacity: 0;
             animation: fadeIn 0.4s ease-in forwards;
         }
+        @keyframes fadeIn { to { opacity: 1; } }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        a { color: inherit; text-decoration: none; }
+        .wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+        .t-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #555555; letter-spacing: 4px; text-transform: uppercase; }
+        .t-body { font-family: 'Inter', sans-serif; font-size: 14px; color: var(--text-secondary); line-height: 1.75; max-width: 420px; }
 
-        @keyframes fadeIn {
-            to {
-                opacity: 1
-            }
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1 }
-            50% { opacity: 0 }
-        }
-
-        a {
-            color: inherit;
-            text-decoration: none
-        }
-
-        .wrap {
-            max-width: 1160px;
-            margin: 0 auto;
-            padding: 0 24px
-        }
-
-        .t-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #555555;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-        }
-
-        .t-body {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.75;
-            max-width: 420px;
-        }
-
-        /* ── NAVIGATION ── */
+        /* NAVIGATION */
         .navbar {
             position: sticky;
             top: 0;
@@ -100,425 +52,118 @@
             justify-content: space-between;
             padding: 0 24px;
         }
-
         .navbar-logo {
             display: flex;
             align-items: center;
-            gap: 0;
-            cursor: pointer;
-        }
-
-        .navbar-logo .logo-phoenix {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: 2px;
-        }
-
-        .navbar-logo .logo-sep {
-            width: 1px;
-            height: 18px;
-            background: #333333;
-            margin: 0 14px;
-        }
-
-        .navbar-logo .logo-intellex {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 400;
-            color: #555555;
-            letter-spacing: 4px;
-        }
-
-        .btn-nav {
-            background: var(--text-primary);
-            color: var(--bg-base);
-            border: none;
-            padding: 8px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        .btn-nav-outline {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            padding: 8px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        /* ── HERO ── */
-        .hero {
-            min-height: 100vh;
-            background: var(--bg-base);
-            padding-top: 56px;
-            padding-bottom: 10vh;
-            display: flex;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .hero-inner { max-width: 680px }
-
-        .hero-status {
-            display: inline-block;
-            margin-bottom: 32px;
-        }
-        .hero-status::after {
-            content: "▋";
-            animation: blink 1s infinite;
-            margin-left: 2px;
-        }
-
-        .hero h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 56px;
-            font-weight: 700;
-            line-height: 1.05;
-            letter-spacing: -2.5px;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-        }
-
-        .model-stack {
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 24px;
-        }
-
-        .model-tag {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            padding: 4px 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin: 4px 4px 4px 0;
-        }
-
-        .cta-row {
-            display: flex;
-            gap: 16px;
-            margin-top: 40px;
-            flex-wrap: wrap;
-        }
-
-        .btn-primary {
-            background: var(--text-primary);
-            color: var(--bg-base);
-            border: none;
-            padding: 14px 32px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-            padding: 14px 32px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        .trust-line {
-            margin-top: 20px;
-            font-size: 11px;
-            color: #484848;
-        }
-
-        /* ── METRICS ── */
-        .metrics {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-            padding: 40px 0;
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-        }
-
-        .metric-item {
-            text-align: center;
-            padding: 0 24px;
-            border-right: 1px solid var(--border);
-        }
-
-        .metric-item:last-child { border-right: none }
-
-        .metric-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 32px;
-            color: var(--text-primary);
-        }
-
-        .metric-label {
-            font-size: 10px;
-            color: #505050;
-            text-transform: uppercase;
-            margin-top: 6px;
-            letter-spacing: 1px;
-        }
-
-        /* ── FEATURES ── */
-        .features {
-            background: var(--bg-base);
-            padding: 100px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-        }
-
-        .feature-col {
-            padding: 0 32px;
-            border-right: 1px solid var(--border);
-        }
-
-        .feature-col:first-child { padding-left: 0 }
-        .feature-col:last-child { border-right: none; padding-right: 0 }
-
-        .feature-col h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 16px;
-        }
-
-        .feature-stats {
-            display: flex;
-            gap: 32px;
-        }
-
-        .feature-stat-pair {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #4A4A4A;
-        }
-
-        .feature-stat-pair span { color: #444444 }
-
-        /* ── COUNTERPARTIES ── */
-        .counterparties {
-            background: var(--bg-surface);
-            padding: 100px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .cp-grid {
-            display: grid;
-            grid-template-columns: 40% 60%;
-            gap: 48px;
-        }
-
-        .cp-left h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-primary);
-            line-height: 1.15;
-            margin-top: 16px;
-        }
-
-        .cp-item {
-            border-top: 1px solid var(--border);
-            padding: 24px 0;
-            display: grid;
-            grid-template-columns: 40px 1fr 24px;
             gap: 12px;
-        }
-
-        .cp-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #505050;
-        }
-
-        .cp-title {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 4px;
-        }
-
-        .cp-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* ── FORM ── */
-        .access-form {
-            background: var(--bg-surface);
-            padding: 100px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .form-inner {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .form-subtitle {
-            font-size: 13px;
-            color: #555555;
-            margin-bottom: 32px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            text-align: left;
-        }
-
-        .form-field {
-            background: var(--bg-base);
-            border: 1px solid var(--border);
-            height: 44px;
-            padding: 0 14px;
-            color: var(--text-primary);
-            font-size: 13px;
-            width: 100%;
-            outline: none;
-        }
-
-        .form-field::placeholder { color: #484848 }
-        .form-field:focus { border-color: var(--border-focus) }
-
-        .btn-submit {
-            width: 100%;
-            margin-top: 24px;
-            background: var(--text-primary);
-            color: var(--bg-base);
-            border: none;
-            height: 50px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
             cursor: pointer;
-            font-weight: 600;
         }
-
-        .form-legal {
-            margin-top: 16px;
-            font-size: 11px;
-            color: #484848;
+        .logo-img {
+            height: 24px;
+            width: auto;
+            filter: brightness(0) invert(1);
         }
-
-        /* ── TERMS VIEW ── */
-        .terms-view {
-            max-width: 720px;
-            margin: 0 auto;
-            padding: 80px 24px 120px;
-        }
-
-        .terms-view h1 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 36px;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .terms-view h2 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-top: 48px;
-            margin-bottom: 16px;
-            padding-top: 32px;
-            border-top: 1px solid var(--border);
-        }
-
-        .terms-view h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-top: 24px;
-            margin-bottom: 8px;
-        }
-
-        .terms-view p {
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-        }
-
-        .section-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: #2E2E2E;
-            margin-right: 8px;
-        }
-
-        /* ── FOOTER ── */
-        .footer {
-            background: var(--bg-base);
-            border-top: 1px solid var(--border);
-            padding: 24px 0;
-        }
-
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+        .logo-text-group {
+            display: flex;
             align-items: center;
         }
+        .logo-phoenix { font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; }
+        .logo-sep { width: 1px; height: 18px; background: #333333; margin: 0 14px; }
+        .logo-intellex { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 400; color: #555555; letter-spacing: 4px; }
+        
+        .btn-nav { background: var(--text-primary); color: var(--bg-base); border: none; padding: 8px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        .btn-nav-outline { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 8px 20px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; }
 
-        .footer-left, .footer-center, .footer-right {
-            font-size: 11px;
-            color: #2A2A2A;
-        }
+        /* HERO */
+        .hero { min-height: 100vh; background: var(--bg-base); padding-top: 56px; padding-bottom: 10vh; display: flex; align-items: center; border-bottom: 1px solid var(--border); }
+        .hero-inner { max-width: 680px; }
+        .hero-status { display: inline-block; margin-bottom: 32px; }
+        .hero-status::after { content: "▋"; animation: blink 1s infinite; margin-left: 2px; }
+        .hero h1 { font-family: 'Space Grotesk', sans-serif; font-size: 56px; font-weight: 700; line-height: 1.05; letter-spacing: -2.5px; color: var(--text-primary); margin-bottom: 20px; }
+        .model-stack { display: flex; flex-wrap: wrap; margin-top: 24px; }
+        .model-tag { background: var(--bg-surface); border: 1px solid var(--border); padding: 4px 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-dim); text-transform: uppercase; margin: 4px 4px 4px 0; }
+        .cta-row { display: flex; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+        .btn-primary { background: var(--text-primary); color: var(--bg-base); border: none; padding: 14px 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        .btn-secondary { background: transparent; color: var(--text-secondary); border: 1px solid var(--border); padding: 14px 32px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; }
+        .trust-line { margin-top: 20px; font-size: 11px; color: #484848; }
 
-        .footer-center { text-align: center; letter-spacing: 1px }
-        .footer-right { text-align: right }
+        /* METRICS */
+        .metrics { background: var(--bg-surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 40px 0; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+        .metric-item { text-align: center; padding: 0 24px; border-right: 1px solid var(--border); }
+        .metric-item:last-child { border-right: none; }
+        .metric-value { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--text-primary); }
+        .metric-label { font-size: 10px; color: #505050; text-transform: uppercase; margin-top: 6px; letter-spacing: 1px; }
+
+        /* FEATURES */
+        .features { background: var(--bg-base); padding: 100px 0; border-bottom: 1px solid var(--border); }
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+        .feature-col { padding: 0 32px; border-right: 1px solid var(--border); }
+        .feature-col:first-child { padding-left: 0; }
+        .feature-col:last-child { border-right: none; padding-right: 0; }
+        .feature-col h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; }
+        .feature-stats { display: flex; gap: 32px; }
+        .feature-stat-pair { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #4A4A4A; }
+        .feature-stat-pair span { color: #444444; }
+
+        /* COUNTERPARTIES */
+        .counterparties { background: var(--bg-surface); padding: 100px 0; border-bottom: 1px solid var(--border); }
+        .cp-grid { display: grid; grid-template-columns: 40% 60%; gap: 48px; }
+        .cp-left h2 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--text-primary); line-height: 1.15; margin-top: 16px; }
+        .cp-item { border-top: 1px solid var(--border); padding: 24px 0; display: grid; grid-template-columns: 40px 1fr 24px; gap: 12px; }
+        .cp-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #505050; }
+        .cp-title { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+        .cp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+
+        /* ACCESS FORM */
+        .access-form { background: var(--bg-base); padding: 100px 0; border-bottom: 1px solid var(--border); }
+        .form-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+        .form-subtitle { font-size: 13px; color: #555555; margin-bottom: 32px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; text-align: left; }
+        .form-field { background: var(--bg-surface); border: 1px solid var(--border); height: 44px; padding: 0 14px; color: var(--text-primary); font-size: 13px; width: 100%; outline: none; }
+        .form-field::placeholder { color: #484848; }
+        .form-field:focus { border-color: var(--border-focus); }
+        .btn-submit { width: 100%; margin-top: 24px; background: var(--text-primary); color: var(--bg-base); border: none; height: 50px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; font-weight: 600; }
+        .form-legal { margin-top: 16px; font-size: 11px; color: #484848; }
+
+        /* TERMS VIEW */
+        .terms-view-container { max-width: 720px; margin: 0 auto; padding: 80px 24px 120px; }
+        .terms-view-container h1 { font-family: 'Space Grotesk', sans-serif; font-size: 36px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+        .terms-view-container h2 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 600; color: var(--text-primary); margin-top: 48px; margin-bottom: 16px; padding-top: 32px; border-top: 1px solid var(--border); }
+        .terms-view-container p { color: var(--text-secondary); margin-bottom: 16px; }
+        .section-num { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #2E2E2E; margin-right: 8px; }
+
+        /* FOOTER */
+        .footer { background: var(--bg-base); border-top: 1px solid var(--border); padding: 24px 0; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; }
+        .footer-left, .footer-center, .footer-right { font-size: 11px; color: #2A2A2A; }
+        .footer-center { text-align: center; letter-spacing: 1px; }
+        .footer-right { text-align: right; }
 
         @media(max-width:900px) {
-            .hero h1 { font-size: 36px }
-            .metrics-grid { grid-template-columns: 1fr 1fr }
-            .features-grid { grid-template-columns: 1fr }
-            .cp-grid { grid-template-columns: 1fr }
-            .form-grid { grid-template-columns: 1fr }
-            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 8px }
+            .hero h1 { font-size: 36px; }
+            .metrics-grid { grid-template-columns: 1fr 1fr; }
+            .features-grid { grid-template-columns: 1fr; }
+            .cp-grid { grid-template-columns: 1fr; }
+            .form-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 8px; }
         }
     </style>
 </head>
-
 <body>
-
     <nav class="navbar">
         <div class="navbar-logo" onclick="showView('home')">
-            <span class="logo-phoenix">PHOENIX</span>
-            <span class="logo-sep"></span>
-            <span class="logo-intellex">INTELLEX</span>
+            <!-- Logo mدمج -->
+            <img src="/images/phoenix_intellex_logo.jpg" alt="Phoenix Logo" class="logo-img">
+            <div class="logo-text-group">
+                <span class="logo-phoenix">PHOENIX</span>
+                <span class="logo-sep"></span>
+                <span class="logo-intellex">INTELLEX</span>
+            </div>
         </div>
         <div id="nav-actions">
             <button class="btn-nav" id="btn-request" onclick="scrollToElement('access')">REQUEST ACCESS</button>
-            <button class="btn-nav-outline" id="btn-back" style="display:none" onclick="showView('home')">&larr; BACK</button>
+            <button class="btn-nav-outline" id="btn-back" style="display:none" onclick="showView('home')">← BACK</button>
         </div>
     </nav>
 
@@ -540,7 +185,7 @@
                         <button class="btn-primary" onclick="scrollToElement('access')">REQUEST PRIVATE PILOT</button>
                         <button class="btn-secondary" onclick="scrollToElement('features')">VIEW DOCUMENTATION</button>
                     </div>
-                    <p class="trust-line">Corporate email required &middot; NDA applies &middot; EU-27</p>
+                    <p class="trust-line">Corporate email required · NDA applies · EU-27</p>
                 </div>
             </div>
         </section>
@@ -548,22 +193,10 @@
         <section class="metrics">
             <div class="wrap">
                 <div class="metrics-grid">
-                    <div class="metric-item">
-                        <div class="metric-value">&lt;60s</div>
-                        <div class="metric-label">Pricing Latency</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value">18,500+</div>
-                        <div class="metric-label">Validated Assets</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value">BASE&middot;ADV&middot;SEV</div>
-                        <div class="metric-label">Stress Scenarios</div>
-                    </div>
-                    <div class="metric-item">
-                        <div class="metric-value">EU-27</div>
-                        <div class="metric-label">Regulatory Scope</div>
-                    </div>
+                    <div class="metric-item"><div class="metric-value">&lt;60s</div><div class="metric-label">Pricing Latency</div></div>
+                    <div class="metric-item"><div class="metric-value">18,500+</div><div class="metric-label">Validated Assets</div></div>
+                    <div class="metric-item"><div class="metric-value">BASE·ADV·SEV</div><div class="metric-label">Stress Scenarios</div></div>
+                    <div class="metric-item"><div class="metric-value">EU-27</div><div class="metric-label">Regulatory Scope</div></div>
                 </div>
             </div>
         </section>
@@ -575,65 +208,19 @@
                         <span class="t-label">LAYER 01 / PRICING</span>
                         <h3>Granular Cash Flow Modeling</h3>
                         <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Proprietary multi-model pricing engine with documented confidence intervals.</p>
-                        <p class="t-body">Precision-weighted posterior estimates with calibrated uncertainty bounds across all asset classes and jurisdictions.</p>
-                        <div class="feature-stats">
-                            <div class="feature-stat-pair">PRIORS <span>2</span></div>
-                            <div class="feature-stat-pair">FEATURES <span>10</span></div>
-                        </div>
+                        <p class="t-body">Precision-weighted posterior estimates with calibrated uncertainty bounds across all asset classes.</p>
                     </div>
                     <div class="feature-col">
                         <span class="t-label">LAYER 02 / STRESS</span>
                         <h3>Macro-Economic Stress Testing</h3>
                         <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Real-time stress simulation across BASE, ADVERSE, and SEVERE scenarios.</p>
-                        <p class="t-body">Three regulatory scenarios with four shock types. Recovery rate shifts, collateral haircuts, and servicing cost inflation applied simultaneously.</p>
-                        <div class="feature-stats">
-                            <div class="feature-stat-pair">SCENARIOS <span>3</span></div>
-                            <div class="feature-stat-pair">SHOCKS <span>4</span></div>
-                        </div>
+                        <p class="t-body">Three regulatory scenarios with four shock types. Recovery rate shifts and haircuts applied simultaneously.</p>
                     </div>
                     <div class="feature-col">
                         <span class="t-label">LAYER 03 / AUDIT</span>
                         <h3>Regulatory Compliance Layer</h3>
                         <p style="font:italic 12px/1.6 Inter,sans-serif;color:#555555;margin:12px 0">Every pricing decision logged with an immutable, regulator-ready audit trail.</p>
-                        <p class="t-body">Full lifecycle governance with model registry. 20 structured reason codes across 4 languages. Cryptographically verifiable.</p>
-                        <div class="feature-stats">
-                            <div class="feature-stat-pair">CODES <span>20</span></div>
-                            <div class="feature-stat-pair">LANGUAGES <span>4</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="counterparties">
-            <div class="wrap">
-                <div class="cp-grid">
-                    <div class="cp-left">
-                        <span class="t-label">CLIENT PROFILES</span>
-                        <h2>Built for institutional counterparties.</h2>
-                    </div>
-                    <div class="cp-right">
-                        <div class="cp-item">
-                            <div class="cp-num">01</div>
-                            <div>
-                                <div class="cp-title">DEBT FUNDS</div>
-                                <p class="cp-desc">Acquires NPL portfolios from €5M–€500M. Focus on Southern European markets.</p>
-                            </div>
-                        </div>
-                        <div class="cp-item">
-                            <div class="cp-num">02</div>
-                            <div>
-                                <div class="cp-title">INVESTMENT BANKS</div>
-                                <p class="cp-desc">Requires independent valuation for held assets and transaction support.</p>
-                            </div>
-                        </div>
-                        <div class="cp-item">
-                            <div class="cp-num">03</div>
-                            <div>
-                                <div class="cp-title">SERVICERS</div>
-                                <p class="cp-desc">Manages NPL portfolios requiring analytics for reporting and workout strategy.</p>
-                            </div>
-                        </div>
+                        <p class="t-body">Full lifecycle governance with model registry. 20 reason codes across 4 languages.</p>
                     </div>
                 </div>
             </div>
@@ -644,27 +231,22 @@
                 <div class="form-inner">
                     <span class="t-label">INSTITUTIONAL ACCESS REQUEST</span>
                     <p class="form-subtitle">Qualified institutions only. Strict vetting process.</p>
-                    <form onsubmit="return handleSubmit(event)">
+                    <form id="pilotForm">
                         <div class="form-grid">
-                            <input type="email" class="form-field" placeholder="Corporate Email" required>
-                            <input type="text" class="form-field" placeholder="Institution Name" required>
-                            <select class="form-field" required>
+                            <input type="email" name="email" class="form-field" placeholder="Corporate Email" required>
+                            <input type="text" name="institution" class="form-field" placeholder="Institution Name" required>
+                            <select name="role" class="form-field" required>
                                 <option value="" disabled selected>Your Role</option>
-                                <option>Managing Director</option>
-                                <option>Portfolio Manager</option>
-                                <option>Risk Officer</option>
-                                <option>Head of Analytics</option>
+                                <option>Managing Director</option><option>Portfolio Manager</option><option>Risk Officer</option>
                             </select>
-                            <select class="form-field" required>
+                            <select name="aum" class="form-field" required>
                                 <option value="" disabled selected>AUM Range</option>
-                                <option>100M - 1B</option>
-                                <option>1B - 10B</option>
-                                <option>10B+</option>
+                                <option>100M - 1B</option><option>1B - 10B</option><option>10B+</option>
                             </select>
                         </div>
-                        <button type="submit" class="btn-submit">SUBMIT ACCESS REQUEST &rarr;</button>
+                        <button type="submit" class="btn-submit" id="submitBtn">SUBMIT ACCESS REQUEST →</button>
                     </form>
-                    <p class="form-legal">By submitting you agree to our NDA, <a href="javascript:showView('terms')" style="color:#555555;text-decoration:underline">Terms of Service</a>, and Data Processing Addendum.</p>
+                    <p class="form-legal">By submitting you agree to our <a href="javascript:showView('terms')" style="color:#555555;text-decoration:underline">Terms of Service</a> and NDA.</p>
                 </div>
             </div>
         </section>
@@ -672,27 +254,20 @@
 
     <!-- TERMS VIEW -->
     <div id="terms-view" style="display:none">
-        <div class="terms-view">
+        <div class="terms-view-container">
             <span class="t-label">LEGAL</span>
             <h1>Terms of Service</h1>
-            <p style="font-family:'JetBrains Mono';font-size:11px;color:#444444;margin-bottom:40px">Version 1.0 &middot; Feb 2026</p>
-
-            <h2><span class="section-num">01</span> Definitions and Scope</h2>
-            <p><strong>"Phoenix"</strong> refers to the Phoenix Analytics platform, models, and data outputs.</p>
-            <p>Phoenix provides quantitative tools for estimating recovery rates on distressed credit portfolios using Bayesian fusion and structural modeling.</p>
-
+            <p style="font-family:'JetBrains Mono';font-size:11px;color:#444444;margin-bottom:40px">Version 1.0 · Feb 2026</p>
+            
+            <h2><span class="section-num">01</span> Decision Support Tool Only</h2>
+            <p>Phoenix is a quantitative analytical software platform designed to assist financial professionals. It is classified exclusively as a Decision Support Tool. Phoenix is NOT a licensed investment advisor, portfolio manager, or regulated financial service.</p>
+            
             <h2><span class="section-num">02</span> No Investment Advice</h2>
-            <p>Nothing within the Platform constitutes investment, legal, or tax advice. All outputs are INFORMATIONAL ESTIMATES ONLY and shall not be construed as recommendations.</p>
-
-            <h2><span class="section-num">03</span> Client Responsibilities</h2>
-            <p>Clients are solely responsible for independent decision-making and ensuring data accuracy of all uploads. Use is restricted to qualified institutional professionals only.</p>
-
-            <h2><span class="section-num">04</span> Intellectual Property</h2>
-            <p>The Platform, algorithms, and methodologies are the proprietary property of Phoenix Analytics Ltd. Reverse engineering or unauthorized reproduction is strictly prohibited.</p>
-
-            <h2><span class="section-num">05</span> Data Protection</h2>
-            <p>Phoenix processes Client data solely for analytical services per GDPR compliance. All data is handled with institutional-grade confidentiality and encryption.</p>
-
+            <p>Nothing within the Platform constitutes investment, financial, legal, or tax advice. All outputs (recovery rates, bids, metrics) are INFORMATIONAL ESTIMATES ONLY and not recommendations to transact.</p>
+            
+            <h2><span class="section-num">03</span> Limitation of Liability</h2>
+            <p>In no event shall Phoenix Analytics Ltd be liable for indirect, incidental, or consequential damages, including investment losses or loss of profits arising from the use of the Platform.</p>
+            
             <div style="margin-top:60px">
                 <button class="btn-nav" onclick="showView('home')">BACK TO HOME</button>
             </div>
@@ -702,11 +277,9 @@
     <footer class="footer">
         <div class="wrap">
             <div class="footer-grid">
-                <div class="footer-left">Phoenix Analytics Ltd. &copy; 2026</div>
+                <div class="footer-left">Phoenix Analytics Ltd. © 2026</div>
                 <div class="footer-center">
-                    <a href="javascript:showView('terms')" style="color:#2A2A2A">TERMS</a> &middot; 
-                    LEGAL &middot; 
-                    PRIVACY
+                    <a href="javascript:showView('terms')" style="color:#2A2A2A">TERMS</a> · LEGAL · PRIVACY
                 </div>
                 <div class="footer-right">SYSTEM STATUS: OPERATIONAL</div>
             </div>
@@ -728,28 +301,28 @@
                 document.getElementById('btn-back').style.display = 'none';
             }
         }
-
         function scrollToElement(id) {
             const el = document.getElementById(id);
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
-
-        function handleSubmit(e) {
+        document.getElementById('pilotForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const btn = e.target.querySelector('.btn-submit');
-            const originalText = btn.textContent;
+            const btn = document.getElementById('submitBtn');
             btn.textContent = 'REQUEST SUBMITTED';
+            btn.disabled = true;
             btn.style.background = '#1C1C1C';
             btn.style.color = '#666666';
-            btn.disabled = true;
+            
+            // Mock submission
             setTimeout(() => {
-                btn.textContent = originalText;
+                alert('Access request received. Our institutional team will contact you shortly.');
+                btn.textContent = 'SUBMIT ACCESS REQUEST →';
+                btn.disabled = false;
                 btn.style.background = '#F0F0F0';
                 btn.style.color = '#080808';
-                btn.disabled = false;
                 e.target.reset();
-            }, 3000);
-        }
+            }, 1500);
+        });
     </script>
 </body>
 </html>
