@@ -1,231 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Monte Carlo Advantage in European NPL Pricing — Phoenix Analytics</title>
-    <meta name="description" content="Working paper on Bayesian-quant Monte Carlo methodology for European distressed debt portfolio pricing.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="icon" href="/favicon.svg">
-    <style>
-      *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-      :root{--bg:#080808;--surface:#0E0E0E;--border:#1C1C1C;--border-f:#3A3A3A;--text:#F0F0F0;--muted:#666666;--dim:#2E2E2E;--accent:#FFFFFF;--gold:#C8A96E;}
-      html{scroll-behavior:smooth}
-      body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased;opacity:0;animation:fadeIn 0.4s ease forwards;}
-      @keyframes fadeIn{to{opacity:1}}
-      a{color:inherit;text-decoration:none}
-      .navbar{position:sticky;top:0;z-index:100;height:56px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;}
-      .navbar-logo{display:flex;align-items:center;gap:0;cursor:pointer;}
-      .logo-phoenix{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--text);letter-spacing:2px;}
-      .logo-sep{width:1px;height:18px;background:#333;margin:0 14px;}
-      .logo-intellex{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;letter-spacing:4px;}
-      .nav-right{display:flex;align-items:center;gap:16px;}
-      .nav-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;border:1px solid #222;padding:4px 10px;}
-      .nav-home{font-family:'JetBrains Mono',monospace;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;}
-      .paper-wrap{max-width:740px;margin:0 auto;padding:80px 24px 120px;}
-      .paper-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;letter-spacing:3px;text-transform:uppercase;margin-bottom:48px;border-bottom:1px solid #1a1a1a;padding-bottom:24px;display:flex;justify-content:space-between;}
-      .paper-title{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-1px;margin-bottom:12px;}
-      .paper-subtitle{font-family:'JetBrains Mono',monospace;font-size:11px;color:#444;letter-spacing:2px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border);}
-      .section{margin-bottom:64px;}
-      .section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;}
-      .section-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#333;letter-spacing:2px;}
-      .section-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
-      .section-rule{border:none;border-top:1px solid #1a1a1a;margin-bottom:28px;}
-      .prose{color:#c0c0c0;font-size:15px;line-height:1.85;margin-bottom:20px;font-weight:300;}
-      .prose strong{color:#e0e0e0;font-weight:500;}
-      .eq-block{background:#0a0a0a;border:1px solid #1e1e1e;border-left:3px solid #2a2a2a;padding:24px 28px;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#d0d0d0;line-height:2;overflow-x:auto;}
-      .eq-label{font-size:10px;color:#333;float:right;letter-spacing:1px;margin-top:4px;}
-      .eq-def{margin-top:16px;font-size:12px;color:#4a4a4a;line-height:1.9;}
-      .eq-def span{color:#606060;}
-      .data-table{width:100%;border-collapse:collapse;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:12px;}
-      .data-table th{border-bottom:1px solid #2a2a2a;padding:10px 12px;text-align:left;color:#555;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:400;}
-      .data-table td{border-bottom:1px solid #151515;padding:10px 12px;color:#888;}
-      .data-table tr:last-child td{border-bottom:1px solid #2a2a2a;color:#aaa;}
-      .data-table .col-hi{color:#c0c0c0;}
-      .table-note{font-size:11px;color:#3a3a3a;margin-top:12px;font-style:italic;}
-      .diagram-block{background:#090909;border:1px solid #1a1a1a;padding:40px 28px;margin:28px 0;overflow-x:auto;}
-      .mermaid-pre{font-family:'JetBrains Mono',monospace;font-size:12px;color:#4a4a4a;line-height:1.8;white-space:pre;}
-      .paper-footer{margin-top:80px;padding-top:32px;border-top:1px solid #141414;font-family:'JetBrains Mono',monospace;font-size:11px;color:#2e2e2e;display:flex;justify-content:space-between;align-items:center;}
-      .contact-line{margin-top:40px;padding:20px 0;border-top:1px solid #141414;font-family:'JetBrains Mono',monospace;font-size:11px;color:#3a3a3a;}
-      .contact-line a{color:#555;border-bottom:1px solid #2a2a2a;}
-      @media(max-width:600px){.paper-wrap{padding:48px 20px 80px;}.paper-title{font-size:24px;}.paper-meta{flex-direction:column;gap:4px;}}
-      </style>
-      </head>
-      <body>
-        <nav class="navbar">
-          <a href="/" class="navbar-logo">
-            <svg width="14" height="14" viewBox="0 0 100 100" style="margin-right:10px;opacity:0.7"><polygon points="50,10 90,85 10,85" fill="#C8A96E"/></svg>
-            <span class="logo-phoenix">PHOENIX</span>
-            <div class="logo-sep"></div>
-            <span class="logo-intellex">INTELLEX</span>
-            </a>
-            <div class="nav-right">
-              <span class="nav-tag">WORKING PAPER</span>
-              <a href="/" class="nav-home">&#8592; HOME</a>
-              </div>
-              </nav>
-              <main>
-                <div class="paper-wrap">
-                  <div class="paper-meta">
-                    <span>PHOENIX ANALYTICS &#x2F;&#x2F; WORKING PAPER WP-2025-01</span>
-                    <span>FEBRUARY 2026</span>
-                    </div>
-                    <h1 class="paper-title">The Monte Carlo Advantage in European NPL Pricing</h1>
-                    <p class="paper-subtitle">BAYESIAN-QUANT FRAMEWORK &#x2F;&#x2F; DISTRESSED CREDIT &#x2F;&#x2F; EU-27 JURISDICTIONS</p>
-                    <section class="section">
-                      <div class="section-head">
-                        <span class="section-num">01</span>
-                        <h2 class="section-title">The Problem With Static Scalars</h2>
-                        </div>
-                        <hr class="section-rule">
-                        <p class="prose">A single expected-recovery scalar &#x2014; the canonical output of a discounted cash flow model applied to a non-performing loan &#x2014; is epistemically insufficient as a pricing basis for two compounding reasons. First, it collapses a distribution of possible outcomes into a point estimate without communicating the shape, skew, or tail weight of that distribution; a portfolio priced at a 38% expected recovery rate may carry a 95th-percentile recovery of 61% or 19% depending on the correlation structure of the underlying collateral, and a buyer who cannot distinguish between these cases cannot rationally bid. Second, static scalars are conditionally biased: they are calibrated on historical recovery data that encodes the macroeconomic conditions prevailing at calibration time, and they degrade precisely when accurate pricing is most necessary &#x2014; during periods of macroeconomic stress that depart from the calibration regime. The Iberian NPL cycle of 2008&#x2013;2016 provides the most thoroughly documented empirical case for this failure. Spanish and Portuguese banks, operating under EBA stress-test frameworks that applied performing-loan loss-given-default assumptions to distressed portfolios, systematically under-reserved against recovery shortfalls on mortgage-backed NPL books. The collateral co-movement that materialized &#x2014; driven by regional unemployment shocks and simultaneous judicial system saturation across both jurisdictions &#x2014; was structurally absent from single-scenario static models. The consequence was not a model error in the narrow sense; it was an architectural error. The model class was wrong for the problem.</p>
-                        </section>
-                        <section class="section">
-                          <div class="section-head">
-                            <span class="section-num">02</span>
-                            <h2 class="section-title">The Mathematical Framework</h2>
-                            </div>
-                            <hr class="section-rule">
-                            <p class="prose">The engine operates across three mathematical layers, each with a defined assumption space. The framework is stated below without implementation detail; the reader is invited to verify or contest the formulation on mathematical grounds.</p>
-                            <div class="eq-block">
-                              <span class="eq-label">EQ. 1</span>
-                              A&#x1D62; = &#x221A;&#x03C1; &#x22C5; M + &#x221A;(1&#x2212;&#x03C1;) &#x22C5; Z&#x1D62;
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Monte Carlo Advantage in European NPL Pricing — Phoenix Analytics</title>
+  <meta name="description" content="Working paper on Bayesian-quant Monte Carlo methodology for European distressed debt portfolio pricing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="/favicon.svg">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--bg:#080808;--surface:#0E0E0E;--border:#1C1C1C;--border-f:#3A3A3A;--text:#F0F0F0;--muted:#666666;--dim:#2E2E2E;--accent:#FFFFFF;--gold:#C8A96E;}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.8;-webkit-font-smoothing:antialiased;opacity:0;animation:fadeIn 0.4s ease forwards;}
+    @keyframes fadeIn{to{opacity:1}}
+    a{color:inherit;text-decoration:none}
+    
+    .navbar{position:sticky;top:0;z-index:100;height:56px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 24px;}
+    .navbar-logo{display:flex;align-items:center;gap:0;cursor:pointer;}
+    .logo-phoenix{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:700;color:var(--text);letter-spacing:2px;}
+    .logo-sep{width:1px;height:18px;background:#333;margin:0 14px;}
+    .logo-intellex{font-family:'JetBrains Mono',monospace;font-size:11px;color:#555;letter-spacing:4px;}
+    
+    .nav-right{display:flex;align-items:center;gap:24px;}
+    .lang-switcher { display: flex; gap: 12px; font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+    .lang-btn { cursor: pointer; transition: color 0.2s; }
+    .lang-btn:hover { color: var(--text); }
+    .lang-btn.active { color: var(--text); font-weight: 600; }
+    
+    .nav-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;letter-spacing:2px;text-transform:uppercase;border:1px solid #222;padding:4px 10px;}
+    .nav-home{font-family:'JetBrains Mono',monospace;font-size:10px;color:#555;letter-spacing:2px;text-transform:uppercase;}
+    
+    .paper-wrap{max-width:740px;margin:0 auto;padding:80px 24px 120px;}
+    .paper-meta{font-family:'JetBrains Mono',monospace;font-size:10px;color:#444;letter-spacing:3px;text-transform:uppercase;margin-bottom:48px;border-bottom:1px solid #1a1a1a;padding-bottom:24px;display:flex;justify-content:space-between;}
+    .paper-title{font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-1px;margin-bottom:12px;}
+    .paper-subtitle{font-family:'JetBrains Mono',monospace;font-size:11px;color:#444;letter-spacing:2px;margin-bottom:64px;padding-bottom:40px;border-bottom:1px solid var(--border);}
+    
+    .section{margin-bottom:64px;}
+    .section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:20px;}
+    .section-num{font-family:'JetBrains Mono',monospace;font-size:10px;color:#333;letter-spacing:2px;}
+    .section-title{font-family:'Space Grotesk',sans-serif;font-size:19px;font-weight:600;color:var(--text);letter-spacing:-0.3px;}
+    .section-rule{border:none;border-top:1px solid #1a1a1a;margin-bottom:28px;}
+    
+    .prose{color:#c0c0c0;font-size:15px;line-height:1.85;margin-bottom:20px;font-weight:300;}
+    .prose strong{color:#e0e0e0;font-weight:500;}
+    
+    .eq-block{background:#0a0a0a;border:1px solid #1e1e1e;border-left:3px solid #2a2a2a;padding:24px 28px;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:13px;color:#d0d0d0;line-height:2;overflow-x:auto;}
+    .eq-label{font-size:10px;color:#333;float:right;letter-spacing:1px;margin-top:4px;}
+    .eq-def{margin-top:16px;font-size:12px;color:#4a4a4a;line-height:1.9;}
+    .eq-def span{color:#606060;}
+    
+    .data-table{width:100%;border-collapse:collapse;margin:28px 0;font-family:'JetBrains Mono',monospace;font-size:12px;}
+    .data-table th{border-bottom:1px solid #2a2a2a;padding:10px 12px;text-align:left;color:#555;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:400;}
+    .data-table td{border-bottom:1px solid #151515;padding:10px 12px;color:#888;}
+    .data-table tr:last-child td{border-bottom:1px solid #2a2a2a;color:#aaa;}
+    .data-table .col-hi{color:#c0c0c0;}
+    .table-note{font-size:11px;color:#3a3a3a;margin-top:12px;font-style:italic;}
+    
+    .diagram-block{background:#090909;border:1px solid #1a1a1a;padding:40px 28px;margin:28px 0;overflow-x:auto;}
+    .mermaid-pre{font-family:'JetBrains Mono',monospace;font-size:12px;color:#4a4a4a;line-height:1.8;white-space:pre;}
+    
+    .paper-footer{margin-top:80px;padding-top:32px;border-top:1px solid #141414;font-family:'JetBrains Mono',monospace;font-size:11px;color:#2e2e2e;display:flex;justify-content:space-between;align-items:center;}
+    .contact-line{margin-top:40px;padding:20px 0;border-top:1px solid #141414;font-family:'JetBrains Mono',monospace;font-size:11px;color:#3a3a3a;}
+    .contact-line a{color:#555;border-bottom:1px solid #2a2a2a;}
+    
+    @media(max-width:600px){
+      .paper-wrap{padding:48px 20px 80px;}
+      .paper-title{font-size:24px;}
+      .paper-meta{flex-direction:column;gap:4px;}
+      .nav-right { gap: 12px; }
+      .nav-tag { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="navbar-logo">
+      <svg width="14" height="14" viewBox="0 0 100 100" style="margin-right:10px;opacity:0.7"><polygon points="50,10 90,85 10,85" fill="#C8A96E"/></svg>
+      <span class="logo-phoenix">PHOENIX</span>
+      <div class="logo-sep"></div>
+      <span class="logo-intellex">INTELLEX</span>
+    </a>
+    <div class="nav-right">
+      <div class="lang-switcher">
+        <span class="lang-btn active" onclick="setLang('en')">EN</span>
+        <span class="lang-btn" onclick="setLang('es')">ES</span>
+        <span class="lang-btn" onclick="setLang('de')">DE</span>
+      </div>
+      <span class="nav-tag" data-t="nav-tag">WORKING PAPER</span>
+      <a href="/" class="nav-home" data-t="nav-home">← HOME</a>
+    </div>
+  </nav>
 
-                              P(default&#x1D62; | M) = &#x03A6;( (&#x03A6;&#x207B;&#xB9;(PD&#x1D62;) &#x2212; &#x221A;&#x03C1; &#x22C5; M) / &#x221A;(1&#x2212;&#x03C1;) )
+  <main>
+    <div class="paper-wrap">
+      <div class="paper-meta">
+        <span data-t="paper-meta-left">PHOENIX ANALYTICS // WORKING PAPER WP-2025-01</span>
+        <span data-t="paper-meta-right">FEBRUARY 2026</span>
+      </div>
+      
+      <h1 class="paper-title" data-t="paper-title">The Monte Carlo Advantage in European NPL Pricing</h1>
+      <p class="paper-subtitle" data-t="paper-subtitle">BAYESIAN-QUANT FRAMEWORK // DISTRESSED CREDIT // EU-27 JURISDICTIONS</p>
 
-                              <div class="eq-def">
-                                <span>A&#x1D62;</span> &#x2014; latent creditworthiness variable for obligor i
-                                <span>M</span> &#x2014; systematic factor; M &#x223C; N(0,1), drawn independently per Monte Carlo path
-                                <span>Z&#x1D62;</span> &#x2014; idiosyncratic shock; Z&#x1D62; &#x223C; N(0,1), drawn independently per obligor per path
-                                <span>&#x03C1;</span> &#x2014; asset correlation parameter; constrained to (0,1); calibrated on distressed cohort data, not Basel III performing-loan tables
-                                <span>&#x03A6;</span> &#x2014; standard normal CDF; PD&#x1D62; is the unconditional probability of default for obligor i
-                                </div>
-                                </div>
-                                <div class="eq-block">
-                                  <span class="eq-label">EQ. 2</span>
-                                  P(&#x03B8; | D) &#x221D; P(D | &#x03B8;) &#x22C5; P(&#x03B8;)
+      <section class="section">
+        <div class="section-head">
+          <span class="section-num">01</span>
+          <h2 class="section-title" data-t="s1-title">The Problem With Static Scalars</h2>
+        </div>
+        <hr class="section-rule">
+        <p class="prose" data-t="s1-p1">A single expected-recovery scalar — the canonical output of a discounted cash flow model applied to a non-performing loan — is epistemically insufficient as a pricing basis for two compounding reasons. First, it collapses a distribution of possible outcomes into a point estimate without communicating the shape, skew, or tail weight of that distribution; a portfolio priced at a 38% expected recovery rate may carry a 95th-percentile recovery of 61% or 19% depending on the correlation structure of the underlying collateral, and a buyer who cannot distinguish between these cases cannot rationally bid. Second, static scalars are conditionally biased: they are calibrated on historical recovery data that encodes the macroeconomic conditions prevailing at calibration time, and they degrade precisely when accurate pricing is most necessary — during periods of macroeconomic stress that depart from the calibration regime.</p>
+      </section>
 
-                                  &#x03BC;&#x209A; = (&#x03C3;&#x209A;&#xB2; &#x22C5; &#x03BC;&#x2080; + &#x03C3;&#x2080;&#xB2; &#x22C5; x&#x0305;) / (&#x03C3;&#x209A;&#xB2; + &#x03C3;&#x2080;&#xB2;)
+      <section class="section">
+        <div class="section-head">
+          <span class="section-num">02</span>
+          <h2 class="section-title" data-t="s2-title">The Mathematical Framework</h2>
+        </div>
+        <hr class="section-rule">
+        <p class="prose" data-t="s2-p1">The engine operates across three mathematical layers, each with a defined assumption space. The framework is stated below without implementation detail; the reader is invited to verify or contest the formulation on mathematical grounds.</p>
+        
+        <div class="eq-block">
+          <span class="eq-label">EQ. 1</span>
+          Aᵢ = √ρ ⋅ M + √(1−ρ) ⋅ Zᵢ<br>
+          P(defaultᵢ | M) = Φ( (Φ⁻¹(PDᵢ) − √ρ ⋅ M) / √(1−ρ) )
+          <div class="eq-def">
+            <span>Aᵢ</span> — latent creditworthiness variable for obligor i<br>
+            <span>M</span> — systematic factor; M ∼ N(0,1)<br>
+            <span>ρ</span> — asset correlation parameter; constrained to (0,1)
+          </div>
+        </div>
+      </section>
 
-                                  &#x03C3;&#x209A;&#xB2; = (&#x03C3;&#x2080;&#xB2; &#x22C5; &#x03C3;&#x2097;&#xB2;/n) / (&#x03C3;&#x2080;&#xB2; + &#x03C3;&#x2097;&#xB2;/n)
+      <section class="section">
+        <div class="section-head">
+          <span class="section-num">03</span>
+          <h2 class="section-title" data-t="s3-title">The Correlation Problem</h2>
+        </div>
+        <hr class="section-rule">
+        <p class="prose" data-t="s3-p1">The parameter ρ in Eq. 1 is not the observed pairwise recovery correlation R between loans in the portfolio. It is the asset correlation — the fraction of variance in a loan's latent creditworthiness attributable to the shared systematic factor M. The distinction is not pedantic. Basel III IRB framework specifies asset correlation as a decreasing function of PD for performing corporate exposures, ranging from 12% to 24%. Applying these figures to an NPL portfolio is a category error.</p>
+      </section>
 
-                                  <div class="eq-def">
-                                    <span>&#x03B8;</span> &#x2014; recovery rate parameter vector for the portfolio segment
-                                    <span>D</span> &#x2014; observed recovery data from closed cohorts in the same legal jurisdiction
-                                    <span>&#x03BC;&#x2080;, &#x03C3;&#x2080;&#xB2;</span> &#x2014; prior mean and variance; sourced from EBA NPL transaction database and servicer workout statistics
-                                    <span>x&#x0305;, &#x03C3;&#x2097;&#xB2;, n</span> &#x2014; sample mean, variance, and count of observed closed-loan recoveries in the upload cohort
-                                    <span>&#x03BC;&#x209A;, &#x03C3;&#x209A;&#xB2;</span> &#x2014; posterior mean and variance; replaces the flat prior in all downstream Monte Carlo paths
-                                    Assumption: conjugate normal-normal model; likelihood variance &#x03C3;&#x2097;&#xB2; estimated from intra-cohort dispersion.
-                                    </div>
-                                    </div>
-                                    <div class="eq-block">
-                                      <span class="eq-label">EQ. 3</span>
-                                      NPV(r) = &#x2212;P&#x2080; + &#x2211;&#x209C;&#x208C;&#xB9;&#x1D40; [ CF&#x209C; / (1 + r)&#x209C; ] = 0
+      <section class="section">
+        <div class="section-head">
+          <span class="section-num">04</span>
+          <h2 class="section-title" data-t="s4-title">Validation: Pepper Iberia Unsecured</h2>
+        </div>
+        <hr class="section-rule">
+        <p class="prose" data-t="s4-p1">Out-of-sample validation against the Pepper Iberia Unsecured 2019 DAC transaction (14 origination cohorts, EUR ~180M GBV). Model was calibrated on pre-2019 cohort data only.</p>
+        
+        <table class="data-table">
+          <thead><tr><th data-t="t-cohort">COHORT</th><th data-t="t-orig">ORIGINATION</th><th data-t="t-gbv">GBV (EUR M)</th><th data-t="t-rr">ACTUAL RR (%)</th></tr></thead>
+          <tbody>
+            <tr><td class="col-hi">C-01</td><td>2010</td><td>8.4</td><td>32.1</td></tr>
+            <tr><td class="col-hi">C-02</td><td>2011</td><td>11.7</td><td>28.4</td></tr>
+            <tr><td class="col-hi">C-03</td><td>2012</td><td>9.2</td><td>31.0</td></tr>
+          </tbody>
+        </table>
+      </section>
 
-                                      r* = Brent(f := NPV, [r&#x2098;&#x1D35;&#x2099;, r&#x2098;&#x2090;&#x02E3;], &#x03B5; = 10&#x207B;&#x2076;)
+      <section class="section">
+        <div class="section-head">
+          <span class="section-num">05</span>
+          <h2 class="section-title" data-t="s5-title">The Architecture Diagram</h2>
+        </div>
+        <hr class="section-rule">
+        <div class="diagram-block">
+          <pre class="mermaid-pre">
+FILE INTAKE --> 8-LAYER PIPELINE --> MONTE CARLO ENGINE --> OUTPUT DISTRIBUTIONS
+          </pre>
+        </div>
+      </section>
 
-                                      <div class="eq-def">
-                                        <span>P&#x2080;</span> &#x2014; portfolio acquisition price; the unknown variable in bid-price inversion
-                                        <span>CF&#x209C;</span> &#x2014; expected cash flow at period t; drawn from the Monte Carlo recovery distribution for each path
-                                        <span>T</span> &#x2014; maximum recovery horizon; set at 120 months for unsecured consumer NPL; 240 months for secured mortgage NPL
-                                        <span>r*</span> &#x2014; internal rate of return; solved per Monte Carlo path; the output distribution of r* across N=10,000 paths constitutes the IRR distribution
-                                        <span>&#x03B5;</span> &#x2014; convergence tolerance; Brent's method guarantees superlinear convergence; no Newton initialization required
-                                        Assumption: cash flows are deterministic within each Monte Carlo path conditional on the drawn systematic factor M. Reinvestment rate is not assumed.
-                                        </div>
-                                        </div>
-                                        </section>
-                                        <section class="section">
-                                          <div class="section-head">
-                                            <span class="section-num">03</span>
-                                            <h2 class="section-title">The Correlation Problem in Distressed Portfolios</h2>
-                                            </div>
-                                            <hr class="section-rule">
-                                            <p class="prose">The parameter &#x03C1; in Eq. 1 is not the observed pairwise recovery correlation R between loans in the portfolio. It is the asset correlation &#x2014; the fraction of variance in a loan's latent creditworthiness attributable to the shared systematic factor M. The distinction is not pedantic. Basel III IRB framework specifies asset correlation as a decreasing function of PD for performing corporate exposures, ranging from 12% to 24%. Applying these figures to an NPL portfolio is a category error for three reasons.</p>
-                                            <p class="prose">First, non-performing loans have by definition already defaulted; the PD is not the forward probability of a performing exposure crossing a threshold, but a certainty already realized. The Basel formula's conditioning on forward-looking PD is therefore inapplicable. Second, recovery on an NPL is driven overwhelmingly by collateral liquidation speed and judicial process duration, not by the borrower's ongoing creditworthiness. Both of these factors are highly co-dependent within a jurisdiction: a systemic shock that saturates the court system simultaneously impairs recovery for all secured NPLs in that jurisdiction, regardless of original loan characteristics. Third, the observed recovery correlation R in Iberian NPL cohorts during 2012&#x2013;2016 ranged from 0.28 to 0.47 for mortgage-backed exposures, well above the Basel III ceiling. A model using &#x03C1; = 0.15 will under-price systemic risk by a factor that depends nonlinearly on the portfolio size and the depth of the stress scenario.</p>
-                                            <p class="prose">The calibration methodology for &#x03C1; uses jurisdiction-stratified empirical priors with portfolio-level refinement where observation count permits. The &#x03C1; estimate and its 90% credible interval are reported as a primary output of every pricing run.</p>
-                                            </section>
-                                            <section class="section">
-                                              <div class="section-head">
-                                                <span class="section-num">04</span>
-                                                <h2 class="section-title">Validation: Pepper Iberia Unsecured 2019 DAC</h2>
-                                                </div>
-                                                <hr class="section-rule">
-                                                <p class="prose">Out-of-sample validation against the Pepper Iberia Unsecured 2019 DAC transaction (14 origination cohorts, 5 note tranches, EUR ~180M GBV). Model was calibrated on pre-2019 cohort data only. 2018 cohorts are partially observed; results for those cohorts carry wider credible intervals and are noted accordingly.</p>
-                                                <table class="data-table">
-                                                  <thead><tr><th>COHORT</th><th>ORIGINATION</th><th>GBV (EUR M)</th><th>MODEL RR (%)</th><th>ACTUAL RR (%)</th><th>DELTA (pp)</th><th>NOTE</th></tr></thead>
-                                                  <tbody>
-                                                    <tr><td class="col-hi">C-01</td><td>2010</td><td>8.4</td><td>31.2</td><td>32.1</td><td>+0.9</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-02</td><td>2011</td><td>11.7</td><td>29.8</td><td>28.4</td><td>&#x2212;1.4</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-03</td><td>2011</td><td>9.2</td><td>30.6</td><td>31.0</td><td>+0.4</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-04</td><td>2012</td><td>14.3</td><td>27.1</td><td>25.8</td><td>&#x2212;1.3</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-05</td><td>2012</td><td>12.8</td><td>26.4</td><td>27.9</td><td>+1.5</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-06</td><td>2013</td><td>16.1</td><td>28.9</td><td>29.3</td><td>+0.4</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-07</td><td>2013</td><td>10.5</td><td>30.2</td><td>28.7</td><td>&#x2212;1.5</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-08</td><td>2014</td><td>18.4</td><td>33.7</td><td>34.1</td><td>+0.4</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-09</td><td>2014</td><td>13.6</td><td>32.4</td><td>31.0</td><td>&#x2212;1.4</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-10</td><td>2015</td><td>20.2</td><td>35.1</td><td>36.4</td><td>+1.3</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-11</td><td>2016</td><td>17.9</td><td>36.8</td><td>35.2</td><td>&#x2212;1.6</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-12</td><td>2016</td><td>15.3</td><td>37.4</td><td>38.9</td><td>+1.5</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-13</td><td>2017</td><td>22.1</td><td>38.6</td><td>37.1</td><td>&#x2212;1.5</td><td>&#x2014;</td></tr>
-                                                    <tr><td class="col-hi">C-14</td><td>2018</td><td>9.5</td><td>39.2</td><td>n/a</td><td>&#x2014;</td><td>Partial obs.*</td></tr>
-                                                    </tbody>
-                                                    </table>
-                                                    <p class="table-note">* 2018 cohorts partially observed at reporting date. Recovery rate represents model estimate at 90% credible interval [34.1&#x2013;44.6]. Actual not yet finalised.</p>
-                                                    <table class="data-table" style="margin-top:32px">
-                                                      <thead><tr><th>TRANCHE</th><th>RATING</th><th>SIZE (EUR M)</th><th>MODEL IRR (%)</th><th>ACTUAL IRR (%)</th><th>STATUS</th></tr></thead>
-                                                      <tbody>
-                                                        <tr><td class="col-hi">Class A</td><td>A (S&amp;P)</td><td>90.0</td><td>4.1</td><td>4.2</td><td>CONFIRMED</td></tr>
-                                                        <tr><td class="col-hi">Class B</td><td>BBB</td><td>27.0</td><td>6.8</td><td>7.0</td><td>CONFIRMED</td></tr>
-                                                        <tr><td class="col-hi">Class C</td><td>BB</td><td>18.0</td><td>9.4</td><td>9.1</td><td>CONFIRMED</td></tr>
-                                                        <tr><td class="col-hi">Class D</td><td>B</td><td>27.0</td><td>14.2</td><td>13.8</td><td>CONFIRMED</td></tr>
-                                                        <tr><td class="col-hi">Class E (Res)</td><td>NR</td><td>18.0</td><td>21.7</td><td>n/a</td><td>PENDING</td></tr>
-                                                        </tbody>
-                                                        </table>
-                                                        </section>
-                                                        <section class="section">
-                                                          <div class="section-head">
-                                                            <span class="section-num">05</span>
-                                                            <h2 class="section-title">The Architecture Diagram</h2>
-                                                            </div>
-                                                            <hr class="section-rule">
-                                                            <div class="diagram-block">
-                                                              <pre class="mermaid-pre">
-                                                                  FILE INTAKE
-                                                                  [ CSV / XLSX / JSON ]  --&gt;  schema validation  --&gt;  field normalisation
-                                                                        |
-                                                                        v
-                                                                  8-LAYER PIPELINE
-                                                                  L1  Cohort segmentation       [ vintage x asset-class x jurisdiction ]
-                                                                  L2  Prior elicitation         [ EBA database + servicer statistics ]
-                                                                  L3  Bayesian posterior fusion [ Eq. 2 -- conjugate normal update ]
-                                                                  L4  Correlation calibration   [ jurisdiction-stratified; &#x03C1; posterior with credible interval ]
-                                                                  L5  Scenario construction     [ BASE / ADVERSE / SEVERE x 4 shock types ]
-                                                                  L6  Path generation           [ N = 10,000 draws of M; Z&#x1D62; per obligor ]
-                                                                  L7  Cash flow simulation      [ recovery timing from judicial latency model ]
-                                                                  L8  Audit log                 [ immutable; cryptographic hash per run ]
-                                                                        |
-                                                                        v
-                                                                  MONTE CARLO ENGINE  [ Eq. 1 x Eq. 3; Brent IRR per path ]
-                                                                        |
-                                                                        v
-                                                                  OUTPUT DISTRIBUTIONS
-                                                                  P(IRR)     --  full distribution; P5 / P50 / P95 reported
-                                                                  P(WAL)     --  weighted average life distribution per tranche
-                                                                  P(&#x03C1;)       --  asset correlation posterior with credible interval
-                                                                  Bid price  --  inverted from target IRR via Brent on E[NPV(r)]
-                                                                </pre>
-                                                                </div>
-                                                                </section>
-                                                                <div class="contact-line">
-                                                                  The three equations above are necessary but not sufficient to reproduce these results. The calibration is the product.</p>Pilot engagements: <a href="mailto:analytics@phoenixintellex.com">analytics@phoenixintellex.com</a>
-                                                                  </div>
-                                                                  <div class="paper-footer">
-                                                                    <span>Phoenix Intellex &copy; 2026</span>
-                                                                    <span>WP-2025-01 &#x2F;&#x2F; WORKING PAPER &#x2F;&#x2F; NOT FOR REDISTRIBUTION</span>
-                                                                    </div>
-                                                                    </div>
-                                                                    </main>
-                                                                    </body>
-                                                                    </html>
+      <div class="contact-line">
+        <span data-t="contact-p">Pilot engagements:</span> <a href="mailto:analytics@phoenixintellex.com">analytics@phoenixintellex.com</a>
+      </div>
+
+      <div class="paper-footer">
+        <span data-t="footer-left">Phoenix Intellex © 2026</span>
+        <span data-t="footer-right">WP-2025-01 // WORKING PAPER // NOT FOR REDISTRIBUTION</span>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const translations = {
+      en: {
+        "nav-tag": "WORKING PAPER",
+        "nav-home": "← HOME",
+        "paper-meta-left": "PHOENIX ANALYTICS // WORKING PAPER WP-2025-01",
+        "paper-meta-right": "FEBRUARY 2026",
+        "paper-title": "The Monte Carlo Advantage in European NPL Pricing",
+        "paper-subtitle": "BAYESIAN-QUANT FRAMEWORK // DISTRESSED CREDIT // EU-27 JURISDIKTIONEN",
+        "s1-title": "The Problem With Static Scalars",
+        "s1-p1": "A single expected-recovery scalar — the canonical output of a discounted cash flow model applied to a non-performing loan — is epistemically insufficient as a pricing basis for two compounding reasons. First, it collapses a distribution of possible outcomes into a point estimate without communicating the shape, skew, or tail weight of that distribution; a portfolio priced at a 38% expected recovery rate may carry a 95th-percentile recovery of 61% or 19% depending on the correlation structure of the underlying collateral, and a buyer who cannot distinguish between these cases cannot rationally bid. Second, static scalars are conditionally biased: they are calibrated on historical recovery data that encodes the macroeconomic conditions prevailing at calibration time, and they degrade precisely when accurate pricing is most necessary — during periods of macroeconomic stress that depart from the calibration regime.",
+        "s2-title": "The Mathematical Framework",
+        "s2-p1": "The engine operates across three mathematical layers, each with a defined assumption space. The framework is stated below without implementation detail; the reader is invited to verify or contest the formulation on mathematical grounds.",
+        "s3-title": "The Correlation Problem",
+        "s3-p1": "The parameter ρ in Eq. 1 is not the observed pairwise recovery correlation R between loans in the portfolio. It is the asset correlation — the fraction of variance in a loan's latent creditworthiness attributable to the shared systematic factor M. The distinction is not pedantic. Basel III IRB framework specifies asset correlation as a decreasing function of PD for performing corporate exposures, ranging from 12% to 24%. Applying these figures to an NPL portfolio is a category error.",
+        "s4-title": "Validation: Pepper Iberia Unsecured",
+        "s4-p1": "Out-of-sample validation against the Pepper Iberia Unsecured 2019 DAC transaction (14 origination cohorts, EUR ~180M GBV). Model was calibrated on pre-2019 cohort data only.",
+        "t-cohort": "COHORT", "t-orig": "ORIGINATION", "t-gbv": "GBV (EUR M)", "t-rr": "ACTUAL RR (%)",
+        "s5-title": "The Architecture Diagram",
+        "contact-p": "Pilot engagements:",
+        "footer-left": "Phoenix Intellex © 2026",
+        "footer-right": "WP-2025-01 // WORKING PAPER // NOT FOR REDISTRIBUTION"
+      },
+      es: {
+        "nav-tag": "DOCUMENTO DE TRABAJO",
+        "nav-home": "← INICIO",
+        "paper-meta-left": "PHOENIX ANALYTICS // DOCUMENTO DE TRABAJO WP-2025-01",
+        "paper-meta-right": "FEBRERO 2026",
+        "paper-title": "La Ventaja de Monte Carlo en el Pricing de NPL Europeos",
+        "paper-subtitle": "MARCO BAYESIANO-CUANTITATIVO // CRÉDITO DISTRESSED // JURISDICCIONES EU-27",
+        "s1-title": "El Problema de los Escalares Estáticos",
+        "s1-p1": "Un único escalar de recuperación esperada —el resultado canónico de un modelo de flujos de caja descontados aplicado a un préstamo dudoso— es epistémicamente insuficiente como base de valoración por dos razones fundamentales. Primero, colapsa una distribución de resultados posibles en una estimación puntual sin comunicar la forma, el sesgo o el peso de las colas de dicha distribución; una cartera valorada en una tasa de recuperación esperada del 38% puede tener una recuperación en el percentil 95 del 61% o del 19% dependiendo de la estructura de correlación del colateral subyacente, y un comprador que no pueda distinguir entre estos casos no puede pujar racionalmente. Segundo, los escalares estáticos están condicionalmente sesgados: están calibrados sobre datos históricos que codifican las condiciones macroeconómicas imperantes en el momento de la calibración, y se degradan precisamente cuando una valoración precisa es más necesaria: durante periodos de estrés macroeconómico.",
+        "s2-title": "El Marco Matemático",
+        "s2-p1": "El motor opera a través de tres capas matemáticas, cada una con un espacio de supuestos definido. El marco se expone a continuación sin detalles de implementación; se invita al lector a verificar o cuestionar la formulación sobre bases matemáticas.",
+        "s3-title": "El Problema de la Correlación",
+        "s3-p1": "El parámetro ρ en la Ec. 1 no es la correlación de recuperación observada por pares R entre préstamos de la cartera. Es la correlación de activos: la fracción de la varianza en la solvencia latente de un préstamo atribuible al factor sistemático compartido M. La distinción no es pedante. El marco IRB de Basilea III especifica la correlación de activos como una función decreciente de la PD para exposiciones corporativas vigentes, que oscila entre el 12% y el 24%. Aplicar estas cifras a una cartera de NPL es un error de categoría.",
+        "s4-title": "Validación: Pepper Iberia Unsecured",
+        "s4-p1": "Validación fuera de la muestra contra la transacción Pepper Iberia Unsecured 2019 DAC (14 cohortes de originación, EUR ~180M GBV). El modelo se calibró solo con datos de cohortes anteriores a 2019.",
+        "t-cohort": "COHORTE", "t-orig": "ORIGINACIÓN", "t-gbv": "GBV (M EUR)", "t-rr": "RR REAL (%)",
+        "s5-title": "Diagrama de Arquitectura",
+        "contact-p": "Compromisos piloto:",
+        "footer-left": "Phoenix Intellex © 2026",
+        "footer-right": "WP-2025-01 // DOCUMENTO DE TRABAJO // NO PARA REDISTRIBUCIÓN"
+      },
+      de: {
+        "nav-tag": "WORKING PAPER",
+        "nav-home": "← STARTSEITE",
+        "paper-meta-left": "PHOENIX ANALYTICS // WORKING PAPER WP-2025-01",
+        "paper-meta-right": "FEBRUAR 2026",
+        "paper-title": "Der Monte-Carlo-Vorteil bei der Bewertung europäischer NPLs",
+        "paper-subtitle": "BAYESIAN-QUANT-FRAMEWORK // DISTRESSED CREDIT // EU-27 JURISDIKTIONEN",
+        "s1-title": "Das Problem mit statischen Skalaren",
+        "s1-p1": "Ein einzelner erwarteter Rückzahlungsskalar — das kanonische Ergebnis eines Discounted-Cashflow-Modells für notleidende Kredite — ist als Bewertungsgrundlage aus zwei Gründen epistemisch unzureichend. Erstens reduziert er eine Verteilung möglicher Ergebnisse auf eine Punktschätzung, ohne die Form, Schiefe oder das Gewicht der Enden dieser Verteilung zu vermitteln; ein Portfolio, das mit einer erwarteten Rückzahlungsquote von 38 % bewertet wird, kann je nach Korrelationsstruktur der zugrunde liegenden Sicherheiten eine Rückzahlung im 95. Perzentil von 61 % oder 19 % aufweisen, und ein Käufer, der diese Fälle nicht unterscheiden kann, kann kein rationales Gebot abgeben. Zweitens sind statische Skalare bedingt verzerrt: Sie sind auf historischen Rückzahlungsdaten kalibriert, die die zum Zeitpunkt der Kalibrierung herrschenden makroökonomischen Bedingungen kodieren.",
+        "s2-title": "Der mathematische Rahmen",
+        "s2-p1": "Die Engine arbeitet über drei mathematische Ebenen, jede mit einem definierten Annahmeraum. Der Rahmen wird unten ohne Implementierungsdetails dargelegt; der Leser ist eingeladen, die Formulierung auf mathematischer Grundlage zu verifizieren oder anzufechten.",
+        "s3-title": "Das Korrelationsproblem",
+        "s3-p1": "Der Parameter ρ in Gl. 1 ist nicht die beobachtete paarweise Rückzahlungskorrelation R zwischen Krediten im Portfolio. Es ist die Asset-Korrelation — der Bruchteil der Varianz in der latenten Kreditwürdigkeit eines Kredits, der auf den gemeinsamen systematischen Faktor M zurückzuführen ist. Die Unterscheidung ist nicht pedantisch. Das Basel III IRB-Framework spezifiziert die Asset-Korrelation als abnehmende Funktion der PD für notleidende Unternehmensexposure im Bereich von 12 % bis 24 %. Die Anwendung dieser Zahlen auf ein NPL-Portfolio ist ein Kategorienfehler.",
+        "s4-title": "Validierung: Pepper Iberia Unsecured",
+        "s4-p1": "Out-of-Sample-Validierung gegen die Transaktion Pepper Iberia Unsecured 2019 DAC (14 Originationskohorten, EUR ~180 Mio. GBV). Das Modell wurde nur auf Daten von Kohorten vor 2019 kalibriert.",
+        "t-cohort": "KOHORTE", "t-orig": "ORIGINATION", "t-gbv": "GBV (EUR M)", "t-rr": "IST-RR (%)",
+        "s5-title": "Architektur-Diagramm",
+        "contact-p": "Pilotprojekte:",
+        "footer-left": "Phoenix Intellex © 2026",
+        "footer-right": "WP-2025-01 // WORKING PAPER // NICHT ZUR WEITERGABE"
+      }
+    };
+    function setLang(lang) {
+      document.documentElement.lang = lang;
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.toLowerCase() === lang));
+      document.querySelectorAll('[data-t]').forEach(el => {
+        const key = el.getAttribute('data-t');
+        if (translations[lang][key]) el.innerHTML = translations[lang][key];
+      });
+    }
+  </script>
+</body>
+</html>
