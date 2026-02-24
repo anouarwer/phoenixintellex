@@ -90,6 +90,29 @@
         .cp-title { font-family: 'Space Grotesk', sans-serif; font-size: 13px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
         .cp-desc { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
 
+        /* ── INSTITUTIONAL FORM ── */
+        .access-form { background: var(--bg-surface); padding: 120px 0; border-bottom: 1px solid var(--border); }
+        .form-inner { max-width: 800px; margin: 0 auto; }
+        .form-header { text-align: center; margin-bottom: 64px; }
+        .form-header h2 { font-family: 'Space Grotesk', sans-serif; font-size: 48px; font-weight: 700; color: var(--text-primary); letter-spacing: -1.5px; margin-bottom: 16px; }
+        .form-header p { font-size: 14px; color: var(--text-secondary); }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-label { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 1px; }
+        .form-input { background: var(--bg-base); border: 1px solid var(--border); height: 48px; padding: 0 16px; color: var(--text-primary); font-family: 'Inter', sans-serif; font-size: 14px; width: 100%; outline: none; transition: border-color 0.2s; }
+        .form-input:focus { border-color: var(--border-focus); }
+        .form-select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23555' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 16px center; }
+        
+        .interest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+        .interest-item { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--text-secondary); cursor: pointer; padding: 12px; border: 1px solid var(--border); transition: all 0.2s; }
+        .interest-item:hover { border-color: var(--border-focus); background: var(--bg-base); }
+        .interest-item input { accent-color: var(--text-primary); }
+
+        .btn-submit { width: 100%; margin-top: 48px; background: var(--text-primary); color: var(--bg-base); border: none; height: 56px; font-family: 'JetBrains Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 3px; cursor: pointer; font-weight: 600; transition: opacity 0.2s; }
+        .btn-submit:hover { opacity: 0.9; }
+
         /* ── FOOTER ── */
         .footer { background: var(--bg-base); border-top: 1px solid var(--border); padding: 24px 0; }
         .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; }
@@ -102,6 +125,8 @@
             .metrics-grid { grid-template-columns: 1fr 1fr }
             .features-grid { grid-template-columns: 1fr }
             .cp-grid { grid-template-columns: 1fr }
+            .form-grid { grid-template-columns: 1fr }
+            .interest-grid { grid-template-columns: 1fr }
             .footer-grid { grid-template-columns: 1fr; text-align: center; gap: 8px }
         }
     </style>
@@ -120,11 +145,11 @@
                 <span class="lang-btn" onclick="setLang('es')">ES</span>
                 <span class="lang-btn" onclick="setLang('de')">DE</span>
             </div>
-            <button class="btn-nav" id="btn-request" onclick="window.location='mailto:analytics@phoenixintellex.com'">Request Access</button>
+            <button class="btn-nav" id="btn-request" onclick="scrollToElement('access')">Request Access</button>
         </div>
     </nav>
 
-    <div id="content-main">
+    <div id="home-view">
         <section class="hero">
             <div class="wrap">
                 <div class="hero-inner">
@@ -140,7 +165,7 @@
                     </div>
 
                     <div class="cta-row">
-                        <button class="btn-primary" data-t="cta-pilot" onclick="window.location='mailto:analytics@phoenixintellex.com'">Request Private Pilot</button>
+                        <button class="btn-primary" data-t="cta-pilot" onclick="scrollToElement('access')">Request Private Pilot</button>
                         <button class="btn-secondary" data-t="cta-docs" onclick="window.location='/docs.html'">View Documentation</button>
                     </div>
                     <div class="trust-line" data-t="trust-line">Corporate email required · NDA applies · EU-27</div>
@@ -238,6 +263,93 @@
                 </div>
             </div>
         </section>
+
+        <section class="access-form" id="access">
+            <div class="wrap">
+                <div class="form-inner">
+                    <div class="form-header">
+                        <h2 data-t="form-h2">Get in touch to learn more about Phoenix®</h2>
+                        <p data-t="form-p">Qualified institutions only. Strict vetting process applied.</p>
+                    </div>
+
+                    <form onsubmit="handleSubmit(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-fname">First Name *</label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-lname">Last Name *</label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-email">Business Email *</label>
+                                <input type="email" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-company">Company Name *</label>
+                                <input type="text" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-country">Country *</label>
+                                <select class="form-input form-select" required>
+                                    <option value="" disabled selected>Select Country</option>
+                                    <option>Spain</option>
+                                    <option>Germany</option>
+                                    <option>United Kingdom</option>
+                                    <option>United States</option>
+                                    <option>France</option>
+                                    <option>Italy</option>
+                                    <option>Portugal</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-phone">Phone Number *</label>
+                                <input type="tel" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-org">Organization Type *</label>
+                                <select class="form-input form-select" required>
+                                    <option value="" disabled selected>Select Type</option>
+                                    <option>Asset Management</option>
+                                    <option>Bank or Financial Institution</option>
+                                    <option>Debt Fund</option>
+                                    <option>Insurance Company</option>
+                                    <option>Pension Fund</option>
+                                    <option>Servicer</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" data-t="l-role">Primary Role *</label>
+                                <select class="form-input form-select" required>
+                                    <option value="" disabled selected>Select Role</option>
+                                    <option>Portfolio Manager</option>
+                                    <option>Risk Manager</option>
+                                    <option>Quantitative Analyst</option>
+                                    <option>CIO / CFO / COO</option>
+                                    <option>Head of Analytics</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group full">
+                                <label class="form-label" data-t="l-interested">Interested In</label>
+                                <div class="interest-grid">
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-pricing">Portfolio Pricing</span></label>
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-stress">Stress Testing</span></label>
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-audit">Audit & Compliance</span></label>
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-monte">Monte Carlo Capabilities</span></label>
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-data">Data Cloud Integration</span></label>
+                                    <label class="interest-item"><input type="checkbox"> <span data-t="i-cecl">IFRS 9 / CECL Modeling</span></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit" data-t="btn-submit">Submit Access Request →</button>
+                    </form>
+                </div>
+            </div>
+        </section>
     </div>
 
     <footer class="footer">
@@ -282,6 +394,14 @@
                 "cp2-desc": "Requires independent valuation for held assets and transaction support.",
                 "cp3-title": "SERVICERS",
                 "cp3-desc": "Manages NPL portfolios requiring analytics for reporting and workout strategy.",
+                "form-h2": "Get in touch to learn more about Phoenix®",
+                "form-p": "Qualified institutions only. Strict vetting process applied.",
+                "l-fname": "First Name *", "l-lname": "Last Name *", "l-email": "Business Email *", "l-company": "Company Name *",
+                "l-country": "Country *", "l-phone": "Phone Number *", "l-org": "Organization Type *", "l-role": "Primary Role *",
+                "l-interested": "Interested In",
+                "i-pricing": "Portfolio Pricing", "i-stress": "Stress Testing", "i-audit": "Audit & Compliance",
+                "i-monte": "Monte Carlo Capabilities", "i-data": "Data Cloud Integration", "i-cecl": "IFRS 9 / CECL Modeling",
+                "btn-submit": "Submit Access Request →",
                 "status": "SYSTEM STATUS: OPERATIONAL",
                 "footer-docs": "DOCS",
                 "nav-req": "Request Access"
@@ -314,6 +434,14 @@
                 "cp2-desc": "Requieren valoración independiente para activos en balance y soporte transaccional.",
                 "cp3-title": "SERVICERS",
                 "cp3-desc": "Gestionan carteras NPL que requieren analítica para reporting y estrategia de recuperación.",
+                "form-h2": "Contacte para saber más sobre Phoenix®",
+                "form-p": "Solo instituciones cualificadas. Proceso de validación estricto.",
+                "l-fname": "Nombre *", "l-lname": "Apellidos *", "l-email": "Email Corporativo *", "l-company": "Empresa *",
+                "l-country": "País *", "l-phone": "Teléfono *", "l-org": "Tipo de Organización *", "l-role": "Cargo Principal *",
+                "l-interested": "Interesado En",
+                "i-pricing": "Valoración de Carteras", "i-stress": "Pruebas de Estrés", "i-audit": "Auditoría y Cumplimiento",
+                "i-monte": "Capacidades Monte Carlo", "i-data": "Integración Data Cloud", "i-cecl": "Modelado IFRS 9 / CECL",
+                "btn-submit": "Enviar Solicitud de Acceso →",
                 "status": "ESTADO DEL SISTEMA: OPERATIVO",
                 "footer-docs": "DOCS",
                 "nav-req": "Solicitar Acceso"
@@ -346,6 +474,14 @@
                 "cp2-desc": "Benötigen unabhängige Bewertungen für Bestandsaktiva und Transaktionsunterstützung.",
                 "cp3-title": "SERVICER",
                 "cp3-desc": "Verwalten NPL-Portfolios und benötigen Analysen für Reporting und Workout-Strategien.",
+                "form-h2": "Kontaktieren Sie uns für mehr Infos über Phoenix®",
+                "form-p": "Nur qualifizierte Institutionen. Strenger Prüfungsprozess.",
+                "l-fname": "Vorname *", "l-lname": "Nachname *", "l-email": "Geschäftliche E-Mail *", "l-company": "Unternehmen *",
+                "l-country": "Land *", "l-phone": "Telefonnummer *", "l-org": "Organisationstyp *", "l-role": "Hauptrolle *",
+                "l-interested": "Interessiert An",
+                "i-pricing": "Portfolio-Bewertung", "i-stress": "Stresstests", "i-audit": "Audit & Compliance",
+                "i-monte": "Monte-Carlo-Funktionen", "i-data": "Data Cloud Integration", "i-cecl": "IFRS 9 / CECL Modellierung",
+                "btn-submit": "Zugangsanfrage Senden →",
                 "status": "SYSTEMSTATUS: BETRIEBSBEREIT",
                 "footer-docs": "DOCS",
                 "nav-req": "Zugang Anfordern"
@@ -354,22 +490,30 @@
 
         function setLang(lang) {
             document.documentElement.lang = lang;
-            
-            // Update active button
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText.toLowerCase() === lang);
-            });
-
-            // Translate elements
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.innerText.toLowerCase() === lang));
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                if (translations[lang][key]) {
-                    el.innerHTML = translations[lang][key];
-                }
+                if (translations[lang][key]) el.innerHTML = translations[lang][key];
             });
-
-            // Special case for buttons without data-t if needed, or update nav button
             document.getElementById('btn-request').innerText = translations[lang]['nav-req'];
+        }
+
+        function scrollToElement(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-submit');
+            const originalText = btn.textContent;
+            btn.textContent = 'REQUEST SUBMITTED';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = originalText;
+                btn.disabled = false;
+                e.target.reset();
+            }, 3000);
         }
     </script>
 </body>
