@@ -18,18 +18,11 @@ function Router() {
   );
 }
 
-/**
- * Design Philosophy: Clean, Professional, Minimal
- * - Light background with black text for maximum contrast and readability
- * - Institutional aesthetic for financial services
- * - Default theme: light (no theme switching)
- */
-
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider
-        defaultTheme="light"
+        defaultTheme="dark"
       >
         <TooltipProvider>
           <Toaster />
