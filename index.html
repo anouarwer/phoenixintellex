@@ -1,25 +1,1473 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <meta name="description" content="Phoenix Intellex - Credit Decision Intelligence. Convert distressed loan portfolios into defensible decisions with real-time analysis and stress testing." />
-    <title>Phoenix | Intellex - Credit Decision Intelligence</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix · Intellex — Credit Decision Intelligence</title>
+    <meta name="description"
+        content="Institutional-grade pricing engine for distressed debt portfolios. Loan-level precision. Stress-tested. Audit-ready. 60 seconds.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
-  </body>
+        :root {
+            --bg-base: #060606;
+            --bg-surface: #0C0C0C;
+            --bg-inset: #111111;
+            --bg-elevated: #161616;
+            --border: #1A1A1A;
+            --border-focus: #333333;
+            --text-primary: #ECECEC;
+            --text-secondary: #6B6B6B;
+            --text-dim: #2E2E2E;
+            --accent: #FFFFFF;
+            --accent-green: #34D399;
+            --accent-amber: #FBBF24;
+        }
+
+        html {
+            scroll-behavior: smooth
+        }
+
+        body {
+            background: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            opacity: 0;
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1
+            }
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 0.6
+            }
+
+            50% {
+                opacity: 1
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        .wrap {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 28px
+        }
+
+        .t-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #444444;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .t-body {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            max-width: 440px;
+        }
+
+        /* ── NAVIGATION ── */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 54px;
+            background: rgba(6, 6, 6, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            cursor: pointer;
+        }
+
+        .navbar-logo .logo-phoenix {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 2.5px;
+        }
+
+        .navbar-logo .logo-sep {
+            width: 1px;
+            height: 16px;
+            background: #2A2A2A;
+            margin: 0 14px;
+        }
+
+        .navbar-logo .logo-intellex {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 400;
+            color: #444444;
+            letter-spacing: 4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .nav-link {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #444444;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover {
+            color: var(--text-secondary);
+        }
+
+        .btn-nav {
+            background: var(--text-primary);
+            color: var(--bg-base);
+            border: none;
+            padding: 7px 18px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            transition: opacity 0.2s;
+        }
+
+        .btn-nav:hover {
+            opacity: 0.85;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            min-height: 100vh;
+            background: var(--bg-base);
+            padding-top: 56px;
+            padding-bottom: 10vh;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.012) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            max-width: 720px;
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 36px;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 58px;
+            font-weight: 700;
+            line-height: 1.04;
+            letter-spacing: -2.5px;
+            color: var(--text-primary);
+            margin-bottom: 24px;
+        }
+
+        .hero h1 .em {
+            background: linear-gradient(135deg, #FFFFFF 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 15.5px;
+            color: var(--text-secondary);
+            line-height: 1.75;
+            max-width: 520px;
+            font-weight: 300;
+        }
+
+        .model-stack {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 28px;
+            gap: 6px;
+        }
+
+        .model-tag {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            padding: 5px 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #3A3A3A;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: border-color 0.3s, color 0.3s;
+        }
+
+        .model-tag:hover {
+            border-color: #333;
+            color: #555;
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 16px;
+            margin-top: 44px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-base);
+            border: none;
+            padding: 14px 36px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            padding: 14px 36px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 1.5px;
+            transition: border-color 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: #333;
+        }
+
+        .trust-line {
+            margin-top: 20px;
+            font-size: 11px;
+            color: #333333;
+        }
+
+        /* ── METRICS BAR ── */
+        .metrics {
+            background: var(--bg-surface);
+            border-bottom: 1px solid var(--border);
+            padding: 44px 0;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+        }
+
+        .metric-item {
+            text-align: center;
+            padding: 0 16px;
+            border-right: 1px solid var(--border);
+            animation: countUp 0.6s ease-out both;
+        }
+
+        .metric-item:nth-child(1) {
+            animation-delay: 0.3s
+        }
+
+        .metric-item:nth-child(2) {
+            animation-delay: 0.4s
+        }
+
+        .metric-item:nth-child(3) {
+            animation-delay: 0.5s
+        }
+
+        .metric-item:nth-child(4) {
+            animation-delay: 0.6s
+        }
+
+        .metric-item:nth-child(5) {
+            animation-delay: 0.7s
+        }
+
+        .metric-item:last-child {
+            border-right: none
+        }
+
+        .metric-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 28px;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .metric-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: #3D3D3D;
+            text-transform: uppercase;
+            margin-top: 6px;
+            letter-spacing: 1.5px;
+        }
+
+        /* ── ENGINE SECTION ── */
+        .engine {
+            background: var(--bg-base);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .engine-header {
+            margin-bottom: 64px;
+        }
+
+        .engine-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-top: 16px;
+            letter-spacing: -1px;
+        }
+
+        .layers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .layer-card {
+            background: var(--bg-base);
+            padding: 36px 28px;
+            transition: background 0.3s;
+        }
+
+        .layer-card:hover {
+            background: var(--bg-surface);
+        }
+
+        .layer-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 40px;
+            color: #1A1A1A;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .layer-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 17px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+        }
+
+        .layer-card p {
+            font-size: 13px;
+            color: #555555;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .layer-specs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .spec {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #3A3A3A;
+        }
+
+        .spec strong {
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* ── PROBLEM / SOLUTION ── */
+        .problem-section {
+            background: var(--bg-surface);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .ps-grid {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: 0;
+        }
+
+        .ps-divider {
+            background: var(--border);
+        }
+
+        .ps-col {
+            padding: 0 48px;
+        }
+
+        .ps-col:first-child {
+            padding-left: 0;
+        }
+
+        .ps-col:last-child {
+            padding-right: 0;
+        }
+
+        .ps-col h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 20px;
+            margin-bottom: 36px;
+            line-height: 1.2;
+        }
+
+        .ps-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.65;
+        }
+
+        .ps-dash {
+            color: #333;
+            flex-shrink: 0;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .ps-text {
+            color: var(--text-secondary);
+        }
+
+        .ps-text-bright {
+            color: #999;
+        }
+
+        /* ── VALIDATED RESULTS ── */
+        .validation {
+            background: var(--bg-base);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .val-header {
+            margin-bottom: 64px;
+        }
+
+        .val-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-top: 16px;
+            letter-spacing: -1px;
+        }
+
+        .val-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            margin-bottom: 48px;
+        }
+
+        .val-card {
+            background: var(--bg-base);
+            padding: 36px 28px;
+        }
+
+        .val-card .val-type {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #3A3A3A;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+        }
+
+        .val-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .val-card p {
+            font-size: 13px;
+            color: #555;
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .val-metric {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--accent-green);
+            padding: 8px 0;
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── ASSET CLASSES ── */
+        .assets {
+            background: var(--bg-surface);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .assets-header {
+            margin-bottom: 56px;
+        }
+
+        .assets-header h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 38px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-top: 16px;
+            letter-spacing: -1px;
+        }
+
+        .assets-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .asset-card {
+            background: var(--bg-surface);
+            padding: 32px 24px;
+            transition: background 0.3s;
+        }
+
+        .asset-card:hover {
+            background: var(--bg-elevated);
+        }
+
+        .asset-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .asset-card p {
+            font-size: 12.5px;
+            color: #555;
+            line-height: 1.65;
+        }
+
+        /* ── COUNTERPARTIES ── */
+        .counterparties {
+            background: var(--bg-base);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .cp-grid {
+            display: grid;
+            grid-template-columns: 38% 62%;
+            gap: 48px;
+        }
+
+        .cp-left h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1.15;
+            margin-top: 16px;
+        }
+
+        .cp-item {
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+            display: grid;
+            grid-template-columns: 36px 1fr;
+            gap: 14px;
+        }
+
+        .cp-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #3A3A3A;
+        }
+
+        .cp-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+
+        .cp-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.65;
+        }
+
+        /* ── FORM ── */
+        .access-form {
+            background: var(--bg-surface);
+            padding: 120px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .form-inner {
+            max-width: 560px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .form-inner h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            font-size: 13px;
+            color: #444;
+            margin-bottom: 36px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            text-align: left;
+        }
+
+        .form-field {
+            background: var(--bg-base);
+            border: 1px solid var(--border);
+            height: 46px;
+            padding: 0 16px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            width: 100%;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-field::placeholder {
+            color: #383838
+        }
+
+        .form-field:focus {
+            border-color: var(--border-focus)
+        }
+
+        .btn-submit {
+            width: 100%;
+            margin-top: 20px;
+            background: var(--text-primary);
+            color: var(--bg-base);
+            border: none;
+            height: 52px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: opacity 0.2s, transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .form-legal {
+            margin-top: 16px;
+            font-size: 11px;
+            color: #333;
+        }
+
+        .form-legal a {
+            color: #444;
+            text-decoration: underline;
+        }
+
+        /* ── TERMS VIEW ── */
+        .terms-view {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 80px 24px 120px;
+        }
+
+        .terms-view h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .terms-view h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 48px;
+            margin-bottom: 16px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+
+        .terms-view p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: #2E2E2E;
+            margin-right: 8px;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: var(--bg-base);
+            border-top: 1px solid var(--border);
+            padding: 28px 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            align-items: center;
+        }
+
+        .footer-left,
+        .footer-center,
+        .footer-right {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            color: #222222;
+            letter-spacing: 0.5px;
+        }
+
+        .footer-center {
+            text-align: center;
+        }
+
+        .footer-right {
+            text-align: right;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        .footer-dot {
+            width: 5px;
+            height: 5px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        /* ── MEDIA QUERIES ── */
+        @media(max-width:1024px) {
+            .layers-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .val-grid {
+                grid-template-columns: 1fr
+            }
+
+            .assets-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+        }
+
+        @media(max-width:900px) {
+            .hero h1 {
+                font-size: 38px
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1px;
+                background: var(--border)
+            }
+
+            .metric-item {
+                background: var(--bg-surface);
+                padding: 20px 16px;
+                border-right: none
+            }
+
+            .layers-grid {
+                grid-template-columns: 1fr
+            }
+
+            .ps-grid {
+                grid-template-columns: 1fr;
+                gap: 56px
+            }
+
+            .ps-divider {
+                display: none
+            }
+
+            .ps-col {
+                padding: 0
+            }
+
+            .cp-grid {
+                grid-template-columns: 1fr
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 8px
+            }
+
+            .footer-right {
+                justify-content: center
+            }
+
+            .nav-links {
+                gap: 16px
+            }
+
+            .nav-link {
+                display: none
+            }
+
+            .assets-grid {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="navbar-logo" onclick="showView('home')">
+            <span class="logo-phoenix">PHOENIX</span>
+            <span class="logo-sep"></span>
+            <span class="logo-intellex">INTELLEX</span>
+        </div>
+        <div class="nav-links" id="nav-actions">
+            <span class="nav-link" onclick="scrollToElement('engine')">WHY PHOENIX</span>
+            <span class="nav-link" onclick="scrollToElement('validation')">TRACK RECORD</span>
+            <span class="nav-link" onclick="scrollToElement('assets-section')">COVERAGE</span>
+            <button class="btn-nav" id="btn-request" onclick="scrollToElement('access')">REQUEST ACCESS</button>
+            <button class="btn-nav" id="btn-back" style="display:none" onclick="showView('home')">&larr;
+                BACK</button>
+        </div>
+    </nav>
+
+    <!-- HOME VIEW -->
+    <div id="home-view">
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="wrap">
+                <div class="hero-inner">
+                    <div class="hero-status">
+                        <span class="status-dot"></span>
+                        <span class="t-label">CREDIT DECISION INTELLIGENCE</span>
+                    </div>
+                    <h1>Convert distressed loans<br>into <span class="em">defensible decisions.</span></h1>
+                    <p class="hero-sub">Institutional-grade pricing engine for distressed debt portfolios. Loan-level
+                        default prediction. Stress-tested across three regulatory scenarios. Confidence intervals
+                        on every output. Audit-ready from day one.</p>
+                    <div class="model-stack">
+                        <span class="model-tag">LOAN-LEVEL PRECISION</span>
+                        <span class="model-tag">CONFIDENCE INTERVALS</span>
+                        <span class="model-tag">GOVERNANCE-GATED</span>
+                        <span class="model-tag">MULTI-JURISDICTION</span>
+                        <span class="model-tag">AUDIT-READY</span>
+                        <span class="model-tag">STRESS-TESTED</span>
+                    </div>
+                    <div class="cta-row">
+                        <button class="btn-primary" onclick="scrollToElement('access')">REQUEST PRIVATE PILOT</button>
+                        <button class="btn-secondary" onclick="scrollToElement('engine')">WHY PHOENIX</button>
+                    </div>
+                    <p class="trust-line">Corporate email required &middot; NDA applies &middot; Qualified institutions
+                        only</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- METRICS BAR -->
+        <section class="metrics">
+            <div class="wrap">
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <div class="metric-value">1.145B</div>
+                        <div class="metric-label">Capital Validated</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">58,655</div>
+                        <div class="metric-label">Loans Priced</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">1.13%</div>
+                        <div class="metric-label">Tracking Error</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">&lt;10bp</div>
+                        <div class="metric-label">Rating Agency Deviation</div>
+                    </div>
+                    <div class="metric-item">
+                        <div class="metric-value">&lt;60s</div>
+                        <div class="metric-label">Per Portfolio</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY PHOENIX -->
+        <section class="engine" id="engine">
+            <div class="wrap">
+                <div class="engine-header">
+                    <span class="t-label">WHY PHOENIX</span>
+                    <h2>What separates Phoenix<br>from everything else.</h2>
+                </div>
+                <div class="layers-grid">
+                    <div class="layer-card">
+                        <div class="layer-num">01</div>
+                        <h3>Loan-Level Precision</h3>
+                        <p>Every loan is scored individually — not averaged into a bucket. Default probability,
+                            recovery timing, and concentration risk are computed per asset, per jurisdiction. The
+                            portfolio price emerges from the bottom up.</p>
+                        <div class="layer-specs">
+                            <span class="spec">GRANULARITY <strong>Per Loan</strong></span>
+                            <span class="spec">DEVIATION <strong>&lt;10bp</strong></span>
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-num">02</div>
+                        <h3>Uncertainty, Not Point Estimates</h3>
+                        <p>Every output includes P10, P50, and P90 confidence bands. You see the full distribution
+                            of outcomes — not a single number. Tail risk is quantified, not assumed away.</p>
+                        <div class="layer-specs">
+                            <span class="spec">BANDS <strong>P10 · P50 · P90</strong></span>
+                            <span class="spec">TRACKING <strong>1.13%</strong></span>
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-num">03</div>
+                        <h3>Governance Before Publication</h3>
+                        <p>No report leaves Phoenix without passing automated plausibility checks. If assumptions
+                            are implausible or data quality is low, the system blocks output. Every decision
+                            is logged and traceable.</p>
+                        <div class="layer-specs">
+                            <span class="spec">GATE <strong>Automated</strong></span>
+                            <span class="spec">AUDIT <strong>Full Trail</strong></span>
+                        </div>
+                    </div>
+                    <div class="layer-card">
+                        <div class="layer-num">04</div>
+                        <h3>60 Seconds. Not 3 Weeks.</h3>
+                        <p>Upload a tape. Get a priced portfolio with stress scenarios, confidence intervals,
+                            concentration analysis, and a publication-ready report — PDF and Excel — in under
+                            a minute.</p>
+                        <div class="layer-specs">
+                            <span class="spec">OUTPUT <strong>PDF + XLSX</strong></span>
+                            <span class="spec">LATENCY <strong>&lt;60s</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROBLEM / SOLUTION -->
+        <section class="problem-section">
+            <div class="wrap">
+                <div class="engine-header">
+                    <span class="t-label">01 — THE PROBLEM</span>
+                    <h2>A EUR 500M NPL portfolio<br>should not take three weeks.</h2>
+                </div>
+                <div class="ps-grid">
+                    <div class="ps-col">
+                        <span class="t-label">THE CURRENT REALITY</span>
+                        <h2 style="font-size:22px">Manual process.<br>Fragile assumptions.</h2>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">3 weeks. 5 analysts. One defensible number.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">Recovery assumptions chosen by intuition.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">No systematic stress testing.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">Audit trail lives in someone's spreadsheet.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">CDR is a flat number from a lookup table.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text">No confidence intervals. One price, take it or leave it.</span>
+                        </div>
+                    </div>
+                    <div class="ps-divider"></div>
+                    <div class="ps-col">
+                        <span class="t-label">WHAT PHOENIX DELIVERS</span>
+                        <h2 style="font-size:22px">Automated. Auditable.<br>Defensible.</h2>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">Under 60 seconds. One analyst. Three defensible
+                                scenarios.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">Recovery inferred from asset physics — ML-trained on
+                                regulatory data.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">BASE, ADVERSE, and SEVERELY ADVERSE — every run.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">Full audit trail — every decision logged, traceable, and
+                                governance-gated.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">Loan-level default prediction — not portfolio-level
+                                averages.</span>
+                        </div>
+                        <div class="ps-item">
+                            <span class="ps-dash">—</span>
+                            <span class="ps-text-bright">P10/P50/P90 confidence intervals. True uncertainty
+                                quantification — not point estimates.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- VALIDATED RESULTS -->
+        <section class="validation" id="validation">
+            <div class="wrap">
+                <div class="val-header">
+                    <span class="t-label">02 — TRACK RECORD</span>
+                    <h2>Tested against real market outcomes.</h2>
+                </div>
+                <div class="val-grid">
+                    <div class="val-card">
+                        <div class="val-type">LIVE DEAL</div>
+                        <h3>EUR 480M Residential RMBS (2021)</h3>
+                        <p>Phoenix run against published pre-sale analysis from an independent rating agency.
+                            Senior tranche return deviation measured.</p>
+                        <div class="val-metric">DEVIATION: &lt; 10 BASIS POINTS</div>
+                    </div>
+                    <div class="val-card">
+                        <div class="val-type">LIVE DEAL</div>
+                        <h3>EUR 665M Split-Priority RMBS (2024)</h3>
+                        <p>Non-standard 55/45 split-priority amortisation with interest rate swap overlay.
+                            Both structural features correctly identified and modelled.</p>
+                        <div class="val-metric">EUR 1.9M INTEREST SHORTFALL IDENTIFIED</div>
+                    </div>
+                    <div class="val-card">
+                        <div class="val-type">STRESS TEST</div>
+                        <h3>28,655 Real NPL Loans Processed</h3>
+                        <p>Full pipeline on regulatory-format data. Mixed collateral types across four jurisdictions.
+                            Governance gate correctly flagged concentration risk.</p>
+                        <div class="val-metric">FULL PASS · 28,655 LOANS · EUR 504M</div>
+                    </div>
+                </div>
+                <div class="val-grid">
+                    <div class="val-card">
+                        <div class="val-type">BACKTEST</div>
+                        <h3>14 Consecutive Quarters</h3>
+                        <p>Engine output validated against real cashflows, real dates, real amortisation from
+                            quarterly remittance reports.</p>
+                        <div class="val-metric">MEAN TRACKING ERROR: 1.13%</div>
+                    </div>
+                    <div class="val-card">
+                        <div class="val-type">PRECISION</div>
+                        <h3>Rating Agency Calibration</h3>
+                        <p>Senior tranche returns within 10 basis points of independent published analysis.
+                            Maximum single-quarter deviation: 2.25%.</p>
+                        <div class="val-metric">MAX QUARTERLY DEVIATION: 2.25%</div>
+                    </div>
+                    <div class="val-card">
+                        <div class="val-type">SPEED</div>
+                        <h3>60 Seconds Per Portfolio</h3>
+                        <p>From CSV upload to publication-ready PDF with stress scenarios, confidence intervals,
+                            and full audit trail. No manual intervention required.</p>
+                        <div class="val-metric">PDF + EXCEL + AUDIT TRAIL IN &lt;60s</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ASSET CLASSES -->
+        <section class="assets" id="assets-section">
+            <div class="wrap">
+                <div class="assets-header">
+                    <span class="t-label">03 — COVERAGE</span>
+                    <h2>Six asset classes. One engine.</h2>
+                </div>
+                <div class="assets-grid">
+                    <div class="asset-card">
+                        <h3>RESIDENTIAL</h3>
+                        <p>Mortgage loans secured on residential property. Recovery accounts for judicial enforcement
+                            timelines and forced-sale discounts by jurisdiction.</p>
+                    </div>
+                    <div class="asset-card">
+                        <h3>COMMERCIAL (CRE)</h3>
+                        <p>Income-producing commercial assets. Recovery anchored to stressed capitalisation rates. Loan
+                            concentration and tenant quality factored.</p>
+                    </div>
+                    <div class="asset-card">
+                        <h3>SME / CORPORATE</h3>
+                        <p>Small and medium enterprise loans. CDR differentiated by country macro conditions and sector
+                            NACE codes. Unsecured portion modeled separately.</p>
+                    </div>
+                    <div class="asset-card">
+                        <h3>UNSECURED</h3>
+                        <p>Consumer credit and unsecured loans. Highest CDR segment. Recovery driven purely by servicing
+                            strategy and legal jurisdiction efficiency.</p>
+                    </div>
+                    <div class="asset-card">
+                        <h3>LAND</h3>
+                        <p>Undeveloped land with no income stream. Recovery based on forced-sale values with disposal
+                            discounts. Highest correlation sensitivity.</p>
+                    </div>
+                    <div class="asset-card">
+                        <h3>DEVELOPER LOANS</h3>
+                        <p>Loans to property developers. Priced against projected completion value adjusted for
+                            construction risk and market absorption rates.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- COUNTERPARTIES -->
+        <section class="counterparties">
+            <div class="wrap">
+                <div class="cp-grid">
+                    <div class="cp-left">
+                        <span class="t-label">CLIENT PROFILES</span>
+                        <h2>Built for institutional<br>counterparties.</h2>
+                    </div>
+                    <div class="cp-right">
+                        <div class="cp-item">
+                            <div class="cp-num">01</div>
+                            <div>
+                                <div class="cp-title">DEBT FUNDS</div>
+                                <p class="cp-desc">Acquires NPL portfolios from €5M–€500M across global markets.
+                                    Phoenix delivers bid-level pricing with governance-gated audit trail.</p>
+                            </div>
+                        </div>
+                        <div class="cp-item">
+                            <div class="cp-num">02</div>
+                            <div>
+                                <div class="cp-title">INVESTMENT BANKS</div>
+                                <p class="cp-desc">Independent valuation for held assets and transaction support.
+                                    Three-scenario stress testing with confidence intervals on every output.</p>
+                            </div>
+                        </div>
+                        <div class="cp-item">
+                            <div class="cp-num">03</div>
+                            <div>
+                                <div class="cp-title">SERVICERS</div>
+                                <p class="cp-desc">Portfolio analytics for reporting and workout strategy. Lifecycle
+                                    monitoring with prediction vs. actuals tracking from day one.</p>
+                            </div>
+                        </div>
+                        <div class="cp-item">
+                            <div class="cp-num">04</div>
+                            <div>
+                                <div class="cp-title">REGULATORS & AUDITORS</div>
+                                <p class="cp-desc">Full parameter auditability. Every coefficient traceable to
+                                    regulatory sources. Standardised glossary with 13 metric definitions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ACCESS FORM -->
+        <section class="access-form" id="access">
+            <div class="wrap">
+                <div class="form-inner">
+                    <span class="t-label">INSTITUTIONAL ACCESS</span>
+                    <h2>Get in touch.</h2>
+                    <p class="form-subtitle">Qualified institutions only. Strict vetting process applied.</p>
+                    <form onsubmit="return handleSubmit(event)">
+                        <div class="form-grid">
+                            <input type="email" class="form-field" placeholder="Corporate Email" required>
+                            <input type="text" class="form-field" placeholder="Institution Name" required>
+                            <select class="form-field" required>
+                                <option value="" disabled selected>Your Role</option>
+                                <option>Managing Director</option>
+                                <option>Portfolio Manager</option>
+                                <option>Chief Risk Officer</option>
+                                <option>Head of Analytics</option>
+                                <option>Chief Investment Officer</option>
+                            </select>
+                            <select class="form-field" required>
+                                <option value="" disabled selected>AUM Range</option>
+                                <option>€50M – €500M</option>
+                                <option>€500M – €2B</option>
+                                <option>€2B – €10B</option>
+                                <option>€10B+</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn-submit">SUBMIT ACCESS REQUEST &rarr;</button>
+                    </form>
+                    <p class="form-legal">By submitting you agree to our NDA, <a
+                            href="javascript:showView('terms')">Terms of Service</a>, and Data Processing
+                        Addendum.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- TERMS VIEW -->
+    <div id="terms-view" style="display:none">
+        <div class="terms-view">
+            <span class="t-label">LEGAL</span>
+            <h1>Terms of Service</h1>
+            <p style="font-family:'JetBrains Mono';font-size:11px;color:#333;margin-bottom:40px">Version 2.0 &middot;
+                March 2026</p>
+
+            <h2><span class="section-num">01</span> Definitions and Scope</h2>
+            <p><strong>"Phoenix"</strong> refers to the Phoenix · Intellex platform, models, and data outputs.</p>
+            <p>Phoenix provides ML-augmented quantitative tools for estimating recovery rates on distressed credit
+                portfolios using logistic regression, Monte Carlo simulation, and DCF pricing.</p>
+
+            <h2><span class="section-num">02</span> No Investment Advice</h2>
+            <p>Nothing within the Platform constitutes investment, legal, or tax advice. All outputs are INFORMATIONAL
+                ESTIMATES ONLY and shall not be construed as recommendations.</p>
+
+            <h2><span class="section-num">03</span> Client Responsibilities</h2>
+            <p>Clients are solely responsible for independent decision-making and ensuring data accuracy of all uploads.
+                Use is restricted to qualified institutional professionals only.</p>
+
+            <h2><span class="section-num">04</span> Intellectual Property</h2>
+            <p>The Platform, algorithms, ML models, and methodologies are the proprietary property of Phoenix Analytics
+                Ltd. Reverse engineering or unauthorized reproduction is strictly prohibited.</p>
+
+            <h2><span class="section-num">05</span> Data Protection</h2>
+            <p>Phoenix processes Client data solely for analytical services per GDPR compliance. All data is handled
+                with institutional-grade confidentiality. No client data is used for model training without explicit
+                consent.</p>
+
+            <div style="margin-top:60px">
+                <button class="btn-nav" onclick="showView('home')">BACK TO HOME</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="wrap">
+            <div class="footer-grid">
+                <div class="footer-left">Phoenix · Intellex · Credit Decision Intelligence</div>
+                <div class="footer-center">
+                    Validated on EUR 1.145 billion &middot; March 2026
+                </div>
+                <div class="footer-right">
+                    <span class="footer-dot"></span>
+                    SYSTEM OPERATIONAL
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showView(view) {
+            window.scrollTo(0, 0);
+            if (view === 'terms') {
+                document.getElementById('home-view').style.display = 'none';
+                document.getElementById('terms-view').style.display = 'block';
+                document.getElementById('btn-request').style.display = 'none';
+                document.getElementById('btn-back').style.display = 'block';
+                document.querySelectorAll('.nav-link').forEach(l => l.style.display = 'none');
+            } else {
+                document.getElementById('home-view').style.display = 'block';
+                document.getElementById('terms-view').style.display = 'none';
+                document.getElementById('btn-request').style.display = 'block';
+                document.getElementById('btn-back').style.display = 'none';
+                document.querySelectorAll('.nav-link').forEach(l => l.style.display = '');
+            }
+        }
+
+        function scrollToElement(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('.btn-submit');
+            btn.textContent = 'REQUEST SUBMITTED ✓';
+            btn.style.background = '#1a1a1a';
+            btn.style.color = '#34D399';
+            btn.style.border = '1px solid #1a3a2a';
+            btn.disabled = true;
+            return false;
+        }
+
+        // Scroll-reveal animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.layer-card, .val-card, .asset-card, .cp-item, .ps-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
 
 </html>
